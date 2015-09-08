@@ -33,22 +33,36 @@
 
 <div class="container">
 
-    <div class="custom-bootstrap-template">
-        <h1>Bootstrap starter template</h1>
-        <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
+    <h1>Website Admin Tool</h1>
+
+    <div ulti-teams-no-teams style="display:none">
+        <h4><br><br><b>No Data</b><br><br>This tool is for administering website data uploaded from your iOS or Android device but you don't have a team uploaded yet.<br><br>Upload from our phone or tablet and refresh this page.</h4>
     </div>
 
-</div><!-- /.container -->
+    <div ulti-teams-container>
+        <div ulti-team-header>
+            <div>
+                <div ulti-team-selector/>
+                <div><span>TEAM ID</span><a ulti-stats-site-link></a></div>
+            </div>
+        </div>
+
+        <div ulti-team-detail>
+
+        </div>
+    </div>
 
 
-<!-- Bootstrap core JavaScript
-================================================== -->
+</div>
+
+
+<!-- ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="js-lib/jquery-1.11.3.min.js"></script>
 <script src="js-lib/underscore-min.js"></script>
 <script src="js-lib/backbone-min.js"></script>
 <script src="js-lib/bootstrap/bootstrap.min.js"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="js-lib/bootstrap/ie10-viewport-bug-workaround.js"></script>
 <script src="js/app.js"></script>
 </body>
