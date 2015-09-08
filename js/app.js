@@ -2,10 +2,14 @@
  * Created by jim on 9/8/15.
  */
 
+if (!app) {
+    app = {};
+}
+
 
 // MODELS
 
-var Team = Backbone.Model.extend({
+app.Team = Backbone.Model.extend({
     defaults: {
         name: "",
         deleted: false,
@@ -18,18 +22,48 @@ var Team = Backbone.Model.extend({
     }
 });
 
-var TeamCollection = Backbone.Collection.extend({
-    model: Team
+app.TeamCollection = Backbone.Collection.extend({
+    model: app.Team,
+    populateFromRestResponse: function(restDataArray) {
+        var teams = [];
+        for (var i = 0; i < restDataArray.length; i++) {
+            teams.push(restDataArray[i]);
+        }
+        this.reset(teams)
+    }
 });
-
 
 // VIEWS
 
-var TeamSelectorView = Backbone.View.extend({
-    tagName: "ulti-team-picker",
-    template: _.template($("#contactTemplate").html())
+app.TeamSelectorView = Backbone.View.extend({
+    teams: new app.TeamCollection(),
+    el: '[ulti-team-selector]',
+    initialize: function() {
+        this.teams.on("reset", this.render, this);
+    },
+    template: _.template($("#ulti-team-selector-template").html()),
+    render: function() {
+        this.$el.html(this.template({teams: teams.models}));
+        return this;
+    }
 });
 
+app.teamCollection = new app.TeamCollection();
+app.teamSelectorView = new app.TeamSelectorView();
+app.teamSelectorView.teams = app.teamCollection;
+
+retrieveTeamsIncludingDeleted(function(teams) {
+    if (teams.length > 0) {
+        $('[ulti-teams-container]').show();
+        $('[ulti-teams-no-teams]').hide();
+        app.teamCollection.populateFromRestResponse(teams);
+    } else {
+        $('[ulti-teams-container]').hide();
+        $('[ulti-teams-no-teams]').show();
+    }
+}, function() {
+    alert("bad thang happened");
+});
 
 
 // SAMPLE JSON
