@@ -50,10 +50,10 @@ app.TeamCollection = Backbone.Collection.extend({
 
 app.AppContext = Backbone.Model.extend({
     defaults: {
-        currentTeam: null
+        currentTeam: null,
+        currentTab: 'settings'
     }
 });
-
 
 app.teamCollection = new app.TeamCollection();
 app.appContext = new app.AppContext();
@@ -95,8 +95,36 @@ app.TeamStatsBasicInfoView = Backbone.View.extend({
     }
 });
 
+app.TabView = Backbone.View.extend({  // allows user to pick settings/games/players
+    el: '[ulti-tab]',
+    events: {
+        "click a": "tabPicked"
+    },
+    initialize: function() {
+        app.appContext.on("change:currentTeam", this.teamChanged, this);
+    },
+    teamChanged: function() {
+        app.appContext.set('currentTab', 'settings');
+        this.render();
+    },
+    render: function() {
+        this.$('li [ulti-tab-choice="settings"]').parent().toggleClass('active', app.appContext.get('currentTab') == 'settings');
+        this.$('li [ulti-tab-choice="games"]').parent().toggleClass('active', app.appContext.get('currentTab') == 'games');
+        this.$('li [ulti-tab-choice="players"]').parent().toggleClass('active', app.appContext.get('currentTab') == 'players');
+        return this;
+    },
+    tabPicked: function(e) {
+        e.preventDefault();
+        var selectedTab = e.currentTarget.attributes['ulti-tab-choice'].value;
+        app.appContext.set('currentTab', selectedTab);
+        this.render();
+    }
+
+});
+
 app.teamSelectorView = new app.TeamSelectorView();
 app.teamStatsBasicInfoView = new app.TeamStatsBasicInfoView();
+app.tabView = new app.TabView();
 
 retrieveTeamsIncludingDeleted(function(teams) {
     if (teams.length > 0) {
