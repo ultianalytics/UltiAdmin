@@ -30,7 +30,7 @@ app.TeamCollection = Backbone.Collection.extend({
         for (var i = 0; i < restDataArray.length; i++) {
             teams.push(new app.Team(restDataArray[i]));
         }
-        this.selectedTeam = this.defaultSelectedTeam(teams);
+        app.appContext.set('currentTeam', this.defaultSelectedTeam(teams));
         this.reset(teams);
     },
     defaultSelectedTeam: function(teamList) {
@@ -48,7 +48,15 @@ app.TeamCollection = Backbone.Collection.extend({
     }
 });
 
+app.AppContext = Backbone.Model.extend({
+    defaults: {
+        currentTeam: null
+    }
+});
+
+
 app.teamCollection = new app.TeamCollection();
+app.appContext = new app.AppContext();
 
 // VIEWS
 
@@ -60,32 +68,35 @@ app.TeamSelectorView = Backbone.View.extend({
     },
     template: _.template($("#ulti-team-selector-template").html()),
     render: function() {
-        this.$el.html(this.template({teams : this.teams.models, selectedTeam : this.teams.selectedTeam}));
+        this.$el.html(this.template({teams : this.teams.models, selectedTeam : app.appContext.get('currentTeam')}));
         var view = this;
         this.$("[ulti-team-choice]").click(function(e) {
             e.preventDefault();
             var selectedCloudId = e.currentTarget.attributes['ulti-team-choice'].value;
             var selectedTeam = view.teams.findWhere({cloudId: selectedCloudId});
-            view.teams.selectedTeam = selectedTeam;
+            app.appContext.set('currentTeam', selectedTeam);
             view.render();
         });
         return this;
     }
 });
 
-app.TeamStatsLinkView = Backbone.View.extend({
-    el: '[ulti-stats-site-link]',
+app.TeamStatsBasicInfoView = Backbone.View.extend({
+    el: '[ulti-team-basic-info]',
     initialize: function() {
-        app.teamCollection.on("reset", this.render, this);
+        app.appContext.on("change:currentTeam", this.render, this);
     },
     render: function() {
-        this.$el.html(app.teamCollection.selectedTeam.get('cloudId'));
+        var cloudId = app.appContext.get('currentTeam').get('cloudId');
+        this.$('[ulti-team-cloudid]').html(cloudId);
+        var url = 'http://www.ultianalytics.com/app/#/' + cloudId + '/players';
+        this.$('[ulti-stats-site-link]').attr('href',url)
         return this;
     }
 });
 
 app.teamSelectorView = new app.TeamSelectorView();
-app.teamStatsLinkView = new app.TeamStatsLinkView();
+app.teamStatsBasicInfoView = new app.TeamStatsBasicInfoView();
 
 retrieveTeamsIncludingDeleted(function(teams) {
     if (teams.length > 0) {
