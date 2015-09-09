@@ -73,7 +73,19 @@ app.TeamSelectorView = Backbone.View.extend({
     }
 });
 
+app.TeamStatsLinkView = Backbone.View.extend({
+    el: '[ulti-stats-site-link]',
+    initialize: function() {
+        app.teamCollection.on("reset", this.render, this);
+    },
+    render: function() {
+        this.$el.html(app.teamCollection.selectedTeam.get('cloudId'));
+        return this;
+    }
+});
+
 app.teamSelectorView = new app.TeamSelectorView();
+app.teamStatsLinkView = new app.TeamStatsLinkView();
 
 retrieveTeamsIncludingDeleted(function(teams) {
     if (teams.length > 0) {
