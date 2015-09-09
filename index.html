@@ -42,10 +42,7 @@
     <div ulti-teams-container>
         <div ulti-team-header>
             <div>
-                <div ulti-team-selector>
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
-                    </ul>
-                </div>
+                <div ulti-team-selector/>
                 <div><span>TEAM ID</span><a ulti-stats-site-link></a></div>
             </div>
         </div>
@@ -55,16 +52,17 @@
         </div>
     </div>
 
+<!-- ****************************** TEMPLATES  ****************************** -->
 
 </div>
 
 <script id="ulti-team-selector-template" type="text/template">
     <div class="dropdown">
-        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Tutorials
+        <button class="btn btn-default dropdown-toggle<%= selectedTeam.toJSON().deleted ? ' strike-through' : ''%>" type="button" data-toggle="dropdown"><%= _.escape(selectedTeam.get('nameWithSeason')) %>&nbsp;&nbsp;&nbsp;
             <span class="caret"></span></button>
         <ul class="dropdown-menu">
-            <% _.each(teams, function(team){ %>
-            <li><a href="#" ulti-team-choice="<%= team.cloudId %>"><%= _.escape(team.nameWithSeason) %></a></li>
+            <% _.each(teams, function(team) { %>
+                <li class= "<%= team.get('deleted') ? 'strike-through' : ''%>"><a href="#" ulti-team-choice="<%= team.get('cloudId') %>"><%= _.escape(team.get('nameWithSeason')) %></a></li>
             <% }); %>
         </ul>
     </div>
@@ -74,7 +72,7 @@
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="js-lib/jquery-1.11.3.min.js"></script>
 <script src="js-lib/underscore-min.js"></script>
-<script src="js-lib/backbone-min.js"></script>
+<script src="js-lib/backbone.js"></script>
 <script src="js-lib/bootstrap/bootstrap.min.js"></script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="js-lib/bootstrap/ie10-viewport-bug-workaround.js"></script>

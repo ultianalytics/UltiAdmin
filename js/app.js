@@ -24,33 +24,56 @@ app.Team = Backbone.Model.extend({
 
 app.TeamCollection = Backbone.Collection.extend({
     model: app.Team,
+    selectedTeam: null,
     populateFromRestResponse: function(restDataArray) {
         var teams = [];
         for (var i = 0; i < restDataArray.length; i++) {
-            teams.push(restDataArray[i]);
+            teams.push(new app.Team(restDataArray[i]));
         }
-        this.reset(teams)
+        this.selectedTeam = this.defaultSelectedTeam(teams);
+        this.reset(teams);
+    },
+    defaultSelectedTeam: function(teamList) {
+        if (!teamList || teamList.length == 0) {
+            return null;
+        }
+        var defaultTeam = teamList[0];
+        for (var i = 0; i < teamList.length; i++) {
+            if (!teamList[i].get('deleted')) {
+                defaultTeam = teamList[i];
+                break;
+            }
+        }
+        return defaultTeam;
     }
 });
+
+app.teamCollection = new app.TeamCollection();
 
 // VIEWS
 
 app.TeamSelectorView = Backbone.View.extend({
-    teams: new app.TeamCollection(),
+    teams: app.teamCollection,
     el: '[ulti-team-selector]',
     initialize: function() {
         this.teams.on("reset", this.render, this);
     },
     template: _.template($("#ulti-team-selector-template").html()),
     render: function() {
-        this.$el.html(this.template({teams: teams.models}));
+        this.$el.html(this.template({teams : this.teams.models, selectedTeam : this.teams.selectedTeam}));
+        var view = this;
+        this.$("[ulti-team-choice]").click(function(e) {
+            e.preventDefault();
+            var selectedCloudId = e.currentTarget.attributes['ulti-team-choice'].value;
+            var selectedTeam = view.teams.findWhere({cloudId: selectedCloudId});
+            view.teams.selectedTeam = selectedTeam;
+            view.render();
+        });
         return this;
     }
 });
 
-app.teamCollection = new app.TeamCollection();
 app.teamSelectorView = new app.TeamSelectorView();
-app.teamSelectorView.teams = app.teamCollection;
 
 retrieveTeamsIncludingDeleted(function(teams) {
     if (teams.length > 0) {
