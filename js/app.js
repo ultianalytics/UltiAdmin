@@ -95,7 +95,7 @@ app.TeamStatsBasicInfoView = Backbone.View.extend({
     }
 });
 
-app.TabView = Backbone.View.extend({  // allows user to pick settings/games/players
+app.TabView = Backbone.View.extend({
     el: '[ulti-tab]',
     events: {
         "click a": "tabPicked"
@@ -122,22 +122,35 @@ app.TabView = Backbone.View.extend({  // allows user to pick settings/games/play
 
 });
 
-app.teamSelectorView = new app.TeamSelectorView();
-app.teamStatsBasicInfoView = new app.TeamStatsBasicInfoView();
-app.tabView = new app.TabView();
-
-retrieveTeamsIncludingDeleted(function(teams) {
-    if (teams.length > 0) {
-        $('[ulti-teams-container]').show();
-        $('[ulti-teams-no-teams]').hide();
-        app.teamCollection.populateFromRestResponse(teams);
-    } else {
-        $('[ulti-teams-container]').hide();
-        $('[ulti-teams-no-teams]').show();
+app.AppView = Backbone.View.extend({
+    el: '[ulti-app]',
+    initialize: function() {
+        this.teamSelectorView = new app.TeamSelectorView();
+        this.teamStatsBasicInfoView = new app.TeamStatsBasicInfoView();
+        this.tabView = new app.TabView();
+    },
+    render: function() {
+        this.retrieveTeams();
+        return this;
+    },
+    retrieveTeams: function() {
+        retrieveTeamsIncludingDeleted(function (teams) {
+            if (teams.length > 0) {
+                $('[ulti-teams-container]').show();
+                $('[ulti-teams-no-teams]').hide();
+                app.teamCollection.populateFromRestResponse(teams);
+            } else {
+                $('[ulti-teams-container]').hide();
+                $('[ulti-teams-no-teams]').show();
+            }
+        }, function () {
+            alert("bad thang happened");
+        });
     }
-}, function() {
-    alert("bad thang happened");
 });
+
+app.appView = new app.AppView();
+app.appView.render();
 
 
 // SAMPLE JSON
