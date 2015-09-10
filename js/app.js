@@ -125,7 +125,18 @@ app.TabView = Backbone.View.extend({
     }
 });
 
-app.TeamSettingsView = Backbone.View.extend({
+app.TeamDetailContentsView = Backbone.View.extend({
+    modalTemplate: _.template($("#ulti-modal-template").html()),
+    showModalDialog: function (title, contentHtml) {
+        $('[ulti-dialog-content]').html(this.modalTemplate({title: title, content : contentHtml}));
+        $('#ulti-dialog').modal('show');
+    },
+    dismissModalDialog: function () {
+        $('#ulti-dialog').modal('hide');
+    }
+});
+
+app.TeamSettingsView = app.TeamDetailContentsView.extend({
     el: '[ulti-team-detail-settings]',
     initialize: function () {
     },
@@ -134,7 +145,6 @@ app.TeamSettingsView = Backbone.View.extend({
         "click [ulti-team-delete-button]": "deleteTapped",
         "click [ulti-team-undelete-button]": "undeleteTapped"
     },
-    modalTemplate: _.template($("#ulti-modal-template").html()),
     template: _.template($("#ulti-team-settings-template").html()),
     deletedTeamTemplate: _.template($("#ulti-team-deleted-settings-template").html()),
     passwordChangedTemplate: _.template($("#ulti-team-password-modal-template").html()),
@@ -157,13 +167,11 @@ app.TeamSettingsView = Backbone.View.extend({
     },
     showPasswordChangeDialog: function () {
         var currentTeam = app.appContext.get('currentTeam');
-        var content = this.passwordChangedTemplate({team : currentTeam});
-        $('[ulti-dialog-content]').html(this.modalTemplate({title: 'Set Team Password', content : content}));
-        $('#ulti-dialog').modal('show');
+        this.showModalDialog('Set Team Password', this.passwordChangedTemplate({team : currentTeam}));
     }
 });
 
-app.TeamGamesView = Backbone.View.extend({
+app.TeamGamesView = app.TeamDetailContentsView.extend({
     el: '[ulti-team-detail-games]',
     initialize: function() {
     },
@@ -172,7 +180,7 @@ app.TeamGamesView = Backbone.View.extend({
     }
 });
 
-app.TeamPlayersView = Backbone.View.extend({
+app.TeamPlayersView = app.TeamDetailContentsView.extend({
     el: '[ulti-team-detail-players]',
     initialize: function() {
     },
