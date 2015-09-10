@@ -119,7 +119,79 @@ app.TabView = Backbone.View.extend({
         app.appContext.set('currentTab', selectedTab);
         this.render();
     }
+});
 
+app.TeamSettingsView = Backbone.View.extend({
+    el: '[ulti-team-detail-settings]',
+    initialize: function () {
+    },
+    events: {
+        "click [ulti-team-password-link]": "passwordTapped"
+    },
+    template: _.template($("#ulti-team-settings-template").html()),
+    render: function () {
+        var currentTeam = app.appContext.get('currentTeam');
+        this.$el.html(this.template({team: currentTeam == null ? {} : currentTeam.toJSON()}));
+    },
+    passwordTapped: function () {
+        this.showPasswordChangeDialog();
+    },
+    showPasswordChangeDialog: function () {
+        alert("I'm pretending to be the password change dialog");
+    }
+});
+
+app.TeamGamesView = Backbone.View.extend({
+    el: '[ulti-team-detail-games]',
+    initialize: function() {
+    },
+    render: function() {
+        return this;
+    }
+});
+
+app.TeamPlayersView = Backbone.View.extend({
+    el: '[ulti-team-detail-players]',
+    initialize: function() {
+    },
+    render: function() {
+        return this;
+    }
+});
+
+
+app.TeamDetailView = Backbone.View.extend({
+    el: '[ulti-team-detail]',
+    initialize: function() {
+        this.tabView = new app.TabView();
+        this.settingsView = new app.TeamSettingsView();
+        this.gamesView = new app.TeamGamesView();
+        this.playersView = new app.TeamPlayersView();
+        app.appContext.on("change:currentTeam", this.teamChanged, this);
+        app.appContext.on("change:currentTab", this.tabChanged, this);
+    },
+    teamChanged: function() {
+        this.render();
+    },
+    tabChanged: function() {
+        this.render();
+    },
+    render: function() {
+        this.settingsView.$el.toggleClass('hidden', app.appContext.get('currentTab') != 'settings');
+        this.gamesView.$el.toggleClass('hidden', app.appContext.get('currentTab') != 'games');
+        this.playersView.$el.toggleClass('hidden', app.appContext.get('currentTab') != 'players');
+        switch(app.appContext.get('currentTab')) {
+            case 'players':
+                this.playersView.render()
+                break;
+            case 'games':
+                this.gamesView.render()
+                break;
+            default: // 'settings'
+                this.settingsView.render()
+        }
+        return this;
+    }
 });
 
 app.AppView = Backbone.View.extend({
@@ -127,7 +199,7 @@ app.AppView = Backbone.View.extend({
     initialize: function() {
         this.teamSelectorView = new app.TeamSelectorView();
         this.teamStatsBasicInfoView = new app.TeamStatsBasicInfoView();
-        this.tabView = new app.TabView();
+        this.teamDetailView = new app.TeamDetailView();
     },
     render: function() {
         this.retrieveTeams();

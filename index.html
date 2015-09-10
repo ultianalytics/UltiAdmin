@@ -61,13 +61,19 @@
                 <li role="presentation"><a href="#" ulti-tab-choice="games">Games</a></li>
                 <li role="presentation"><a href="#"  ulti-tab-choice="players">Players</a></li>
             </ul>
+            <div ulti-team-detail-content style="margin-top: 30px">
+                <div ulti-team-detail-settings class="hidden"/>
+                <div ulti-team-detail-games class="hidden"/>
+                <div ulti-team-detail-players class="hidden"/>
+            </div>
         </div>
     </div>
 
-<div class="spinner"><i class="fa fa-spinner fa-spin"></i></div>
-<!-- ****************************** TEMPLATES  ****************************** -->
+    <div class="spinner"><i class="fa fa-spinner fa-spin"></i></div>
 
 </div>
+
+<!-- ****************************** TEMPLATES  ****************************** -->
 
 <script id="ulti-team-selector-template" type="text/template">
     <div class="dropdown">
@@ -78,6 +84,14 @@
                 <li class= "<%= team.get('deleted') ? 'strike-through' : ''%>"><a href="#" ulti-team-choice="<%= team.get('cloudId') %>"><%= _.escape(team.get('nameWithSeason')) %></a></li>
             <% }); %>
         </ul>
+    </div>
+</script>
+
+<script id="ulti-team-settings-template" type="text/template">
+    <div>
+        <b>Team Website Password:&nbsp;&nbsp; </b><a href="#" ulti-team-password-link><%= team == null || team.password == "" ? "NONE" : _.escape(team.password) %></a>
+        <br>
+        <span style="font-size: smaller;color: #ababab">(visitors to your site will be asked to enter this password to view this team's statistics)</span>
     </div>
 </script>
 
