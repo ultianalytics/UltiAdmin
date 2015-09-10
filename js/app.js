@@ -55,8 +55,21 @@ app.AppContext = Backbone.Model.extend({
     }
 });
 
+// APP OBJECTS
+
 app.teamCollection = new app.TeamCollection();
 app.appContext = new app.AppContext();
+
+// convenience functions
+
+app.currentTeam = function() {
+    return app.appContext.get('currentTeam');
+}
+
+app.currentTab = function() {
+    return app.appContext.get('currentTab');
+}
+
 
 // VIEWS
 
@@ -68,7 +81,7 @@ app.TeamSelectorView = Backbone.View.extend({
     },
     template: _.template($("#ulti-team-selector-template").html()),
     render: function() {
-        this.$el.html(this.template({teams : this.teams.models, selectedTeam : app.appContext.get('currentTeam')}));
+        this.$el.html(this.template({teams : this.teams.models, selectedTeam : app.currentTeam()}));
         var view = this;
         this.$("[ulti-team-choice]").click(function(e) {
             e.preventDefault();
@@ -87,7 +100,7 @@ app.TeamStatsBasicInfoView = Backbone.View.extend({
         app.appContext.on("change:currentTeam", this.render, this);
     },
     render: function() {
-        var currentTeam = app.appContext.get('currentTeam');
+        var currentTeam = app.currentTeam();
         var cloudId = currentTeam.get('cloudId');
         this.$('[ulti-team-cloudid]').html(cloudId);
         var url = 'http://www.ultianalytics.com/app/#/' + cloudId + '/players';
@@ -110,11 +123,10 @@ app.TabView = Backbone.View.extend({
         this.render();
     },
     render: function() {
-        var currentTeam = app.appContext.get('currentTeam');
-        this.$('li [ulti-tab-choice="settings"]').parent().toggleClass('active', app.appContext.get('currentTab') == 'settings');
-        this.$('li [ulti-tab-choice="games"]').parent().toggleClass('active', app.appContext.get('currentTab') == 'games');
-        this.$('li [ulti-tab-choice="players"]').parent().toggleClass('active', app.appContext.get('currentTab') == 'players');
-        this.$el.toggleClass('hidden', currentTeam.get('deleted'));
+        this.$('li [ulti-tab-choice="settings"]').parent().toggleClass('active', app.currentTab() == 'settings');
+        this.$('li [ulti-tab-choice="games"]').parent().toggleClass('active', app.currentTab() == 'games');
+        this.$('li [ulti-tab-choice="players"]').parent().toggleClass('active', app.currentTab() == 'players');
+        this.$el.toggleClass('hidden', app.currentTeam().get('deleted'));
         return this;
     },
     tabPicked: function(e) {
@@ -144,15 +156,12 @@ app.TeamSettingsView = app.TeamDetailContentsView.extend({
         "click [ulti-team-password-link]": "passwordTapped",
         "click [ulti-team-delete-button]": "deleteTapped",
         "click [ulti-team-undelete-button]": "undeleteTapped",
-        "click [ulti-team-password-save]": "savePasswordTapped",
-        "click [ulti-team-password-remove]": "removePasswordTapped",
-        "click [ulti-team-password-cancel]": "cancelPasswordTapped"
     },
     template: _.template($("#ulti-team-settings-template").html()),
     deletedTeamTemplate: _.template($("#ulti-team-deleted-settings-template").html()),
     passwordChangedTemplate: _.template($("#ulti-team-password-modal-template").html()),
     render: function () {
-        var currentTeam = app.appContext.get('currentTeam');
+        var currentTeam = app.currentTeam();
         if (currentTeam.get('deleted')) {
             this.$el.html(this.deletedTeamTemplate());
         } else {
@@ -169,11 +178,29 @@ app.TeamSettingsView = app.TeamDetailContentsView.extend({
         alert("I'm pretending to be the un-delete dialog");
     },
     showPasswordChangeDialog: function () {
-        var currentTeam = app.appContext.get('currentTeam');
-        this.showModalDialog('Set Team Password', this.passwordChangedTemplate({team : currentTeam}));
+        this.showModalDialog('Set Team Password', this.passwordChangedTemplate({team : app.currentTeam()}));
+        var view = this;
+        $('[ulti-password-button]').click(function(e) {
+            e.preventDefault();
+            switch(e.currentTarget.attributes['ulti-password-button'].value) {
+                case 'save':
+                    view.savePasswordTapped();
+                    break;
+                case 'remove':
+                    view.removePasswordTapped();
+                    break;
+                default: // 'settings'
+                    view.cancelPasswordTapped();
+            }
+        });
     },
     savePasswordTapped: function() {
-        this.dismissModalDialog();
+        var password = $.trim($('[ulti-password-text]').val());
+        savePassword(app.currentTeam().get('cloudId'), password, function() {
+                app.AppView.render();
+            }, function() {
+                alert("bad thang happened");
+            })
     },
     removePasswordTapped: function() {
         this.dismissModalDialog();
@@ -219,10 +246,10 @@ app.TeamDetailView = Backbone.View.extend({
         this.render();
     },
     render: function() {
-        this.settingsView.$el.toggleClass('hidden', app.appContext.get('currentTab') != 'settings');
-        this.gamesView.$el.toggleClass('hidden', app.appContext.get('currentTab') != 'games');
-        this.playersView.$el.toggleClass('hidden', app.appContext.get('currentTab') != 'players');
-        switch(app.appContext.get('currentTab')) {
+        this.settingsView.$el.toggleClass('hidden', app.currentTab() != 'settings');
+        this.gamesView.$el.toggleClass('hidden', app.currentTab() != 'games');
+        this.playersView.$el.toggleClass('hidden', app.currentTab() != 'players');
+        switch(app.currentTab()) {
             case 'players':
                 this.playersView.render()
                 break;
@@ -244,15 +271,22 @@ app.AppView = Backbone.View.extend({
         this.teamDetailView = new app.TeamDetailView();
     },
     render: function() {
-        this.retrieveTeams();
+        this.retrieveTeams(app.currentTeam(), app.currentTab());
         return this;
     },
-    retrieveTeams: function() {
+    retrieveTeams: function(selectedTeam, selectedTab) {
         retrieveTeamsIncludingDeleted(function (teams) {
             if (teams.length > 0) {
                 $('[ulti-teams-container]').show();
                 $('[ulti-teams-no-teams]').hide();
                 app.teamCollection.populateFromRestResponse(teams);
+                if (selectedTeam) {
+                    var refreshedSelectedTeam = app.TeamCollection.findWhere({cloudId : selectedTeam.cloudId});
+                    app.appContext.set('currentTeam', refreshedSelectedTeam);
+                    if (selectedTab) {
+                        app.appContext.set('currentTab', selectedTab);
+                    }
+                }
             } else {
                 $('[ulti-teams-container]').hide();
                 $('[ulti-teams-no-teams]').show();
@@ -265,6 +299,8 @@ app.AppView = Backbone.View.extend({
 
 app.appView = new app.AppView();
 app.appView.render();
+
+
 
 
 // SAMPLE JSON
