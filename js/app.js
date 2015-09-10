@@ -143,7 +143,10 @@ app.TeamSettingsView = app.TeamDetailContentsView.extend({
     events: {
         "click [ulti-team-password-link]": "passwordTapped",
         "click [ulti-team-delete-button]": "deleteTapped",
-        "click [ulti-team-undelete-button]": "undeleteTapped"
+        "click [ulti-team-undelete-button]": "undeleteTapped",
+        "click [ulti-team-password-save]": "savePasswordTapped",
+        "click [ulti-team-password-remove]": "removePasswordTapped",
+        "click [ulti-team-password-cancel]": "cancelPasswordTapped"
     },
     template: _.template($("#ulti-team-settings-template").html()),
     deletedTeamTemplate: _.template($("#ulti-team-deleted-settings-template").html()),
@@ -168,6 +171,15 @@ app.TeamSettingsView = app.TeamDetailContentsView.extend({
     showPasswordChangeDialog: function () {
         var currentTeam = app.appContext.get('currentTeam');
         this.showModalDialog('Set Team Password', this.passwordChangedTemplate({team : currentTeam}));
+    },
+    savePasswordTapped: function() {
+        this.dismissModalDialog();
+    },
+    removePasswordTapped: function() {
+        this.dismissModalDialog();
+    },
+    cancelPasswordTapped: function() {
+        this.dismissModalDialog();
     }
 });
 
