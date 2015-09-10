@@ -18,3 +18,42 @@ h1 {
     transform: translate3d(-50%, -50%, 0);
     position: absolute;
 }
+
+
+.btn-delete {
+    color: red;
+    background-color: #ffffff;
+    border-color: red;
+}
+
+.btn-delete:hover {
+    color: #ff420f;
+    font-weight: bold;
+}
+
+.btn-delete:visited {
+    color: red;
+}
+
+.btn-delete:active {
+    color: red;
+}
+
+.btn-undelete {
+    color: #6FB219;
+    background-color: #ffffff;
+    border-color: #6FB219;
+}
+
+.btn-undelete:hover {
+    color: #6FB219;
+    font-weight: bold;
+}
+
+.btn-undelete:visited {
+    color: #6FB219;
+}
+
+.btn-undelete:active {
+    color: #6FB219;
+}

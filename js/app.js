@@ -17,7 +17,7 @@ app.Team = Backbone.Model.extend({
         teamId: "",
         season: "",
         nameWithSeason: "",
-        private: "",
+        private: false,
         password: ""
     }
 });
@@ -87,10 +87,12 @@ app.TeamStatsBasicInfoView = Backbone.View.extend({
         app.appContext.on("change:currentTeam", this.render, this);
     },
     render: function() {
-        var cloudId = app.appContext.get('currentTeam').get('cloudId');
+        var currentTeam = app.appContext.get('currentTeam');
+        var cloudId = currentTeam.get('cloudId');
         this.$('[ulti-team-cloudid]').html(cloudId);
         var url = 'http://www.ultianalytics.com/app/#/' + cloudId + '/players';
-        this.$('[ulti-stats-site-link]').attr('href',url)
+        this.$('[ulti-stats-site-link]').attr('href',url);
+        this.$('[ulti-stats-site-link]').toggleClass('hidden', currentTeam.get('deleted'));
         return this;
     }
 });
@@ -108,9 +110,11 @@ app.TabView = Backbone.View.extend({
         this.render();
     },
     render: function() {
+        var currentTeam = app.appContext.get('currentTeam');
         this.$('li [ulti-tab-choice="settings"]').parent().toggleClass('active', app.appContext.get('currentTab') == 'settings');
         this.$('li [ulti-tab-choice="games"]').parent().toggleClass('active', app.appContext.get('currentTab') == 'games');
         this.$('li [ulti-tab-choice="players"]').parent().toggleClass('active', app.appContext.get('currentTab') == 'players');
+        this.$el.toggleClass('hidden', currentTeam.get('deleted'));
         return this;
     },
     tabPicked: function(e) {
@@ -126,15 +130,28 @@ app.TeamSettingsView = Backbone.View.extend({
     initialize: function () {
     },
     events: {
-        "click [ulti-team-password-link]": "passwordTapped"
+        "click [ulti-team-password-link]": "passwordTapped",
+        "click [ulti-team-delete-button]": "deleteTapped",
+        "click [ulti-team-undelete-button]": "undeleteTapped"
     },
     template: _.template($("#ulti-team-settings-template").html()),
+    deletedTeamTemplate: _.template($("#ulti-team-deleted-settings-template").html()),
     render: function () {
         var currentTeam = app.appContext.get('currentTeam');
-        this.$el.html(this.template({team: currentTeam == null ? {} : currentTeam.toJSON()}));
+        if (currentTeam.get('deleted')) {
+            this.$el.html(this.deletedTeamTemplate());
+        } else {
+            this.$el.html(this.template({team: currentTeam == null ? {} : currentTeam.toJSON()}));
+        }
     },
     passwordTapped: function () {
         this.showPasswordChangeDialog();
+    },
+    deleteTapped: function () {
+        alert("I'm pretending to be the delete dialog");
+    },
+    undeleteTapped: function () {
+        alert("I'm pretending to be the un-delete dialog");
     },
     showPasswordChangeDialog: function () {
         alert("I'm pretending to be the password change dialog");
