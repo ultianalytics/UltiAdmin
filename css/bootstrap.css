@@ -5981,7 +5981,11 @@ button.close {
   min-height: 16.42857143px;
   padding: 15px;
   border-bottom: 1px solid #e5e5e5;
+  background-color: #6FB219;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 }
+
 .modal-header .close {
   margin-top: -2px;
 }

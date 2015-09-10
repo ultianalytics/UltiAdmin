@@ -134,8 +134,10 @@ app.TeamSettingsView = Backbone.View.extend({
         "click [ulti-team-delete-button]": "deleteTapped",
         "click [ulti-team-undelete-button]": "undeleteTapped"
     },
+    modalTemplate: _.template($("#ulti-modal-template").html()),
     template: _.template($("#ulti-team-settings-template").html()),
     deletedTeamTemplate: _.template($("#ulti-team-deleted-settings-template").html()),
+    passwordChangedTemplate: _.template($("#ulti-team-password-modal-template").html()),
     render: function () {
         var currentTeam = app.appContext.get('currentTeam');
         if (currentTeam.get('deleted')) {
@@ -154,7 +156,10 @@ app.TeamSettingsView = Backbone.View.extend({
         alert("I'm pretending to be the un-delete dialog");
     },
     showPasswordChangeDialog: function () {
-        alert("I'm pretending to be the password change dialog");
+        var currentTeam = app.appContext.get('currentTeam');
+        var content = this.passwordChangedTemplate({team : currentTeam});
+        $('[ulti-dialog-content]').html(this.modalTemplate({title: 'Set Team Password', content : content}));
+        $('#ulti-dialog').modal('show');
     }
 });
 

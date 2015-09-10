@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!--[if lt IE 10]><p class=chromeframe>Your browser is <b><em>ancient!</em></b> Please <a href="http://browsehappy.com/">upgrade to a more modern browser</a> to view this site.</p><![endif]-->
-<html lang="en">
+< lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -62,10 +62,32 @@
                 <li role="presentation"><a href="#"  ulti-tab-choice="players">Players</a></li>
             </ul>
             <div ulti-team-detail-content style="margin-top: 30px">
+                 <!-- Modal -->
+                <div class="modal fade" id="ulti-dialog" role="dialog">
+                    <div class="modal-dialog" ulti-dialog-content>
+                        <!-- Modal content (replaced before displayed) -->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Modal Header</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>Some text in the modal.</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
                 <div ulti-team-detail-settings class="hidden"/>
                 <div ulti-team-detail-games class="hidden"/>
                 <div ulti-team-detail-players class="hidden"/>
             </div>
+
+
+
         </div>
     </div>
 
@@ -105,6 +127,26 @@
         <a href="#" class="btn btn-undelete" style="margin-top: 30px" ulti-team-undelete-button>Un-delete Team</a>
     </div>
 </script>
+
+<script id="ulti-modal-template" type="text/template">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title"><%= title %></h4>
+        </div>
+        <%= content %>
+    </div>
+</script>
+
+<script id="ulti-team-password-modal-template" type="text/template">
+    <div class="modal-body">
+        <p>Change your password</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    </div>
+</script>
+
 
 <!-- ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
