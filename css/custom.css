@@ -19,6 +19,10 @@ h1 {
     position: absolute;
 }
 
+.btn-std {
+    color: white;
+    background-color: #6FB219;
+}
 
 .btn-delete {
     color: red;
