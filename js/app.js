@@ -199,15 +199,16 @@ app.PasswordDialogView = app.DialogView.extend({
     template: _.template($("#ulti-team-password-dialog-content-template").html()),
     render: function () {
         this.$el.html(this.template({team : app.currentTeam()}));
+        this.updateSaveButtonEnablement();
     },
     events: {
         "click [ulti-password-button-save]": "savePasswordTapped",
         "click [ulti-password-button-remove]": "removePasswordTapped",
         "click [ulti-password-button-cancel]": "cancelPasswordTapped",
+        "input [ulti-password-text]": "updateSaveButtonEnablement",
     },
     savePasswordTapped: function() {
-        var password = $.trim($('[ulti-password-text]').val());
-        savePassword(app.currentTeam().get('cloudId'), password, function() {
+        savePassword(app.currentTeam().get('cloudId'), this.getPassword(), function() {
             app.AppView.render();
             this.dismiss();
         }, function() {
@@ -219,6 +220,13 @@ app.PasswordDialogView = app.DialogView.extend({
     },
     cancelPasswordTapped: function() {
         this.dismiss();
+    },
+    updateSaveButtonEnablement: function() {
+        var isValidPassword = this.getPassword().length > 0;
+        this.$('[ulti-password-button-save]').prop('disabled', !isValidPassword);
+    },
+    getPassword: function() {
+        return $.trim($('[ulti-password-text]').val());
     }
 });
 

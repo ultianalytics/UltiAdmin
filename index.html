@@ -139,7 +139,7 @@
 
 <script id="ulti-team-password-dialog-content-template" type="text/template">
     <div class="modal-body">
-        <input type="text" class="form-control" placeholder="password" ulti-password-text/>
+        <input type="text" class="form-control" placeholder="password" ulti-password-text value="<%= team.get('password') %>"/>
     </div>
     <div class="modal-footer" style="text-align: center">
         <button type="button" class="btn btn-std" ulti-password-button-save>Save</button>
