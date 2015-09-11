@@ -208,15 +208,10 @@ app.PasswordDialogView = app.DialogView.extend({
         "input [ulti-password-text]": "updateSaveButtonEnablement",
     },
     savePasswordTapped: function() {
-        savePassword(app.currentTeam().get('cloudId'), this.getPassword(), function() {
-            app.AppView.render();
-            this.dismiss();
-        }, function() {
-            alert("bad thang happened");
-        })
+        savePassword(this.getPassword());
     },
     removePasswordTapped: function() {
-        this.dismiss();
+        savePassword("");
     },
     cancelPasswordTapped: function() {
         this.dismiss();
@@ -227,7 +222,15 @@ app.PasswordDialogView = app.DialogView.extend({
     },
     getPassword: function() {
         return $.trim($('[ulti-password-text]').val());
-    }
+    },
+    savePassword: function(password) {
+        savePassword(app.currentTeam().get('cloudId'), password, function() {
+            app.AppView.render();
+            this.dismiss();
+        }, function() {
+            alert("bad thang happened");
+        })
+    },
 });
 
 app.TeamGamesView = app.TeamDetailContentsView.extend({
