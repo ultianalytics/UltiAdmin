@@ -133,18 +133,18 @@
             <button type="button" class="close" data-dismiss="modal">&times;</button>
             <h4 class="modal-title" style="color: white"><%= title %></h4>
         </div>
-        <%= content %>
+        <div ulti-dialog-view-content/>
     </div>
 </script>
 
-<script id="ulti-team-password-modal-template" type="text/template">
+<script id="ulti-team-password-dialog-content-template" type="text/template">
     <div class="modal-body">
         <input type="text" class="form-control" placeholder="password" ulti-password-text/>
     </div>
     <div class="modal-footer" style="text-align: center">
-        <button type="button" class="btn btn-std" ulti-password-button="save">Save</button>
-        <button type="button" class="btn btn-std" ulti-password-button="remove">Remove Password</button>
-        <button type="button" class="btn btn-std" ulti-password-button="cancel">Cancel</button>
+        <button type="button" class="btn btn-std" ulti-password-button-save>Save</button>
+        <button type="button" class="btn btn-std" ulti-password-button-remove>Remove Password</button>
+        <button type="button" class="btn btn-std" ulti-password-button-cancel>Cancel</button>
     </div>
 </script>
 

@@ -139,11 +139,23 @@ app.TabView = Backbone.View.extend({
 
 app.TeamDetailContentsView = Backbone.View.extend({
     modalTemplate: _.template($("#ulti-modal-template").html()),
-    showModalDialog: function (title, contentHtml) {
-        $('[ulti-dialog-content]').html(this.modalTemplate({title: title, content : contentHtml}));
+    showModalDialog: function (title, contentViewCreator) {
+        $('[ulti-dialog-content]').html(this.modalTemplate({title: title}));
+        var contentView = contentViewCreator();
+        contentView.render();
         $('#ulti-dialog').modal('show');
     },
     dismissModalDialog: function () {
+        $('#ulti-dialog').modal('hide');
+    }
+});
+
+app.DialogView = Backbone.View.extend({
+    el: '[ulti-dialog-view-content]',
+    initialize: function () {
+
+    },
+    dismiss: function () {
         $('#ulti-dialog').modal('hide');
     }
 });
@@ -159,7 +171,6 @@ app.TeamSettingsView = app.TeamDetailContentsView.extend({
     },
     template: _.template($("#ulti-team-settings-template").html()),
     deletedTeamTemplate: _.template($("#ulti-team-deleted-settings-template").html()),
-    passwordChangedTemplate: _.template($("#ulti-team-password-modal-template").html()),
     render: function () {
         var currentTeam = app.currentTeam();
         if (currentTeam.get('deleted')) {
@@ -178,35 +189,36 @@ app.TeamSettingsView = app.TeamDetailContentsView.extend({
         alert("I'm pretending to be the un-delete dialog");
     },
     showPasswordChangeDialog: function () {
-        this.showModalDialog('Set Team Password', this.passwordChangedTemplate({team : app.currentTeam()}));
-        var view = this;
-        $('[ulti-password-button]').click(function(e) {
-            e.preventDefault();
-            switch(e.currentTarget.attributes['ulti-password-button'].value) {
-                case 'save':
-                    view.savePasswordTapped();
-                    break;
-                case 'remove':
-                    view.removePasswordTapped();
-                    break;
-                default: // 'settings'
-                    view.cancelPasswordTapped();
-            }
+        this.showModalDialog('Set Team Password', function() {
+            return new app.PasswordDialogView();
         });
+    }
+});
+
+app.PasswordDialogView = app.DialogView.extend({
+    template: _.template($("#ulti-team-password-dialog-content-template").html()),
+    render: function () {
+        this.$el.html(this.template({team : app.currentTeam()}));
+    },
+    events: {
+        "click [ulti-password-button-save]": "savePasswordTapped",
+        "click [ulti-password-button-remove]": "removePasswordTapped",
+        "click [ulti-password-button-cancel]": "cancelPasswordTapped",
     },
     savePasswordTapped: function() {
         var password = $.trim($('[ulti-password-text]').val());
         savePassword(app.currentTeam().get('cloudId'), password, function() {
-                app.AppView.render();
-            }, function() {
-                alert("bad thang happened");
-            })
+            app.AppView.render();
+            this.dismiss();
+        }, function() {
+            alert("bad thang happened");
+        })
     },
     removePasswordTapped: function() {
-        this.dismissModalDialog();
+        this.dismiss();
     },
     cancelPasswordTapped: function() {
-        this.dismissModalDialog();
+        this.dismiss();
     }
 });
 
