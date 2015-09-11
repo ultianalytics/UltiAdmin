@@ -12,5 +12,8 @@
   },
   "author": "Jim Geppert",
   "license": "ISC",
-  "homepage": "https://bitbucket.org/velohomme/ultiadmin#readme"
+  "homepage": "https://bitbucket.org/velohomme/ultiadmin#readme",
+  "devDependencies": {
+    "gulp": "^3.9.0"
+  }
 }
