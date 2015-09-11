@@ -1,0 +1,16 @@
+{
+  "name": "ulti-admin",
+  "version": "1.0.0",
+  "description": "admin app for ultianalytics",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://velohomme@bitbucket.org/velohomme/ultiadmin.git"
+  },
+  "author": "Jim Geppert",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/velohomme/ultiadmin#readme"
+}
