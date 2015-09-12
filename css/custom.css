@@ -2,9 +2,7 @@ body {
     padding-top: 50px;
 }
 
-h1 {
-    color:#6FB219;
-}
+
 
 .strike-through {
     text-decoration: line-through;
@@ -17,11 +15,6 @@ h1 {
     left: 50%;
     transform: translate3d(-50%, -50%, 0);
     position: absolute;
-}
-
-.btn-std {
-    color: white;
-    background-color: #6FB219;
 }
 
 .btn-delete {
