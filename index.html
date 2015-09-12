@@ -134,9 +134,12 @@
                 <div class="col-md-4"><span><%= game.date + ' ' + game.time %></span>
                     <span> vs. <a href="http://www.ultianalytics.com/app/#/<%= teamId %>/games?<%= game.gameId %>"><%= game.opponentName %></a></span>
                     <span> (<%= game.ours %>-<%= game.theirs %> <%= game.ours > game.theirs ? 'us' : 'them' %>)</span></div>
-                <div class="col-md-4"><a>Export</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                   <a>Versions</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <a><span class="glyphicon glyphicon-trash"/></a></div>
+                <div class="col-md-4">
+                    <button ulti-game-list-button-export class="borderless-button" title="export game to your computer">Export</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button ulti-game-list-button-versions class="borderless-button" title="display versions of this game">Versions</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button ulti-game-list-button-undelete class="borderless-button <%= game.deleted ? '' : 'hidden' %>" title="un-delete game"><i class="fa fa-undo" style="font-size: large"></i></button>
+                    <button ulti-game-list-button-delete class="borderless-button <%= game.deleted ? 'hidden' : '' %>" title="delete game"><i class="fa fa-trash-o" style="font-size: large"></i></button>
+                </div>
             </div>
        <% }); %>
     </div>

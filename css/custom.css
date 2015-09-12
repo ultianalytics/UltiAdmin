@@ -54,3 +54,9 @@ body {
 .btn-undelete:active {
     color: #6FB219;
 }
+
+.borderless-button {
+    border: none;
+    color: #6FB219;
+    background: none;
+}

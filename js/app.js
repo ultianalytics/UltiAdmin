@@ -309,13 +309,32 @@ app.GamesView = app.TeamDetailContentsView.extend({
     initialize: function() {
         app.gameCollection.on("reset", this.render, this);
     },
+    events: {
+        "click [ulti-game-list-button-export]": "exportTapped",
+        "click [ulti-game-list-button-versions]": "versionsTapped",
+        "click [ulti-game-list-button-delete]": "deleteTapped",
+        "click [ulti-game-list-button-undelete]": "undeleteTapped",
+    },
     template: _.template($("#ulti-team-games-template").html()),
     render: function () {
         var games = _.map(app.gameCollection.models, function(game) {
             return game.toJSON();
         });
         this.$el.html(this.template({games: games, teamId: app.currentTeamId()}));
+    },
+    exportTapped: function() {
+        alert('export tapped');
+    },
+    versionsTapped: function() {
+        alert('versions tapped');
+    },
+    deleteTapped: function() {
+        alert('delete tapped');
+    },
+    undeleteTapped: function() {
+        alert('undelete tapped');
     }
+
 });
 
 app.PlayersView = app.TeamDetailContentsView.extend({
