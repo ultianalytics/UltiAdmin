@@ -7,9 +7,10 @@ if (!app) {
 }
 
 
-// MODELS
+// MODELS & COLLECTIONS
 
 app.Team = Backbone.Model.extend({
+    games: null,
     defaults: {
         name: "",
         deleted: false,
@@ -19,6 +20,26 @@ app.Team = Backbone.Model.extend({
         nameWithSeason: "",
         private: false,
         password: ""
+    }
+});
+
+app.Game = Backbone.Model.extend({
+    defaults: {
+        "gameId":"",
+        "opponentName":"",
+        "timestamp":"",
+        "date":"",
+        "time":"",
+        "ours":18,
+        "theirs":13,
+        "previousVersionAvailable":false,
+        "deleted":false
+    }
+});
+
+app.Player = Backbone.Model.extend({
+    defaults: {
+        // TODO...complete this
     }
 });
 
@@ -48,6 +69,28 @@ app.TeamCollection = Backbone.Collection.extend({
     }
 });
 
+app.GameCollection = Backbone.Collection.extend({
+    model: app.Game,
+    populateFromRestResponse: function(restDataArray) {
+        var games = [];
+        for (var i = 0; i < restDataArray.length; i++) {
+            games.push(new app.Game(restDataArray[i]));
+        }
+        this.reset(games);
+    }
+});
+
+app.PlayerCollection = Backbone.Collection.extend({
+    model: app.Player,
+    populateFromRestResponse: function(restDataArray) {
+        var players = [];
+        for (var i = 0; i < restDataArray.length; i++) {
+            players.push(new app.Player(restDataArray[i]));
+        }
+        this.reset(players);
+    }
+});
+
 app.AppContext = Backbone.Model.extend({
     defaults: {
         currentTeam: null,
@@ -58,12 +101,18 @@ app.AppContext = Backbone.Model.extend({
 // APP OBJECTS
 
 app.teamCollection = new app.TeamCollection();
+app.gameCollection = new app.GameCollection();
+app.playerCollection = new app.PlayerCollection();
 app.appContext = new app.AppContext();
 
 // convenience functions
 
 app.currentTeam = function() {
     return app.appContext.get('currentTeam');
+}
+
+app.currentTeamId = function() {
+    return app.currentTeam().get('cloudId');
 }
 
 app.currentTab = function() {
@@ -88,6 +137,8 @@ app.TeamSelectorView = Backbone.View.extend({
             var selectedCloudId = e.currentTarget.attributes['ulti-team-choice'].value;
             var selectedTeam = view.teams.findWhere({cloudId: selectedCloudId});
             app.appContext.set('currentTeam', selectedTeam);
+            app.gameCollection.reset();
+            app.playerCollection.reset();
             view.render();
         });
         return this;
@@ -186,10 +237,10 @@ app.TeamSettingsView = app.TeamDetailContentsView.extend({
         bootbox.confirm({
             size: 'small',
             title: 'Confirm Delete',
-            message: 'Do you really want to delete ' + app.currentTeam().get('nameWithSeason') + ' (team ID ' + app.currentTeam().get('cloudId') + ')?<br/><br/>NOTE: you can un-delete the team later',
+            message: 'Do you really want to delete ' + app.currentTeam().get('nameWithSeason') + ' (team ID ' + app.currentTeamId() + ')?<br/><br/>NOTE: you can un-delete the team later',
             callback: function(result){
                 if (result == true) {
-                    deleteTeam(app.currentTeam().get('cloudId'), function () {
+                    deleteTeam(app.currentTeamId(), function () {
                         app.AppView.render();
                         this.dismiss();
                     }, function () {
@@ -201,7 +252,7 @@ app.TeamSettingsView = app.TeamDetailContentsView.extend({
 
     },
     undeleteTapped: function () {
-        undeleteTeam(app.currentTeam().get('cloudId'), function() {
+        undeleteTeam(app.currentTeamId(), function() {
             app.AppView.render();
             this.dismiss();
         }, function() {
@@ -244,7 +295,7 @@ app.PasswordDialogView = app.DialogView.extend({
         return $.trim($('[ulti-password-text]').val());
     },
     savePassword: function(password) {
-        savePassword(app.currentTeam().get('cloudId'), password, function() {
+        savePassword(app.currentTeamId(), password, function() {
             app.AppView.render();
             this.dismiss();
         }, function() {
@@ -256,9 +307,14 @@ app.PasswordDialogView = app.DialogView.extend({
 app.TeamGamesView = app.TeamDetailContentsView.extend({
     el: '[ulti-team-detail-games]',
     initialize: function() {
+        app.gameCollection.on("reset", this.gamesChanged, this);
     },
-    render: function() {
-        return this;
+    template: _.template($("#ulti-team-games-template").html()),
+    render: function () {
+        this.$el.html(this.template());
+    },
+    gamesChanged: function() {
+        this.render();
     }
 });
 
@@ -294,16 +350,30 @@ app.TeamDetailView = Backbone.View.extend({
         this.playersView.$el.toggleClass('hidden', app.currentTab() != 'players');
         switch(app.currentTab()) {
             case 'players':
-                this.playersView.render()
+                this.renderPlayersView();
                 break;
             case 'games':
-                this.gamesView.render()
+                this.renderGamesView();
                 break;
             default: // 'settings'
-                this.settingsView.render()
+                this.renderSettingsView();
         }
         return this;
-    }
+    },
+    renderSettingsView: function() {
+        this.settingsView.render();
+    },
+    renderGamesView: function() {
+        var view = this;
+        retrieveGamesForAdmin(app.currentTeamId(), function(games) {
+            app.gameCollection.populateFromRestResponse(games);
+        }, function() {
+            alert("bad thang happened");
+        })
+    },
+    renderPlayersView: function() {
+        this.settingsView.render();
+    },
 });
 
 app.AppView = Backbone.View.extend({
@@ -403,4 +473,56 @@ Team from get team
      "playersAreLeaguevine":false,
      "mixed":false
  }
-*/
+
+ Games
+
+[
+    {
+        "teamId":"247001",
+        "gameId":"game-07326021-B1C4-42B5-ADE6-1027D9D47265",
+        "opponentName":"NJ Hammerheads",
+        "gamePoint":1000,
+        "wind":{
+            "mph":10,
+            "degrees":147,
+            "leftToRight":true
+        },
+        "timestamp":"2013-05-12 15:22",
+        "date":"Sun, 5/12",
+        "time":"3:22",
+        "msSinceEpoch":1368372120000,
+        "ours":18,
+        "theirs":13,
+        "leaguevineJson":"{\"timezoneOffset\":-240,\"id\":97533,\"team2Name\":\"NJ Hammerheads\",\"team_1_id\":22644,\"timezone\":\"US\\/Eastern\",\"team_2_id\":22639,\"team1Name\":\"DC Breeze\",\"start_time\":\"2013-05-12T15:00:00-04:00\"}",
+        "timeoutDetailsJson":"{\"takenSecondHalf\":0,\"quotaPerHalf\":2,\"takenFirstHalf\":0,\"quotaFloaters\":0}",
+        "firstPointOline":true,
+        "previousVersionAvailable":false,
+        "positional":false,
+        "deleted":false
+    },
+    {
+        "teamId":"247001",
+        "gameId":"game-B2DC21A6-916E-449C-9D16-B03132F7537D",
+        "opponentName":"Toronto Rush",
+        "gamePoint":1000,
+        "wind":{
+            "mph":0,
+            "degrees":-1,
+            "leftToRight":true
+        },
+        "timestamp":"2013-04-20 13:32",
+        "date":"Sat, 4/20",
+        "time":"1:32",
+        "msSinceEpoch":1366464720000,
+        "ours":13,
+        "theirs":30,
+        "leaguevineJson":"{\"tournament\":{\"id\":0},\"timezoneOffset\":-300,\"id\":97498,\"team2Name\":\"Toronto Rush\",\"team_1_id\":22644,\"timezone\":\"US\\/Central\",\"team_2_id\":22643,\"team1Name\":\"DC Breeze\",\"start_time\":\"2013-04-20T12:00:00-05:00\"}",
+        "timeoutDetailsJson":"{\"takenSecondHalf\":0,\"quotaPerHalf\":2,\"takenFirstHalf\":2,\"quotaFloaters\":0}",
+        "firstPointOline":false,
+        "previousVersionAvailable":false,
+        "positional":false,
+        "deleted":false
+    }
+]
+
+ */
