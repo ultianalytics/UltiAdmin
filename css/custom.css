@@ -25,22 +25,22 @@ h1 {
 }
 
 .btn-delete {
-    color: red;
+    color: #6FB219;
     background-color: #ffffff;
-    border-color: red;
+    border-color: #6FB219;
 }
 
 .btn-delete:hover {
-    color: #ff420f;
+    color: #6FB219;
     font-weight: bold;
 }
 
 .btn-delete:visited {
-    color: red;
+    color: #6FB219;
 }
 
 .btn-delete:active {
-    color: red;
+    color: #6FB219;
 }
 
 .btn-undelete {

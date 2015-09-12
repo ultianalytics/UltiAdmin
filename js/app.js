@@ -183,10 +183,20 @@ app.TeamSettingsView = app.TeamDetailContentsView.extend({
         this.showPasswordChangeDialog();
     },
     deleteTapped: function () {
-        alert("I'm pretending to be the delete dialog");
+        deleteTeam(app.currentTeam().get('cloudId'), function() {
+            app.AppView.render();
+            this.dismiss();
+        }, function() {
+            alert("bad thang happened");
+        })
     },
     undeleteTapped: function () {
-        alert("I'm pretending to be the un-delete dialog");
+        undeleteTeam(app.currentTeam().get('cloudId'), function() {
+            app.AppView.render();
+            this.dismiss();
+        }, function() {
+            alert("bad thang happened");
+        })
     },
     showPasswordChangeDialog: function () {
         this.showModalDialog('Set Team Password', function() {
