@@ -211,7 +211,7 @@ app.DialogView = Backbone.View.extend({
     }
 });
 
-app.TeamSettingsView = app.TeamDetailContentsView.extend({
+app.SettingView = app.TeamDetailContentsView.extend({
     el: '[ulti-team-detail-settings]',
     initialize: function () {
     },
@@ -304,7 +304,7 @@ app.PasswordDialogView = app.DialogView.extend({
     },
 });
 
-app.TeamGamesView = app.TeamDetailContentsView.extend({
+app.GamesView = app.TeamDetailContentsView.extend({
     el: '[ulti-team-detail-games]',
     initialize: function() {
         app.gameCollection.on("reset", this.gamesChanged, this);
@@ -318,7 +318,7 @@ app.TeamGamesView = app.TeamDetailContentsView.extend({
     }
 });
 
-app.TeamPlayersView = app.TeamDetailContentsView.extend({
+app.PlayersView = app.TeamDetailContentsView.extend({
     el: '[ulti-team-detail-players]',
     initialize: function() {
     },
@@ -332,9 +332,9 @@ app.TeamDetailView = Backbone.View.extend({
     el: '[ulti-team-detail]',
     initialize: function() {
         this.tabView = new app.TabView();
-        this.settingsView = new app.TeamSettingsView();
-        this.gamesView = new app.TeamGamesView();
-        this.playersView = new app.TeamPlayersView();
+        this.settingsView = new app.SettingView();
+        this.gamesView = new app.GamesView();
+        this.playersView = new app.PlayersView();
         app.appContext.on("change:currentTeam", this.teamChanged, this);
         app.appContext.on("change:currentTab", this.tabChanged, this);
     },
