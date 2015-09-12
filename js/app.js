@@ -183,12 +183,22 @@ app.TeamSettingsView = app.TeamDetailContentsView.extend({
         this.showPasswordChangeDialog();
     },
     deleteTapped: function () {
-        deleteTeam(app.currentTeam().get('cloudId'), function() {
-            app.AppView.render();
-            this.dismiss();
-        }, function() {
-            alert("bad thang happened");
+        bootbox.confirm({
+            size: 'small',
+            title: 'Confirm Delete',
+            message: 'Do you really want to delete ' + app.currentTeam().get('nameWithSeason') + ' (team ID ' + app.currentTeam().get('cloudId') + ')?<br/><br/>NOTE: you can un-delete the team later',
+            callback: function(result){
+                if (result == true) {
+                    deleteTeam(app.currentTeam().get('cloudId'), function () {
+                        app.AppView.render();
+                        this.dismiss();
+                    }, function () {
+                        alert("bad thang happened");
+                    });
+                }
+            }
         })
+
     },
     undeleteTapped: function () {
         undeleteTeam(app.currentTeam().get('cloudId'), function() {
@@ -196,7 +206,7 @@ app.TeamSettingsView = app.TeamDetailContentsView.extend({
             this.dismiss();
         }, function() {
             alert("bad thang happened");
-        })
+        });
     },
     showPasswordChangeDialog: function () {
         this.showModalDialog('Set Team Password', function() {
