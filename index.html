@@ -149,6 +149,24 @@
     </div>
 </script>
 
+<script id="ulti-team-players-template" type="text/template">
+    <div class="container">
+        <% _.each(players, function(player) { %>
+            <div class="row" style="margin-bottom: 20px">
+                <div class="col-md-2">
+                    <%= player.name %>
+                </div>
+                <div class="col-md-5">
+                    <button ulti-player-list-button-renickname class="borderless-button" title="edit player's nick name">Edit Nickname</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button ulti-player-list-button-redisplayname class="borderless-button" title="edit player's display name">Edit Display Name</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button ulti-player-list-button-merge class="borderless-button" title="merge player with other player">Merge</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button ulti-player-list-button-delete class="borderless-button" title="delete player"><i class="fa fa-trash-o" style="font-size: large"></i></button>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+</script>
+
 <script id="ulti-modal-template" type="text/template">
     <div class="modal-content">
         <div class="modal-header">

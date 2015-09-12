@@ -39,7 +39,14 @@ app.Game = Backbone.Model.extend({
 
 app.Player = Backbone.Model.extend({
     defaults: {
-        // TODO...complete this
+        "name":"",
+        "lastName":"",
+        "firstName":"",
+        "number":"",
+        "position":"",
+        "inactive":false,
+        "male":true,
+        "absent":false
     }
 });
 
@@ -188,7 +195,7 @@ app.TabView = Backbone.View.extend({
     }
 });
 
-app.TeamDetailContentsView = Backbone.View.extend({
+app.AbstractDetailContentsView = Backbone.View.extend({
     modalTemplate: _.template($("#ulti-modal-template").html()),
     showModalDialog: function (title, contentViewCreator) {
         $('[ulti-dialog-content]').html(this.modalTemplate({title: title}));
@@ -211,7 +218,7 @@ app.DialogView = Backbone.View.extend({
     }
 });
 
-app.SettingView = app.TeamDetailContentsView.extend({
+app.SettingView = app.AbstractDetailContentsView.extend({
     el: '[ulti-team-detail-settings]',
     initialize: function () {
     },
@@ -304,7 +311,7 @@ app.PasswordDialogView = app.DialogView.extend({
     },
 });
 
-app.GamesView = app.TeamDetailContentsView.extend({
+app.GamesView = app.AbstractDetailContentsView.extend({
     el: '[ulti-team-detail-games]',
     initialize: function() {
         app.gameCollection.on("reset", this.render, this);
@@ -337,13 +344,18 @@ app.GamesView = app.TeamDetailContentsView.extend({
 
 });
 
-app.PlayersView = app.TeamDetailContentsView.extend({
+app.PlayersView = app.AbstractDetailContentsView.extend({
     el: '[ulti-team-detail-players]',
     initialize: function() {
+        app.playerCollection.on("reset", this.render, this);
     },
-    render: function() {
-        return this;
-    }
+    template: _.template($("#ulti-team-players-template").html()),
+    render: function () {
+        var players = _.map(app.playerCollection.models, function(player) {
+            return player.toJSON();
+        });
+        this.$el.html(this.template({players: players}));
+    },
 });
 
 
@@ -391,7 +403,12 @@ app.TeamDetailView = Backbone.View.extend({
         })
     },
     renderPlayersView: function() {
-        this.settingsView.render();
+        var view = this;
+        retrieveTeamForAdmin(app.currentTeamId(), true, true, function(team) {
+            app.playerCollection.populateFromRestResponse(team.players);
+        }, function() {
+            alert("bad thang happened");
+        })
     },
 });
 
@@ -465,7 +482,9 @@ Team from get team
      "nameWithSeason":"@test@ Wildfire 2013-2014",
      "players":[
          {
-             "name":"Aj",
+             "name":"Al",
+            "lastName":"Jones",
+            "firstName":"Abert",
              "number":"51",
              "position":"Cutter",
              "inactive":false,
