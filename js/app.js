@@ -307,14 +307,14 @@ app.PasswordDialogView = app.DialogView.extend({
 app.GamesView = app.TeamDetailContentsView.extend({
     el: '[ulti-team-detail-games]',
     initialize: function() {
-        app.gameCollection.on("reset", this.gamesChanged, this);
+        app.gameCollection.on("reset", this.render, this);
     },
     template: _.template($("#ulti-team-games-template").html()),
     render: function () {
-        this.$el.html(this.template());
-    },
-    gamesChanged: function() {
-        this.render();
+        var games = _.map(app.gameCollection.models, function(game) {
+            return game.toJSON();
+        });
+        this.$el.html(this.template({games: games, teamId: app.currentTeamId()}));
     }
 });
 
