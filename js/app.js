@@ -276,7 +276,7 @@ app.PasswordDialogView = app.DialogView.extend({
         "click [ulti-password-button-save]": "savePasswordTapped",
         "click [ulti-password-button-remove]": "removePasswordTapped",
         "click [ulti-password-button-cancel]": "cancelPasswordTapped",
-        "input [ulti-password-text]": "updateSaveButtonEnablement",
+        "input [ulti-password-text]": "updateSaveButtonEnablement"
     },
     savePasswordTapped: function() {
         savePassword(this.getPassword());
