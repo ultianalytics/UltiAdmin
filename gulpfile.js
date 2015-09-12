@@ -1,5 +1,12 @@
 var gulp = require('gulp');
 
-gulp.task('default', function() {
-    // place code for your default task here
+var connect = require('gulp-connect');
+
+gulp.task('server', function(){
+    connect.server({
+        port: 9000,
+        livereload: true
+    });
 });
+
+gulp.task('default', ['server']);
