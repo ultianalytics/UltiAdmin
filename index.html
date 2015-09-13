@@ -154,7 +154,7 @@
         <% _.each(players, function(player) { %>
             <div class="row" style="margin-bottom: 20px">
                 <div class="col-md-2">
-                    <%= (isEmpty(player.number) ? '' : '#' + player.number + ' ') + player.name %>
+                    <%= (isEmpty(player.number) ? '' : '#' + player.number + ' ') + player.name + (!isEmpty(player.lastName) || !isEmpty(player.firstName) ? ' (' + player.firstName + ' ' + player.lastName + ')' : '')%>
                 </div>
                 <div class="col-md-5">
                     <button ulti-player-list-button-editname ulti-player-nickname="<%= player.name %>" class="borderless-button" title="edit player's nick name or display name">Edit Name</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
