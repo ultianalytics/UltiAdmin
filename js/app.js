@@ -6,6 +6,12 @@ if (!app) {
     app = {};
 }
 
+// UTILITY
+
+isEmpty = function(string) {
+    return string == null || $.trim(string).length == 0;
+}
+
 
 // MODELS & COLLECTIONS
 

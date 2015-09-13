@@ -154,12 +154,12 @@
         <% _.each(players, function(player) { %>
             <div class="row" style="margin-bottom: 20px">
                 <div class="col-md-2">
-                    <%= player.name %>
+                    <%= (isEmpty(player.number) ? '' : '#' + player.number + ' ') + player.name %>
                 </div>
                 <div class="col-md-5">
-                    <button ulti-player-list-button-editname class="borderless-button" title="edit player's nick name or display name">Edit Names</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <button ulti-player-list-button-merge class="borderless-button" title="merge player with other player">Merge</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <button ulti-player-list-button-delete class="borderless-button" title="delete player"><i class="fa fa-trash-o" style="font-size: large"></i></button>
+                    <button ulti-player-list-button-editname ulti-player-nickname="<%= player.name %>" class="borderless-button" title="edit player's nick name or display name">Edit Name</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button ulti-player-list-button-merge ulti-player-nickname="<%= player.name %>" class="borderless-button" title="merge player with other player">Merge</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button ulti-player-list-button-delete ulti-player-nickname="<%= player.name %>" class="borderless-button" title="delete player"><i class="fa fa-trash-o" style="font-size: large"></i></button>
                 </div>
             </div>
         <% }); %>
