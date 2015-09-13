@@ -320,7 +320,7 @@ app.GamesView = app.AbstractDetailContentsView.extend({
         "click [ulti-game-list-button-export]": "exportTapped",
         "click [ulti-game-list-button-versions]": "versionsTapped",
         "click [ulti-game-list-button-delete]": "deleteTapped",
-        "click [ulti-game-list-button-undelete]": "undeleteTapped",
+        "click [ulti-game-list-button-undelete]": "undeleteTapped"
     },
     template: _.template($("#ulti-team-games-template").html()),
     render: function () {
@@ -349,12 +349,26 @@ app.PlayersView = app.AbstractDetailContentsView.extend({
     initialize: function() {
         app.playerCollection.on("reset", this.render, this);
     },
+    events: {
+        "click [ulti-player-list-button-editname]": "editTapped",
+        "click [ulti-player-list-button-merge]": "mergeTapped",
+        "click [ulti-player-list-button-delete]": "deleteTapped"
+    },
     template: _.template($("#ulti-team-players-template").html()),
     render: function () {
         var players = _.map(app.playerCollection.models, function(player) {
             return player.toJSON();
         });
         this.$el.html(this.template({players: players}));
+    },
+    editTapped: function() {
+        alert('edit tapped');
+    },
+    mergeTapped: function() {
+        alert('merge tapped');
+    },
+    deleteTapped: function() {
+        alert('delete tapped');
     },
 });
 
