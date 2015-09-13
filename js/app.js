@@ -292,10 +292,10 @@ app.PasswordDialogView = app.DialogView.extend({
         "input [ulti-password-text]": "updateSaveButtonEnablement"
     },
     savePasswordTapped: function() {
-        savePassword(this.getPassword());
+        this.updatePassword(this.getPassword());
     },
     removePasswordTapped: function() {
-        savePassword("");
+        this.updatePassword("");
     },
     cancelPasswordTapped: function() {
         this.dismiss();
@@ -307,7 +307,7 @@ app.PasswordDialogView = app.DialogView.extend({
     getPassword: function() {
         return $.trim($('[ulti-password-text]').val());
     },
-    savePassword: function(password) {
+    updatePassword: function(password) {
         savePassword(app.currentTeamId(), password, function() {
             app.AppView.render();
             this.dismiss();

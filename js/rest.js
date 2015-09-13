@@ -55,38 +55,38 @@ function retrieveGame(teamId, gameId, successFunction, errorFunction) {
 function deleteGame(teamId, gameId, successFunction, errorFunction) {
 	sendAnalyticsEvent("deleteGame");
 	var url = app.rest.baseRestUrl + '/team/' + teamId + '/game/' + gameId + '/delete'; 
-	sendRequest({url: url, dataType: 'json', isPost: true, success: successFunction, error: errorFunction});
+	sendRequest({url: url, dataType: null, isPost: true, success: successFunction, error: errorFunction});
 }
 
 function undeleteGame(teamId, gameId, successFunction, errorFunction) {
 	sendAnalyticsEvent("undeleteGame");
 	var url = app.rest.baseRestUrl + '/team/' + teamId + '/game/' + gameId + '/undelete'; 
-	sendRequest({url: url, dataType: 'json', isPost: true, success: successFunction, error: errorFunction});
+	sendRequest({url: url, dataType: null, isPost: true, success: successFunction, error: errorFunction});
 }
 
 function deleteTeam(teamId, successFunction, errorFunction) {
 	sendAnalyticsEvent("deleteTeam");
 	var url = app.rest.baseRestUrl + '/team/' + teamId + '/delete'; 
-	sendRequest({url: url, dataType: 'json', isPost: true, success: successFunction, error: errorFunction});
+	sendRequest({url: url, dataType: null, isPost: true, success: successFunction, error: errorFunction});
 }
 
 function undeleteTeam(teamId, successFunction, errorFunction) {
 	sendAnalyticsEvent("undeleteTeam");
 	var url = app.rest.baseRestUrl + '/team/' + teamId + '/undelete'; 
-	sendRequest({url: url, dataType: 'json', isPost: true, success: successFunction, error: errorFunction});
+	sendRequest({url: url, dataType: null, isPost: true, success: successFunction, error: errorFunction});
 }
 
 function deletePlayer(teamId, playerToDelete, replacementPlayer, successFunction, errorFunction) {
 	sendAnalyticsEvent("deletePlayer");
 	var url = app.rest.baseRestUrl + '/team/' + teamId + '/player/delete?player=' + playerToDelete + '&replacement='+replacementPlayer; 
-	sendRequest({url: url, dataType: 'json', isPost: true, success: successFunction, error: errorFunction});
+	sendRequest({url: url, dataType: null, isPost: true, success: successFunction, error: errorFunction});
 }
 
 function renamePlayer(teamId, playerToRename, replacementPlayer, firstName, lastName, successFunction, errorFunction) {
 	sendAnalyticsEvent("renamePlayer");
 	var url = app.rest.baseRestUrl + '/team/' + teamId + '/player/rename?player=' + playerToRename + 
 	'&replacement=' + replacementPlayer + '&firstName=' + firstName + '&lastName=' + lastName; 
-	sendRequest({url: url, dataType: 'json', isPost: true, success: successFunction, error: errorFunction});
+	sendRequest({url: url, dataType: null, isPost: true, success: successFunction, error: errorFunction});
 }
 
 function retrievePlayerStatsForGames(teamId, gameIds, successFunction, errorFunction) {
@@ -152,13 +152,13 @@ function retrieveGameVersions(teamId, gameId, successFunction, errorFunction) {
 function restoreGameVersion(teamId, gameId, versionId, successFunction, errorFunction) {
 	sendAnalyticsEvent("restoreGameVersion");
 	var url = app.rest.baseRestUrl + '/team/' + teamId + '/game/' + gameId + '/version/' + versionId + '/restore'; 
-	sendRequest({url: url, dataType: 'json', isPost: true, success: successFunction, error: errorFunction});
+	sendRequest({url: url, dataType: null, isPost: true, success: successFunction, error: errorFunction});
 }
 
 function savePassword(teamId, password, successFunction, errorFunction) {
 	sendAnalyticsEvent("savePassword");
 	var url = app.rest.baseRestUrl + '/team/' + teamId + '/password/' + (isNullOrEmpty(password) ? 'REMOVE-PASSWORD' : password); 
-	sendRequest({url: url, dataType: 'json', isPost: true, success: successFunction, error: errorFunction});
+	sendRequest({url: url, dataType: null, isPost: true, success: successFunction, error: errorFunction});
 }
 
 function signon(teamId, password, successFunction, errorFunction) {
