@@ -254,8 +254,7 @@ app.SettingView = app.AbstractDetailContentsView.extend({
             callback: function(result){
                 if (result == true) {
                     deleteTeam(app.currentTeamId(), function () {
-                        app.AppView.render();
-                        this.dismiss();
+                        app.appView.render();
                     }, function () {
                         alert("bad thang happened");
                     });
@@ -266,8 +265,7 @@ app.SettingView = app.AbstractDetailContentsView.extend({
     },
     undeleteTapped: function () {
         undeleteTeam(app.currentTeamId(), function() {
-            app.AppView.render();
-            this.dismiss();
+            app.appView.render();
         }, function() {
             alert("bad thang happened");
         });
@@ -308,9 +306,10 @@ app.PasswordDialogView = app.DialogView.extend({
         return $.trim($('[ulti-password-text]').val());
     },
     updatePassword: function(password) {
+        var view = this;
         savePassword(app.currentTeamId(), password, function() {
-            app.AppView.render();
-            this.dismiss();
+            app.appView.render();
+            view.dismiss();
         }, function() {
             alert("bad thang happened");
         })
@@ -450,7 +449,7 @@ app.AppView = Backbone.View.extend({
                 $('[ulti-teams-no-teams]').hide();
                 app.teamCollection.populateFromRestResponse(teams);
                 if (selectedTeam) {
-                    var refreshedSelectedTeam = app.TeamCollection.findWhere({cloudId : selectedTeam.cloudId});
+                    var refreshedSelectedTeam = app.teamCollection.findWhere({cloudId : selectedTeam.get('cloudId')});
                     app.appContext.set('currentTeam', refreshedSelectedTeam);
                     if (selectedTab) {
                         app.appContext.set('currentTab', selectedTab);
