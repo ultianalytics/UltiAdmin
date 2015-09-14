@@ -64,19 +64,8 @@ app.TeamCollection = Backbone.Collection.extend({
         for (var i = 0; i < restDataArray.length; i++) {
             teams.push(new app.Team(restDataArray[i]));
         }
-        this.selectDefaultTeam(teams);
+        app.appContext.selectDefaultTeam(teams);
         this.reset(teams);
-    },
-    selectDefaultTeam: function(teamModels) {
-        var teams = teamModels == null ? this.models : teamModels;
-        var defaultTeam = teams.length == 0 ? null : teams[0];
-        for (var i = 0; i < teams.length; i++) {
-            if (!teams[i].get('deleted')) {
-                defaultTeam = teams[i];
-                break;
-            }
-        }
-        app.appContext.set('currentTeam', defaultTeam);
     },
     teamWithCloudId: function(cloudId) {
         return this.findWhere({cloudId : cloudId});
@@ -122,6 +111,21 @@ app.AppContext = Backbone.Model.extend({
     defaults: {
         currentTeam: null,
         currentTab: 'settings'
+    },
+    selectDefaultTeam: function(teamModels) {
+        var teams = teamModels == null ? app.teamCollection.models : teamModels;
+        var defaultTeam = teams.length == 0 ? null : teams[0];
+        for (var i = 0; i < teams.length; i++) {
+            if (!teams[i].get('deleted')) {
+                defaultTeam = teams[i];
+                break;
+            }
+        }
+        if (defaultTeam != null) {
+            if (app.currentTeamId() != defaultTeam.get('cloudId')) {
+                app.appContext.set('currentTeam', defaultTeam);
+            }
+        }
     }
 });
 
@@ -395,7 +399,7 @@ app.PlayersView = app.AbstractDetailContentsView.extend({
     },
     deleteTapped: function() {
         alert('delete tapped');
-        app.router.navigate("foo", true);
+        app.router.navigate("", true);
     },
 });
 
@@ -498,6 +502,7 @@ var AppRouter = Backbone.Router.extend({
     defaultRoute: function(path) {
         app.teamCollection.ensureFetched(function() {
             if (app.teamCollection.models.length > 0) {
+                app.appContext.selectDefaultTeam();
                 app.appContext.set('currentTab', 'settings');
             }
             app.appView.render();
