@@ -374,7 +374,7 @@ app.PlayersView = app.AbstractDetailContentsView.extend({
     },
     deleteTapped: function() {
         alert('delete tapped');
-        app.router.navigate("foo", {trigger: true});
+        app.router.navigate("foo", true);
     },
 });
 
@@ -470,11 +470,17 @@ app.AppView = Backbone.View.extend({
 
 var AppRouter = Backbone.Router.extend({
     routes: {
-        'foo' : 'defaultRoute',
+        'team/:cloudId/:tab' : 'team',
         '*path' : 'defaultRoute'
     },
+
     defaultRoute: function(path) {
         app.appView.render();
+    },
+
+    team: function(cloudId, tab) {
+        console.log('routed to cloud = ' + cloudId + ' tab = ' + tab);
+        app.appContext.set('currentTab', tab == null ? 'settings' : tab);
     }
 });
 
