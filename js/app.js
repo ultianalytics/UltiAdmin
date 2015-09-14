@@ -374,6 +374,7 @@ app.PlayersView = app.AbstractDetailContentsView.extend({
     },
     deleteTapped: function() {
         alert('delete tapped');
+        app.router.navigate("foo", {trigger: true});
     },
 });
 
@@ -465,10 +466,27 @@ app.AppView = Backbone.View.extend({
     }
 });
 
+// ROUTER
+
+var AppRouter = Backbone.Router.extend({
+    routes: {
+        'foo' : 'defaultRoute',
+        '*path' : 'defaultRoute'
+    },
+    defaultRoute: function(path) {
+        app.appView.render();
+    }
+});
+
 app.appView = new app.AppView();
 app.appView.render();
 
+// Document Ready
 
+$(function() {
+    app.router = new AppRouter();
+    Backbone.history.start();
+});
 
 
 // SAMPLE JSON
