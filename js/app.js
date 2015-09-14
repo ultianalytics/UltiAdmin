@@ -79,6 +79,21 @@ app.TeamCollection = Backbone.Collection.extend({
             }
         }
         return defaultTeam;
+    },
+    teamWithCloudId: function(cloudId) {
+        return this.findWhere({cloudId : cloudId});
+    },
+    ensureFetched: function(success, failure) {
+        var collection = this;
+        if (this.models.length > 0) {
+            success();
+        }
+        retrieveTeamsIncludingDeleted(function (teams) {
+            collection.populateFromRestResponse(teams);
+            success();
+        }, function () {
+            failure();
+        });
     }
 });
 
@@ -139,16 +154,19 @@ app.TeamSelectorView = Backbone.View.extend({
     teams: app.teamCollection,
     el: '[ulti-team-selector]',
     initialize: function() {
-        this.teams.on("reset", this.render, this);
+        this.teams.on('reset', this.teamsChanged, this);
     },
     template: _.template($("#ulti-team-selector-template").html()),
+    teamsChanged: function() {
+        this.render();
+    },
     render: function() {
         this.$el.html(this.template({teams : this.teams.models, selectedTeam : app.currentTeam()}));
         var view = this;
         this.$("[ulti-team-choice]").click(function(e) {
             e.preventDefault();
             var selectedCloudId = e.currentTarget.attributes['ulti-team-choice'].value;
-            var selectedTeam = view.teams.findWhere({cloudId: selectedCloudId});
+            var selectedTeam = view.teams.teamWithCloudId(selectedCloudId);
             app.appContext.set('currentTeam', selectedTeam);
             app.gameCollection.reset();
             app.playerCollection.reset();
@@ -181,9 +199,12 @@ app.TabView = Backbone.View.extend({
     },
     initialize: function() {
         app.appContext.on("change:currentTeam", this.teamChanged, this);
+        app.appContext.on("change:currentTab", this.tabChanged, this);
     },
     teamChanged: function() {
         app.appContext.set('currentTab', 'settings');
+    },
+    tabChanged: function() {
         this.render();
     },
     render: function() {
@@ -440,17 +461,15 @@ app.AppView = Backbone.View.extend({
         this.teamDetailView = new app.TeamDetailView();
     },
     render: function() {
-        this.retrieveTeams(app.currentTeam(), app.currentTab());
-        return this;
-    },
-    retrieveTeams: function(selectedTeam, selectedTab) {
-        retrieveTeamsIncludingDeleted(function (teams) {
+        var selectedTeam = app.currentTeam();
+        var selectedTab = app.currentTab();
+        app.teamCollection.ensureFetched(function() {
+            var teams = app.teamCollection.models;
             if (teams.length > 0) {
                 $('[ulti-teams-container]').show();
                 $('[ulti-teams-no-teams]').hide();
-                app.teamCollection.populateFromRestResponse(teams);
                 if (selectedTeam) {
-                    var refreshedSelectedTeam = app.teamCollection.findWhere({cloudId : selectedTeam.get('cloudId')});
+                    var refreshedSelectedTeam = app.teamCollection.teamWithCloudId(selectedTeam.get('cloudId'));
                     app.appContext.set('currentTeam', refreshedSelectedTeam);
                     if (selectedTab) {
                         app.appContext.set('currentTab', selectedTab);
@@ -460,9 +479,11 @@ app.AppView = Backbone.View.extend({
                 $('[ulti-teams-container]').hide();
                 $('[ulti-teams-no-teams]').show();
             }
-        }, function () {
+        }, function() {
             alert("bad thang happened");
         });
+
+        return this;
     }
 });
 
@@ -480,12 +501,16 @@ var AppRouter = Backbone.Router.extend({
 
     team: function(cloudId, tab) {
         console.log('routed to cloud = ' + cloudId + ' tab = ' + tab);
-        app.appContext.set('currentTab', tab == null ? 'settings' : tab);
+        app.teamCollection.ensureFetched(function() {
+            app.appContext.set('currentTeam', app.teamCollection.teamWithCloudId(cloudId));
+            app.appContext.set('currentTab', tab == null ? 'settings' : tab);
+        }, function() {
+            alert("bad thang");
+        });
     }
 });
 
 app.appView = new app.AppView();
-app.appView.render();
 
 // Document Ready
 
