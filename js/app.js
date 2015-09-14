@@ -153,9 +153,13 @@ app.TeamSelectorView = Backbone.View.extend({
     el: '[ulti-team-selector]',
     initialize: function() {
         this.teams.on('reset', this.teamsChanged, this);
+        app.appContext.on("change:currentTeam", this.selectedTeamChanged, this);
     },
     template: _.template($("#ulti-team-selector-template").html()),
     teamsChanged: function() {
+        this.render();
+    },
+    selectedTeamChanged: function() {
         this.render();
     },
     render: function() {
@@ -164,8 +168,7 @@ app.TeamSelectorView = Backbone.View.extend({
         this.$("[ulti-team-choice]").click(function(e) {
             e.preventDefault();
             var selectedCloudId = e.currentTarget.attributes['ulti-team-choice'].value;
-            var selectedTeam = view.teams.teamWithCloudId(selectedCloudId);
-            app.appContext.set('currentTeam', selectedTeam);
+            app.router.navigate('team/' + selectedCloudId + '/settings', {trigger: true});
             app.gameCollection.reset();
             app.playerCollection.reset();
             view.render();
@@ -214,9 +217,7 @@ app.TabView = Backbone.View.extend({
     },
     tabPicked: function(e) {
         e.preventDefault();
-        var selectedTab = e.currentTarget.attributes['ulti-tab-choice'].value;
-        //app.appContext.set('currentTab', selectedTab);
-        //this.render();
+        var selectedTab = e.currentTarget.attributes['ulti-tab-choice'].value;;
         app.router.navigate('team/' + app.currentTeamId() + '/' + selectedTab, {trigger: true});
     }
 });
