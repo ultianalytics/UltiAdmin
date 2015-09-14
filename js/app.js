@@ -215,8 +215,9 @@ app.TabView = Backbone.View.extend({
     tabPicked: function(e) {
         e.preventDefault();
         var selectedTab = e.currentTarget.attributes['ulti-tab-choice'].value;
-        app.appContext.set('currentTab', selectedTab);
-        this.render();
+        //app.appContext.set('currentTab', selectedTab);
+        //this.render();
+        app.router.navigate('team/' + app.currentTeamId() + '/' + selectedTab, {trigger: true});
     }
 });
 
