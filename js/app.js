@@ -85,13 +85,14 @@ app.TeamCollection = Backbone.Collection.extend({
         var collection = this;
         if (this.models.length > 0) {
             success();
+        } else {
+            retrieveTeamsIncludingDeleted(function (teams) {
+                collection.populateFromRestResponse(teams);
+                success();
+            }, function () {
+                failure();
+            });
         }
-        retrieveTeamsIncludingDeleted(function (teams) {
-            collection.populateFromRestResponse(teams);
-            success();
-        }, function () {
-            failure();
-        });
     }
 });
 
