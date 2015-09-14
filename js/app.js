@@ -138,7 +138,8 @@ app.currentTeam = function() {
 }
 
 app.currentTeamId = function() {
-    return app.currentTeam().get('cloudId');
+    var currentTeam = app.currentTeam();
+    return currentTeam == null ? null : currentTeam.get('cloudId');
 }
 
 app.currentTab = function() {
@@ -169,9 +170,6 @@ app.TeamSelectorView = Backbone.View.extend({
             e.preventDefault();
             var selectedCloudId = e.currentTarget.attributes['ulti-team-choice'].value;
             app.router.navigate('team/' + selectedCloudId + '/settings', {trigger: true});
-            app.gameCollection.reset();
-            app.playerCollection.reset();
-            view.render();
         });
         return this;
     }
@@ -204,6 +202,7 @@ app.TabView = Backbone.View.extend({
     },
     teamChanged: function() {
         app.appContext.set('currentTab', 'settings');
+        this.render();
     },
     tabChanged: function() {
         this.render();
@@ -509,8 +508,13 @@ var AppRouter = Backbone.Router.extend({
     team: function(cloudId, tab) {
         console.log('routed to cloud = ' + cloudId + ' tab = ' + tab);
         app.teamCollection.ensureFetched(function() {
+            var teamChange = app.currentTeamId() != cloudId;
             app.appContext.set('currentTeam', app.teamCollection.teamWithCloudId(cloudId));
             app.appContext.set('currentTab', tab == null ? 'settings' : tab);
+            if (teamChange) {
+                app.gameCollection.reset();
+                app.playerCollection.reset();
+            }
         }, function() {
             alert("bad thang");
         });
