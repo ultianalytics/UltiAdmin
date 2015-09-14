@@ -64,21 +64,19 @@ app.TeamCollection = Backbone.Collection.extend({
         for (var i = 0; i < restDataArray.length; i++) {
             teams.push(new app.Team(restDataArray[i]));
         }
-        app.appContext.set('currentTeam', this.defaultSelectedTeam(teams));
+        this.selectDefaultTeam(teams);
         this.reset(teams);
     },
-    defaultSelectedTeam: function(teamList) {
-        if (!teamList || teamList.length == 0) {
-            return null;
-        }
-        var defaultTeam = teamList[0];
-        for (var i = 0; i < teamList.length; i++) {
-            if (!teamList[i].get('deleted')) {
-                defaultTeam = teamList[i];
+    selectDefaultTeam: function(teamModels) {
+        var teams = teamModels == null ? this.models : teamModels;
+        var defaultTeam = teams.length == 0 ? null : teams[0];
+        for (var i = 0; i < teams.length; i++) {
+            if (!teams[i].get('deleted')) {
+                defaultTeam = teams[i];
                 break;
             }
         }
-        return defaultTeam;
+        app.appContext.set('currentTeam', defaultTeam);
     },
     teamWithCloudId: function(cloudId) {
         return this.findWhere({cloudId : cloudId});
@@ -496,7 +494,14 @@ var AppRouter = Backbone.Router.extend({
     },
 
     defaultRoute: function(path) {
-        app.appView.render();
+        app.teamCollection.ensureFetched(function() {
+            if (app.teamCollection.models.length > 0) {
+                app.appContext.set('currentTab', 'settings');
+            }
+            app.appView.render();
+        }, function() {
+            alert("bad thang");
+        });
     },
 
     team: function(cloudId, tab) {
