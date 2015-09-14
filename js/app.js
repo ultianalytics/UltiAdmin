@@ -12,6 +12,7 @@ isEmpty = function(string) {
     return string == null || $.trim(string).length == 0;
 }
 
+noArgsNoReturnFunction = function() {}
 
 // MODELS & COLLECTIONS
 
@@ -59,6 +60,9 @@ app.Player = Backbone.Model.extend({
 app.TeamCollection = Backbone.Collection.extend({
     model: app.Team,
     selectedTeam: null,
+    isEmpty: function() {
+        return this.models.length == 0;
+    },
     populateFromRestResponse: function(restDataArray) {
         var teams = [];
         for (var i = 0; i < restDataArray.length; i++) {
@@ -72,15 +76,15 @@ app.TeamCollection = Backbone.Collection.extend({
     },
     ensureFetched: function(success, failure) {
         var collection = this;
-        if (this.models.length > 0) {
-            success();
-        } else {
+        if (this.isEmpty()) {
             retrieveTeamsIncludingDeleted(function (teams) {
                 collection.populateFromRestResponse(teams);
                 success();
             }, function () {
                 failure();
             });
+        } else {
+            success();
         }
     }
 });
@@ -126,6 +130,22 @@ app.AppContext = Backbone.Model.extend({
                 app.appContext.set('currentTeam', defaultTeam);
             }
         }
+    },
+    refreshTeams: function(success, failure) {
+        app.teamCollection.reset();
+        var selectedTeam = app.currentTeam();
+        var selectedTab = app.currentTab();
+        app.teamCollection.ensureFetched(function() {
+            if (!app.teamCollection.isEmpty()) {
+                if (selectedTeam) {
+                    var refreshedSelectedTeam = app.teamCollection.teamWithCloudId(selectedTeam.get('cloudId'));
+                    app.appContext.set('currentTeam', refreshedSelectedTeam);
+                    if (selectedTab) {
+                        app.appContext.set('currentTab', selectedTab);
+                    }
+                }
+            }
+        }, failure);
     }
 });
 
@@ -297,12 +317,21 @@ app.SettingView = app.AbstractDetailContentsView.extend({
     },
     showPasswordChangeDialog: function () {
         this.showModalDialog('Set Team Password', function() {
-            return new app.PasswordDialogView();
+            var passwordDialog = new app.PasswordDialogView();
+            passwordDialog.passwordChanged = function() {
+                app.appContext.refreshTeams(function() {
+                    this.render();
+                }, function() {
+                    alert("bad thang");
+                });
+            };
+            return passwordDialog;
         });
     }
 });
 
 app.PasswordDialogView = app.DialogView.extend({
+    passwordChanged: noArgsNoReturnFunction,
     template: _.template($("#ulti-team-password-dialog-content-template").html()),
     render: function () {
         this.$el.html(this.template({team : app.currentTeam()}));
@@ -333,7 +362,9 @@ app.PasswordDialogView = app.DialogView.extend({
     updatePassword: function(password) {
         var view = this;
         savePassword(app.currentTeamId(), password, function() {
-            app.appView.render();
+            if (view.passwordChanged) {
+                view.passwordChanged();
+            }
             view.dismiss();
         }, function() {
             alert("bad thang happened");
@@ -493,7 +524,7 @@ app.AppView = Backbone.View.extend({
 
 // ROUTER
 
-var AppRouter = Backbone.Router.extend({
+app.AppRouter = Backbone.Router.extend({
     routes: {
         'team/:cloudId/:tab' : 'team',
         '*path' : 'defaultRoute'
@@ -501,7 +532,7 @@ var AppRouter = Backbone.Router.extend({
 
     defaultRoute: function(path) {
         app.teamCollection.ensureFetched(function() {
-            if (app.teamCollection.models.length > 0) {
+            if (!app.teamCollection.isEmpty()) {
                 app.appContext.selectDefaultTeam();
                 app.appContext.set('currentTab', 'settings');
             }
@@ -532,7 +563,7 @@ app.appView = new app.AppView();
 // Document Ready
 
 $(function() {
-    app.router = new AppRouter();
+    app.router = new app.AppRouter();
     Backbone.history.start();
 });
 
