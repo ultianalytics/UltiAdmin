@@ -391,7 +391,7 @@ app.GameImportDialogView = app.DialogView.extend({
     events: {
         "click [ulti-import-button-import]": "importTapped",
         "click [ulti-import-button-cancel]": "cancelTapped",
-        //"input [ulti-import-file]": "updateImportButtonEnablement"
+        "change [ulti-import-select-file-input]": "fileSelected",
     },
     importTapped: function() {
         alert('import tapped');
@@ -399,10 +399,16 @@ app.GameImportDialogView = app.DialogView.extend({
     cancelTapped: function() {
         this.dismiss();
     },
+    fileSelected: function(e, numFiles, fileName) {
+        var input = $(e.currentTarget);
+        var numFiles = input.get(0).files ? input.get(0).files.length : 1;
+        var fileName = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+        this.$('[ulti-import-selected-file]').html(fileName);
+        this.updateImportButtonEnablement();
+    },
     updateImportButtonEnablement: function() {
-        //var isValidPassword = this.getPassword().length > 0;
-        var isReadyForImport = true
-        this.$('[ulti-password-button-import]').prop('disabled', !isReadyForImport);
+        var isReadyForImport = !isEmpty(this.$('[ulti-import-selected-file]').html());
+        this.$('[ulti-import-button-import]').prop('disabled', !isReadyForImport);
     }
 });
 
