@@ -191,13 +191,20 @@
 </script>
 
 <script id="ulti-game-import-dialog-content-template" type="text/template">
-    <div class="modal-body">
-        Browse to the game export file (.iexport file extension) on your computer and then press <b>Import</b>.
-    </div>
-    <div class="modal-footer" style="text-align: center">
-        <button type="button" class="btn btn-primary" ulti-import-button-import>Import</button>
-        <button type="button" class="btn btn-primary" ulti-import-button-cancel>Cancel</button>
-    </div>
+    <form action="<%= fileUrl %>" method="post" enctype="multipart/form-data">
+        <div class="modal-body">
+            Browse to the game export file (.iexport file extension) on your computer and then press <b>Import</b>.
+            <br/><br/>
+            <span class="file-input btn btn-primary btn-file">
+                Browse to file...<input type="file">
+             </span>&nbsp;&nbsp;&nbsp;&nbsp;
+            <span ulti-import-selected-file></span>
+        </div>
+        <div class="modal-footer" style="text-align: center">
+            <input type="submit" class="btn btn-primary" value="Import" ulti-import-button-import>
+            <button type="button" class="btn btn-primary" ulti-import-button-cancel>Cancel</button>
+        </div>
+    </form>
 </script>
 
 

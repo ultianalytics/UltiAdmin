@@ -384,7 +384,8 @@ app.PasswordDialogView = app.DialogView.extend({
 app.GameImportDialogView = app.DialogView.extend({
     template: _.template($("#ulti-game-import-dialog-content-template").html()),
     render: function () {
-        this.$el.html(this.template());
+        var url = app.rest.baseRestUrl + '/team/' + app.currentTeamId() + '/import/game';
+        this.$el.html(this.template({fileUrl: url}));
         this.updateImportButtonEnablement();
     },
     events: {
