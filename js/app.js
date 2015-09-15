@@ -163,8 +163,8 @@ app.currentTeam = function() {
 }
 
 app.currentTeamId = function() {
-    var currentTeam = app.currentTeam();
-    return currentTeam == null ? null : currentTeam.get('cloudId');
+    var currTeam = app.currentTeam();
+    return currTeam == null ? null : currTeam.get('cloudId');
 }
 
 app.currentTab = function() {
@@ -299,7 +299,11 @@ app.SettingView = app.AbstractDetailContentsView.extend({
             callback: function(result){
                 if (result == true) {
                     deleteTeam(app.currentTeamId(), function () {
-                        app.appView.render();
+                        app.appContext.refreshTeams(function() {
+                            //this.render();
+                        }, function() {
+                            alert("bad thang");
+                        });
                     }, function () {
                         alert("bad thang happened");
                     });
@@ -310,7 +314,11 @@ app.SettingView = app.AbstractDetailContentsView.extend({
     },
     undeleteTapped: function () {
         undeleteTeam(app.currentTeamId(), function() {
-            app.appView.render();
+            app.appContext.refreshTeams(function() {
+                //this.render();
+            }, function() {
+                alert("bad thang");
+            });
         }, function() {
             alert("bad thang happened");
         });
