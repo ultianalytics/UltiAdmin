@@ -381,6 +381,30 @@ app.PasswordDialogView = app.DialogView.extend({
     }
 });
 
+app.GameImportDialogView = app.DialogView.extend({
+    template: _.template($("#ulti-game-import-dialog-content-template").html()),
+    render: function () {
+        this.$el.html(this.template());
+        this.updateImportButtonEnablement();
+    },
+    events: {
+        "click [ulti-import-button-import]": "importTapped",
+        "click [ulti-import-button-cancel]": "cancelTapped",
+        //"input [ulti-import-file]": "updateImportButtonEnablement"
+    },
+    importTapped: function() {
+        alert('import tapped');
+    },
+    cancelTapped: function() {
+        this.dismiss();
+    },
+    updateImportButtonEnablement: function() {
+        //var isValidPassword = this.getPassword().length > 0;
+        var isReadyForImport = true
+        this.$('[ulti-password-button-import]').prop('disabled', !isReadyForImport);
+    }
+});
+
 app.GamesView = app.AbstractDetailContentsView.extend({
     el: '[ulti-team-detail-games]',
     initialize: function() {
@@ -446,11 +470,17 @@ app.GamesView = app.AbstractDetailContentsView.extend({
         });
     },
     importTapped: function(e) {
-        alert('import tapped');
+        this.showImportDialog();
     },
     gameForButton: function(button, ultiId) {
         var gameId = $(button).attr(ultiId);
         return app.gameCollection.gameWithGameId(gameId);
+    },
+    showImportDialog: function () {
+        this.showModalDialog('Import Game', function() {
+            var importDialog = new app.GameImportDialogView();
+            return importDialog;
+        });
     }
 });
 
