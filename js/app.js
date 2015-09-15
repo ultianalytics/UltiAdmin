@@ -385,11 +385,12 @@ app.GameImportDialogView = app.DialogView.extend({
     template: _.template($("#ulti-game-import-dialog-content-template").html()),
     render: function () {
         var url = app.rest.baseRestUrl + '/team/' + app.currentTeamId() + '/import/game';
+        url = url + '?return=' + encodeURIComponent(window.location.href);
         this.$el.html(this.template({fileUrl: url}));
         this.updateImportButtonEnablement();
     },
     events: {
-        "click [ulti-import-button-import]": "importTapped",
+        //"click [ulti-import-button-import]": "importTapped",
         "click [ulti-import-button-cancel]": "cancelTapped",
         "change [ulti-import-select-file-input]": "fileSelected",
     },
