@@ -390,7 +390,8 @@ app.GamesView = app.AbstractDetailContentsView.extend({
         "click [ulti-game-list-button-export]": "exportTapped",
         "click [ulti-game-list-button-versions]": "versionsTapped",
         "click [ulti-game-list-button-delete]": "deleteTapped",
-        "click [ulti-game-list-button-undelete]": "undeleteTapped"
+        "click [ulti-game-list-button-undelete]": "undeleteTapped",
+        "click [ulti-game-import-button]": "importTapped"
     },
     template: _.template($("#ulti-team-games-template").html()),
     render: function() {
@@ -442,6 +443,9 @@ app.GamesView = app.AbstractDetailContentsView.extend({
         }, function () {
             alert("bad thang happened");
         });
+    },
+    importTapped: function(e) {
+        alert('import tapped');
     },
     gameForButton: function(button, ultiId) {
         var gameId = $(button).attr(ultiId);
