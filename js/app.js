@@ -10,9 +10,9 @@ if (!app) {
 
 isEmpty = function(string) {
     return string == null || $.trim(string).length == 0;
-}
+};
 
-noArgsNoReturnFunction = function() {}
+noArgsNoReturnFunction = function() {};
 
 // MODELS & COLLECTIONS
 
@@ -160,16 +160,16 @@ app.appContext = new app.AppContext();
 
 app.currentTeam = function() {
     return app.appContext.get('currentTeam');
-}
+};
 
 app.currentTeamId = function() {
     var currTeam = app.currentTeam();
     return currTeam == null ? null : currTeam.get('cloudId');
-}
+};
 
 app.currentTab = function() {
     return app.appContext.get('currentTab');
-}
+};
 
 
 // VIEWS
@@ -190,7 +190,6 @@ app.TeamSelectorView = Backbone.View.extend({
     },
     render: function() {
         this.$el.html(this.template({teams : this.teams.models, selectedTeam : app.currentTeam()}));
-        var view = this;
         this.$("[ulti-team-choice]").click(function(e) {
             e.preventDefault();
             var selectedCloudId = e.currentTarget.attributes['ulti-team-choice'].value;
@@ -241,7 +240,7 @@ app.TabView = Backbone.View.extend({
     },
     tabPicked: function(e) {
         e.preventDefault();
-        var selectedTab = e.currentTarget.attributes['ulti-tab-choice'].value;;
+        var selectedTab = e.currentTarget.attributes['ulti-tab-choice'].value;
         app.router.navigate('team/' + app.currentTeamId() + '/' + selectedTab, {trigger: true});
     }
 });
@@ -276,7 +275,7 @@ app.SettingView = app.AbstractDetailContentsView.extend({
     events: {
         "click [ulti-team-password-link]": "passwordTapped",
         "click [ulti-team-delete-button]": "deleteTapped",
-        "click [ulti-team-undelete-button]": "undeleteTapped",
+        "click [ulti-team-undelete-button]": "undeleteTapped"
     },
     template: _.template($("#ulti-team-settings-template").html()),
     deletedTeamTemplate: _.template($("#ulti-team-deleted-settings-template").html()),
@@ -309,8 +308,7 @@ app.SettingView = app.AbstractDetailContentsView.extend({
                     });
                 }
             }
-        })
-
+        });
     },
     undeleteTapped: function () {
         undeleteTeam(app.currentTeamId(), function() {
@@ -377,7 +375,7 @@ app.PasswordDialogView = app.DialogView.extend({
         }, function() {
             alert("bad thang happened");
         })
-    },
+    }
 });
 
 app.GamesView = app.AbstractDetailContentsView.extend({
@@ -439,7 +437,7 @@ app.PlayersView = app.AbstractDetailContentsView.extend({
     deleteTapped: function() {
         alert('delete tapped');
         app.router.navigate("", true);
-    },
+    }
 });
 
 
@@ -487,13 +485,12 @@ app.TeamDetailView = Backbone.View.extend({
         })
     },
     renderPlayersView: function() {
-        var view = this;
         retrieveTeamForAdmin(app.currentTeamId(), true, true, function(team) {
             app.playerCollection.populateFromRestResponse(team.players);
         }, function() {
             alert("bad thang happened");
         })
-    },
+    }
 });
 
 app.AppView = Backbone.View.extend({
