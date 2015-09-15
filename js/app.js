@@ -411,7 +411,8 @@ app.GamesView = app.AbstractDetailContentsView.extend({
     },
     exportTapped: function(e) {
         var game = this.gameForButton(e.currentTarget, 'ulti-game-list-button-export');
-        alert('export tapped for game ' + game.get('gameId'));
+        var downloadUrl = urlForGameExportFileDownload(app.currentTeamId(), game.get('gameId'));
+        location.href = downloadUrl;
     },
     versionsTapped: function(e) {
         var game = this.gameForButton(e.currentTarget, 'ulti-game-list-button-versions');
