@@ -97,7 +97,10 @@ app.GameCollection = Backbone.Collection.extend({
             games.push(new app.Game(restDataArray[i]));
         }
         this.reset(games);
-    }
+    },
+    gameWithGameId: function(gameId) {
+        return this.findWhere({gameId : gameId});
+    },
 });
 
 app.PlayerCollection = Backbone.Collection.extend({
@@ -390,25 +393,60 @@ app.GamesView = app.AbstractDetailContentsView.extend({
         "click [ulti-game-list-button-undelete]": "undeleteTapped"
     },
     template: _.template($("#ulti-team-games-template").html()),
-    render: function () {
+    render: function() {
         var games = _.map(app.gameCollection.models, function(game) {
             return game.toJSON();
         });
         this.$el.html(this.template({games: games, teamId: app.currentTeamId()}));
     },
-    exportTapped: function() {
-        alert('export tapped');
+    refresh: function() {
+        var view = this;
+        retrieveGamesForAdmin(app.currentTeamId(), function(games) {
+            app.gameCollection.populateFromRestResponse(games);
+            view.render();
+        }, function() {
+            alert("bad thang happened");
+        })
     },
-    versionsTapped: function() {
-        alert('versions tapped');
+    exportTapped: function(e) {
+        var game = this.gameForButton(e.currentTarget, 'ulti-game-list-button-export');
+        alert('export tapped for game ' + game.get('gameId'));
     },
-    deleteTapped: function() {
-        alert('delete tapped');
+    versionsTapped: function(e) {
+        var game = this.gameForButton(e.currentTarget, 'ulti-game-list-button-versions');
+        alert('versions tapped for game ' + game.get('gameId'));
     },
-    undeleteTapped: function() {
-        alert('undelete tapped');
+    deleteTapped: function (e) {
+        var game = this.gameForButton(e.currentTarget, 'ulti-game-list-button-delete');
+        var view = this;
+        bootbox.confirm({
+            size: 'small',
+            title: 'Confirm Delete',
+            message: 'Do you really want to delete game vs. ' + game.get('opponentName') + '?<br/><br/>NOTE: you can un-delete the game later',
+            callback: function(result){
+                if (result == true) {
+                    deleteGame(app.currentTeamId(), game.get('gameId'), function () {
+                        view.refresh();
+                    }, function () {
+                        alert("bad thang happened");
+                    });
+                }
+            }
+        });
+    },
+    undeleteTapped: function(e) {
+        var game = this.gameForButton(e.currentTarget, 'ulti-game-list-button-undelete');
+        var view = this;
+        undeleteGame(app.currentTeamId(), game.get('gameId'), function () {
+            view.refresh();
+        }, function () {
+            alert("bad thang happened");
+        });
+    },
+    gameForButton: function(button, ultiId) {
+        var gameId = $(button).attr(ultiId);
+        return app.gameCollection.gameWithGameId(gameId);
     }
-
 });
 
 app.PlayersView = app.AbstractDetailContentsView.extend({
