@@ -377,11 +377,12 @@ app.PasswordDialogView = app.DialogView.extend({
             view.dismiss();
         }, function() {
             alert("bad thang happened");
-        })
+        });
     }
 });
 
 app.GameImportDialogView = app.DialogView.extend({
+    importComplete: noArgsNoReturnFunction,
     template: _.template($("#ulti-game-import-dialog-content-template").html()),
     render: function () {
         var url = app.rest.baseRestUrl + '/team/' + app.currentTeamId() + '/import/game';
@@ -390,26 +391,48 @@ app.GameImportDialogView = app.DialogView.extend({
         this.updateImportButtonEnablement();
     },
     events: {
-        //"click [ulti-import-button-import]": "importTapped",
+        "click [ulti-import-button-import]": "importTapped",
         "click [ulti-import-button-cancel]": "cancelTapped",
         "change [ulti-import-select-file-input]": "fileSelected",
     },
     importTapped: function() {
-        alert('import tapped');
+        var file = this.$('[ulti-import-select-file-input]').get(0).files[0];
+        var formData = new FormData();
+        formData.append('file', file);
+        var view = this;
+        importGame(app.currentTeamId(), formData, function(data) {
+            if (data && data.status == 'error') {
+                var explanation = data.message;
+                alert("import failed: " + explanation);
+            } else {
+                if (view.importComplete) {
+                    view.importComplete();
+                }
+                view.dismiss();
+            }
+        }, function() {
+            alert("bad thang happened");
+        })
     },
     cancelTapped: function() {
         this.dismiss();
     },
     fileSelected: function(e, numFiles, fileName) {
-        var input = $(e.currentTarget);
-        var numFiles = input.get(0).files ? input.get(0).files.length : 1;
-        var fileName = input.val().replace(/\\/g, '/').replace(/.*\//, '');
-        this.$('[ulti-import-selected-file]').html(fileName);
+        this.$('[ulti-import-selected-file]').html(this.fileNameSelected());
         this.updateImportButtonEnablement();
     },
     updateImportButtonEnablement: function() {
         var isReadyForImport = !isEmpty(this.$('[ulti-import-selected-file]').html());
         this.$('[ulti-import-button-import]').prop('disabled', !isReadyForImport);
+    },
+    fileElement: function() {
+        return this.$('[ulti-import-select-file-input]');
+    },
+    fileNameSelected: function() {
+        var fileElement = this.fileElement();
+        var numFiles = fileElement.get(0).files ? fileElement.get(0).files.length : 1;
+        var fileName = fileElement.val().replace(/\\/g, '/').replace(/.*\//, '');
+        return fileName;
     }
 });
 
@@ -487,6 +510,13 @@ app.GamesView = app.AbstractDetailContentsView.extend({
     showImportDialog: function () {
         this.showModalDialog('Import Game', function() {
             var importDialog = new app.GameImportDialogView();
+            importDialog.importComplete = function() {
+                app.appContext.refreshTeams(function() {
+                    this.refresh();
+                }, function() {
+                    alert("bad thang");
+                });
+            };
             return importDialog;
         });
     }

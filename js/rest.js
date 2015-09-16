@@ -155,6 +155,12 @@ function restoreGameVersion(teamId, gameId, versionId, successFunction, errorFun
 	sendRequest({url: url, dataType: null, isPost: true, success: successFunction, error: errorFunction});
 }
 
+function importGame(teamId, gameFormData, successFunction, errorFunction) {
+	sendAnalyticsEvent("importGame");
+	var url = app.rest.baseRestUrl + '/team/' + teamId + '/import2/game';
+	sendRequest({url: url, data: gameFormData, isFileUpload: true, success: successFunction, error: errorFunction});
+}
+
 function savePassword(teamId, password, successFunction, errorFunction) {
 	sendAnalyticsEvent("savePassword");
 	var url = app.rest.baseRestUrl + '/team/' + teamId + '/password/' + (isNullOrEmpty(password) ? 'REMOVE-PASSWORD' : password); 
@@ -214,7 +220,12 @@ function sendRequest(request) {
 	if (request.dataType) {
 		options.dataType = request.dataType;
 	}
-	if (request.isPost) {
+	if (request.isFileUpload) {
+		options.processData = false;
+		options.contentType = false;
+		options.enctype = 'multipart/form-data';
+		options.type = 'POST';
+	} else if (request.isPost) {
 		options.type = 'POST';
 		options.contentType = 'application/json';
 	}
