@@ -385,9 +385,7 @@ app.GameImportDialogView = app.DialogView.extend({
     importComplete: noArgsNoReturnFunction,
     template: _.template($("#ulti-game-import-dialog-content-template").html()),
     render: function () {
-        var url = app.rest.baseRestUrl + '/team/' + app.currentTeamId() + '/import/game';
-        url = url + '?return=' + encodeURIComponent(window.location.href);
-        this.$el.html(this.template({fileUrl: url}));
+        this.$el.html(this.template());
         this.updateImportButtonEnablement();
     },
     events: {
@@ -436,6 +434,26 @@ app.GameImportDialogView = app.DialogView.extend({
     }
 });
 
+app.GameVersionsDialogView = app.DialogView.extend({
+    game: null,
+    versionReplaceComplete: noArgsNoReturnFunction,
+    template: _.template($("#ulti-game-versions-dialog-content-template").html()),
+    render: function () {
+        this.$el.html(this.template());
+    },
+    events: {
+        "click [ulti-versions-button-replace]": "replaceTapped",
+        "click [ulti-versions-button-cancel]": "cancelTapped"
+    },
+    replaceTapped: function() {
+
+    },
+    cancelTapped: function() {
+        this.dismiss();
+    }
+});
+
+
 app.GamesView = app.AbstractDetailContentsView.extend({
     el: '[ulti-team-detail-games]',
     initialize: function() {
@@ -471,7 +489,7 @@ app.GamesView = app.AbstractDetailContentsView.extend({
     },
     versionsTapped: function(e) {
         var game = this.gameForButton(e.currentTarget, 'ulti-game-list-button-versions');
-        alert('versions tapped for game ' + game.get('gameId'));
+        this.showGameVersionsDialog(game);
     },
     deleteTapped: function (e) {
         var game = this.gameForButton(e.currentTarget, 'ulti-game-list-button-delete');
@@ -518,6 +536,20 @@ app.GamesView = app.AbstractDetailContentsView.extend({
                 });
             };
             return importDialog;
+        });
+    },
+    showGameVersionsDialog: function (game) {
+        this.showModalDialog('Game Versions', function() {
+            var dialog = new app.GameVersionsDialogView();
+            dialog.game = game;
+            dialog.replaceComplete = function() {
+                app.appContext.refreshTeams(function() {
+                    this.refresh();
+                }, function() {
+                    alert("bad thang");
+                });
+            };
+            return dialog;
         });
     }
 });
