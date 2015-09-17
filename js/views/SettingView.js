@@ -1,5 +1,5 @@
-define(['jquery', 'underscore', 'backbone', 'collections/teams', 'views/AbstractDetailContentsView', 'views/PasswordDialogView', 'appContext'],
-    function($, _, Backbone, teamCollection, AbstractDetailContentsView, PasswordDialogView, appContext) {
+define(['jquery', 'underscore', 'backbone', 'collections/teams', 'views/AbstractDetailContentsView', 'views/PasswordDialogView', 'appContext', 'bootbox'],
+    function($, _, Backbone, teamCollection, AbstractDetailContentsView, PasswordDialogView, appContext, bootbox) {
 
         var SettingView = AbstractDetailContentsView.extend({
             el: '[ulti-team-detail-settings]',
@@ -45,7 +45,7 @@ define(['jquery', 'underscore', 'backbone', 'collections/teams', 'views/Abstract
             },
             undeleteTapped: function () {
                 undeleteTeam(appContext.currentTeamId(), function() {
-                    appContext.appContext.refreshTeams(function() {
+                    appContext.refreshTeams(function() {
                         //this.render();
                     }, function() {
                         alert("bad thang");

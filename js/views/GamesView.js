@@ -1,5 +1,5 @@
-define(['jquery', 'underscore', 'backbone', 'collections/games', 'views/AbstractDetailContentsView', 'views/GameImportDialogView', 'views/GameVersionsDialogView', 'appContext'],
-    function($, _, Backbone, gameCollection, AbstractDetailContentsView, GameImportDialogView, GameVersionsDialogView, appContext) {
+define(['jquery', 'underscore', 'backbone', 'collections/games', 'views/AbstractDetailContentsView', 'views/GameImportDialogView', 'views/GameVersionsDialogView', 'appContext', 'bootbox'],
+    function($, _, Backbone, gameCollection, AbstractDetailContentsView, GameImportDialogView, GameVersionsDialogView, appContext, bootbox) {
 
     var GamesView = AbstractDetailContentsView.extend({
         el: '[ulti-team-detail-games]',

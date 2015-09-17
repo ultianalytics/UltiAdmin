@@ -1,12 +1,17 @@
 require.config({
+    shim : {
+        "bootstrap" : { "deps" :['jquery'] }
+    },
     paths: {
         "jquery": "lib/jquery-1.11.3",
         "underscore": "lib/underscore",
         "backbone": "lib/backbone",
         "bootstrap": "lib/bootstrap/bootstrap",
-        "bootbox": "lib/bootbox",
-        "rest": "rest",
+        "bootbox": "lib/bootbox"
     }
+});
+
+require(['bootstrap', 'rest'], function() {
 });
 
 require(['app'], function(App) {

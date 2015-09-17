@@ -7,6 +7,9 @@ define(['jquery','underscore','backbone', 'collections/teams'], function($, _, B
             currentTeam: null,
             currentTab: 'settings'
         },
+        initialize: function() {
+
+        },
         selectDefaultTeam: function(teamModels) {
             var teams = teamModels == null ? teamCollection.models : teamModels;
             var defaultTeam = teams.length == 0 ? null : teams[0];
@@ -26,13 +29,14 @@ define(['jquery','underscore','backbone', 'collections/teams'], function($, _, B
             teamCollection.reset();
             var selectedTeam = this.currentTeam();
             var selectedTab = this.currentTab();
+            var context = this;
             teamCollection.ensureFetched(function() {
                 if (!teamCollection.isEmpty()) {
                     if (selectedTeam) {
                         var refreshedSelectedTeam = teamCollection.teamWithCloudId(selectedTeam.get('cloudId'));
-                        this.set('currentTeam', refreshedSelectedTeam);
+                        context.set('currentTeam', refreshedSelectedTeam);
                         if (selectedTab) {
-                            this.set('currentTab', selectedTab);
+                            context.set('currentTab', selectedTab);
                         }
                     }
                 }
@@ -46,7 +50,7 @@ define(['jquery','underscore','backbone', 'collections/teams'], function($, _, B
             return currTeam == null ? null : currTeam.get('cloudId');
         },
         currentTab: function() {
-            this.get('currentTab');
+            return this.get('currentTab');
         }
     });
 
