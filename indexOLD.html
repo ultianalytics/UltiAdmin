@@ -47,49 +47,49 @@
             </div>
             <br>
             <div ulti-team-basic-info/>
-                <div>Team ID: <b><span  ulti-team-cloudid/></b></div>
-                <div><a ulti-stats-site-link>Team Website</a></div>
-            </div>
-        </div>
-        <br/>
-
-        <div ulti-team-detail>
-            <ul class="nav nav-pills" ulti-tab>
-                <li role="presentation" class="active" ><a href="#" ulti-tab-choice="settings">Settings</a></li>
-                <li role="presentation"><a href="#" ulti-tab-choice="games">Games</a></li>
-                <li role="presentation"><a href="#"  ulti-tab-choice="players">Players</a></li>
-            </ul>
-            <div ulti-team-detail-content style="margin-top: 30px">
-                 <!-- Modal -->
-                <div class="modal fade" id="ulti-dialog" role="dialog">
-                    <div class="modal-dialog" ulti-dialog-content>
-                        <!-- Modal content (replaced before displayed) -->
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4 class="modal-title">Modal Header</h4>
-                            </div>
-                            <div class="modal-body">
-                                <p>Some text in the modal.</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            </div>
-                        </div>
-                        <!-- End Modal content -->
-                    </div>
-                </div>
-                <div ulti-team-detail-settings class="hidden"></div>
-                <div ulti-team-detail-games class="hidden"></div>
-                <div ulti-team-detail-players class="hidden"></div>
-            </div>
-
-
-
+            <div>Team ID: <b><span  ulti-team-cloudid/></b></div>
+            <div><a ulti-stats-site-link>Team Website</a></div>
         </div>
     </div>
+    <br/>
 
-    <div class="spinner"><i class="fa fa-spinner fa-spin"></i></div>
+    <div ulti-team-detail>
+        <ul class="nav nav-pills" ulti-tab>
+            <li role="presentation" class="active" ><a href="#" ulti-tab-choice="settings">Settings</a></li>
+            <li role="presentation"><a href="#" ulti-tab-choice="games">Games</a></li>
+            <li role="presentation"><a href="#"  ulti-tab-choice="players">Players</a></li>
+        </ul>
+        <div ulti-team-detail-content style="margin-top: 30px">
+            <!-- Modal -->
+            <div class="modal fade" id="ulti-dialog" role="dialog">
+                <div class="modal-dialog" ulti-dialog-content>
+                    <!-- Modal content (replaced before displayed) -->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Modal Header</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>Some text in the modal.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                    <!-- End Modal content -->
+                </div>
+            </div>
+            <div ulti-team-detail-settings class="hidden"></div>
+            <div ulti-team-detail-games class="hidden"></div>
+            <div ulti-team-detail-players class="hidden"></div>
+        </div>
+
+
+
+    </div>
+</div>
+
+<div class="spinner"><i class="fa fa-spinner fa-spin"></i></div>
 
 </div>
 
@@ -101,7 +101,7 @@
             <span class="caret"></span></button>
         <ul class="dropdown-menu">
             <% _.each(teams, function(team) { %>
-                <li class= "<%= team.get('deleted') ? 'strike-through' : ''%>"><a href="#" ulti-team-choice="<%= team.get('cloudId') %>"><%= _.escape(team.get('nameWithSeason')) %></a></li>
+            <li class= "<%= team.get('deleted') ? 'strike-through' : ''%>"><a href="#" ulti-team-choice="<%= team.get('cloudId') %>"><%= _.escape(team.get('nameWithSeason')) %></a></li>
             <% }); %>
         </ul>
     </div>
@@ -128,23 +128,23 @@
 
 <script id="ulti-team-games-template" type="text/template">
     <div class="container">
-       <% _.each(games, function(game) { %>
-            <div class="row" style="margin-bottom: 20px">
-                <div class="col-md-4 <%= game.deleted ? 'strike-through' : '' %>"><span><%= game.date + ' ' + game.time %></span>
-                    <% if ( game.deleted ) { %>
-                        <span> vs. <%= game.opponentName %></span>
-                    <% } else { %>
-                        <span> vs. <a href="http://www.ultianalytics.com/app/#/<%= teamId %>/games?<%= game.gameId %>"><%= game.opponentName %></a></span>
-                    <% } %>
-                    <span> (<%= game.ours %>-<%= game.theirs %> <%= game.ours > game.theirs ? 'us' : 'them' %>)</span></div>
-                <div class="col-md-4">
-                    <button ulti-game-list-button-undelete="<%= game.gameId %>" class="borderless-button <%= game.deleted ? '' : 'hidden' %>" title="un-delete game"><i class="fa fa-undo" style="font-size: large"></i></button>
-                    <button ulti-game-list-button-export="<%= game.gameId %>" class="borderless-button <%= game.deleted ? 'hidden' : '' %> title="export game to your computer">Export</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <button ulti-game-list-button-versions="<%= game.gameId %>" class="borderless-button <%= game.deleted ? 'hidden' : '' %> title="display versions of this game">Versions</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <button ulti-game-list-button-delete="<%= game.gameId %>" class="borderless-button <%= game.deleted ? 'hidden' : '' %>" title="delete game"><i class="fa fa-trash-o" style="font-size: large"></i></button>
-                </div>
+        <% _.each(games, function(game) { %>
+        <div class="row" style="margin-bottom: 20px">
+            <div class="col-md-4 <%= game.deleted ? 'strike-through' : '' %>"><span><%= game.date + ' ' + game.time %></span>
+                <% if ( game.deleted ) { %>
+                <span> vs. <%= game.opponentName %></span>
+                <% } else { %>
+                <span> vs. <a href="http://www.ultianalytics.com/app/#/<%= teamId %>/games?<%= game.gameId %>"><%= game.opponentName %></a></span>
+                <% } %>
+                <span> (<%= game.ours %>-<%= game.theirs %> <%= game.ours > game.theirs ? 'us' : 'them' %>)</span></div>
+            <div class="col-md-4">
+                <button ulti-game-list-button-undelete="<%= game.gameId %>" class="borderless-button <%= game.deleted ? '' : 'hidden' %>" title="un-delete game"><i class="fa fa-undo" style="font-size: large"></i></button>
+                <button ulti-game-list-button-export="<%= game.gameId %>" class="borderless-button <%= game.deleted ? 'hidden' : '' %> title="export game to your computer">Export</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <button ulti-game-list-button-versions="<%= game.gameId %>" class="borderless-button <%= game.deleted ? 'hidden' : '' %> title="display versions of this game">Versions</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <button ulti-game-list-button-delete="<%= game.gameId %>" class="borderless-button <%= game.deleted ? 'hidden' : '' %>" title="delete game"><i class="fa fa-trash-o" style="font-size: large"></i></button>
             </div>
-       <% }); %>
+        </div>
+        <% }); %>
     </div>
     <div style="margin-top: 20px">
         <button class="btn btn-primary" style="margin-top: 30px" ulti-game-import-button>Import Game</button>
@@ -154,16 +154,16 @@
 <script id="ulti-team-players-template" type="text/template">
     <div class="container">
         <% _.each(players, function(player) { %>
-            <div class="row" style="margin-bottom: 20px">
-                <div class="col-md-2">
-                    <%= (isEmpty(player.number) ? '' : '#' + player.number + ' ') + player.name + (!isEmpty(player.lastName) || !isEmpty(player.firstName) ? ' (' + player.firstName + ' ' + player.lastName + ')' : '')%>
-                </div>
-                <div class="col-md-5">
-                    <button ulti-player-list-button-editname ulti-player-nickname="<%= player.name %>" class="borderless-button" title="edit player's nick name or display name">Edit Name</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <button ulti-player-list-button-merge ulti-player-nickname="<%= player.name %>" class="borderless-button" title="merge player with other player">Merge</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <button ulti-player-list-button-delete ulti-player-nickname="<%= player.name %>" class="borderless-button" title="delete player"><i class="fa fa-trash-o" style="font-size: large"></i></button>
-                </div>
+        <div class="row" style="margin-bottom: 20px">
+            <div class="col-md-2">
+                <%= (isEmpty(player.number) ? '' : '#' + player.number + ' ') + player.name + (!isEmpty(player.lastName) || !isEmpty(player.firstName) ? ' (' + player.firstName + ' ' + player.lastName + ')' : '')%>
             </div>
+            <div class="col-md-5">
+                <button ulti-player-list-button-editname ulti-player-nickname="<%= player.name %>" class="borderless-button" title="edit player's nick name or display name">Edit Name</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <button ulti-player-list-button-merge ulti-player-nickname="<%= player.name %>" class="borderless-button" title="merge player with other player">Merge</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <button ulti-player-list-button-delete ulti-player-nickname="<%= player.name %>" class="borderless-button" title="delete player"><i class="fa fa-trash-o" style="font-size: large"></i></button>
+            </div>
+        </div>
         <% }); %>
     </div>
 </script>

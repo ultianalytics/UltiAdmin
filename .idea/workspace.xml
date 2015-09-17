@@ -2,45 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c24b35e8-0fab-4a05-b184-7ae94feb66e6" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/views/AbstractDetailContentsView.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/views/AppView.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/views/DialogView.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/views/GameImportDialogView.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/views/GameVersionsDialogView.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/views/GamesView.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/views/PasswordDialogView.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/views/PlayersView.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/views/SettingView.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/views/TabView.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/views/TeamDetailView.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/views/TeamSelectorView.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/views/TeamStatsBasicInfoView.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/appContext.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/appOLD.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/boilerplate.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/models/game.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/collections/games.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/indexOLD.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/main.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/models/player.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/collections/players.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/lib/require.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/router.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/models/team.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/collections/teams.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/utility.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js-lib/backbone-min.js" afterPath="$PROJECT_DIR$/js/lib/backbone-min.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js-lib/backbone.js" afterPath="$PROJECT_DIR$/js/lib/backbone.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js-lib/bootbox.js" afterPath="$PROJECT_DIR$/js/lib/bootbox.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js-lib/bootbox.min.js" afterPath="$PROJECT_DIR$/js/lib/bootbox.min.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js-lib/bootstrap/bootstrap.js" afterPath="$PROJECT_DIR$/js/lib/bootstrap/bootstrap.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js-lib/bootstrap/bootstrap.min.js" afterPath="$PROJECT_DIR$/js/lib/bootstrap/bootstrap.min.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js-lib/bootstrap/ie10-viewport-bug-workaround.js" afterPath="$PROJECT_DIR$/js/lib/bootstrap/ie10-viewport-bug-workaround.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js-lib/bootstrap/npm.js" afterPath="$PROJECT_DIR$/js/lib/bootstrap/npm.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js-lib/jquery-1.11.3.js" afterPath="$PROJECT_DIR$/js/lib/jquery-1.11.3.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js-lib/jquery-1.11.3.min.js" afterPath="$PROJECT_DIR$/js/lib/jquery-1.11.3.min.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js-lib/underscore-min.js" afterPath="$PROJECT_DIR$/js/lib/underscore-min.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js-lib/underscore.js" afterPath="$PROJECT_DIR$/js/lib/underscore.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/app.js" afterPath="$PROJECT_DIR$/js/app.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/appOLD.js" afterPath="$PROJECT_DIR$/js/appOLD.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/indexOLD.html" afterPath="$PROJECT_DIR$/indexOLD.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="UltiAdmin.iws" />
@@ -87,8 +51,8 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-17.291666">
-              <caret line="220" column="0" selection-start-line="220" selection-start-column="0" selection-end-line="220" selection-end-column="0" />
+            <state vertical-scroll-proportion="-21.041666">
+              <caret line="226" column="42" selection-start-line="0" selection-start-column="0" selection-end-line="235" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -97,8 +61,8 @@
       <file leaf-file-name="indexOLD.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/indexOLD.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.8512748">
-              <caret line="234" column="7" selection-start-line="234" selection-start-column="7" selection-end-line="234" selection-end-column="7" />
+            <state vertical-scroll-proportion="0.66005665">
+              <caret line="225" column="48" selection-start-line="225" selection-start-column="48" selection-end-line="225" selection-end-column="48" />
               <folding />
             </state>
           </provider>
@@ -108,10 +72,8 @@
         <entry file="file://$PROJECT_DIR$/js/app.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="29" column="5" selection-start-line="29" selection-start-column="5" selection-end-line="29" selection-end-column="5" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-              </folding>
+              <caret line="6" column="3" selection-start-line="6" selection-start-column="3" selection-end-line="6" selection-end-column="3" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -182,9 +144,9 @@
         <option value="$PROJECT_DIR$/js/appContext.js" />
         <option value="$PROJECT_DIR$/js/views/AppView.js" />
         <option value="$PROJECT_DIR$/js/views/TeamSelectorView.js" />
-        <option value="$PROJECT_DIR$/js/app.js" />
-        <option value="$PROJECT_DIR$/js/appOLD.js" />
         <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/js/appOLD.js" />
+        <option value="$PROJECT_DIR$/js/app.js" />
         <option value="$PROJECT_DIR$/indexOLD.html" />
       </list>
     </option>
@@ -860,28 +822,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
+    <entry file="file://$PROJECT_DIR$/js/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-17.291666">
-          <caret line="220" column="0" selection-start-line="220" selection-start-column="0" selection-end-line="220" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="6" column="3" selection-start-line="6" selection-start-column="3" selection-end-line="6" selection-end-column="3" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/app.js">
+    <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="29" column="5" selection-start-line="29" selection-start-column="5" selection-end-line="29" selection-end-column="5" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="-21.041666">
+          <caret line="226" column="42" selection-start-line="0" selection-start-column="0" selection-end-line="235" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/indexOLD.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8512748">
-          <caret line="234" column="7" selection-start-line="234" selection-start-column="7" selection-end-line="234" selection-end-column="7" />
+        <state vertical-scroll-proportion="0.66005665">
+          <caret line="225" column="48" selection-start-line="225" selection-start-column="48" selection-end-line="225" selection-end-column="48" />
           <folding />
         </state>
       </provider>
