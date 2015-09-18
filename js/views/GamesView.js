@@ -1,5 +1,5 @@
-define(['jquery', 'underscore', 'backbone', 'collections/games', 'views/AbstractDetailContentsView', 'views/GameImportDialogView', 'views/GameVersionsDialogView', 'appContext', 'bootbox'],
-    function($, _, Backbone, gameCollection, AbstractDetailContentsView, GameImportDialogView, GameVersionsDialogView, appContext, bootbox) {
+define(['jquery', 'underscore', 'backbone', 'collections/games', 'collections/gameVersions', 'views/AbstractDetailContentsView', 'views/GameImportDialogView', 'views/GameVersionsDialogView', 'appContext', 'bootbox'],
+    function($, _, Backbone, gameCollection, gameVersionsCollection, AbstractDetailContentsView, GameImportDialogView, GameVersionsDialogView, appContext, bootbox) {
 
     var GamesView = AbstractDetailContentsView.extend({
         el: '[ulti-team-detail-games]',
@@ -36,7 +36,20 @@ define(['jquery', 'underscore', 'backbone', 'collections/games', 'views/Abstract
         },
         versionsTapped: function(e) {
             var game = this.gameForButton(e.currentTarget, 'ulti-game-list-button-versions');
-            this.showGameVersionsDialog(game);
+            var view = this;
+            gameVersionsCollection.refreshForGame(game, function() {
+                if (gameVersionsCollection.hasMultipleVersions()) {
+                    view.showGameVersionsDialog(game);
+                } else {
+                    bootbox.alert({
+                        size: 'small',
+                        title: 'No Other Versions',
+                        message: "This game does not have previous versions."
+                    });
+                }
+            }, function() {
+                alert("bad thang happened");
+            });
         },
         deleteTapped: function (e) {
             var game = this.gameForButton(e.currentTarget, 'ulti-game-list-button-delete');
@@ -98,6 +111,9 @@ define(['jquery', 'underscore', 'backbone', 'collections/games', 'views/Abstract
                 };
                 return dialog;
             });
+        },
+        showNoGameVersionsWarning: function (game) {
+
         }
     });
 

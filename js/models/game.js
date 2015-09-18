@@ -11,8 +11,7 @@ define(['jquery', 'underscore','backbone'], function($, _, Backbone) {
             "theirs":13,
             "previousVersionAvailable":false,
             "deleted":false
-        }
-    });
+        }    });
 
     return Game;
 

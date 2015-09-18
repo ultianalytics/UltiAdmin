@@ -212,13 +212,26 @@
         <br>
         <div>NOTE: You will not lose the current version of this game if you replace it.  To undo your action simply replace the version with the original you replaced.</div>
         <br>
+        <div>Current Version: <br>
+            <span><b><%= currentGameVersion == null? '?' : currentGameVersion.fullDescription() %></b></span>
+        </div>
+        <br>
+        <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><%= nonCurrentGameVersions[0].fullDescription() %>&nbsp;&nbsp;&nbsp;
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <% _.each(nonCurrentGameVersions, function(gameVersion) { %>
+                <li><a href="#" ulti-team-choice="<%= gameVersion.get('keyIdentifier') %>"><%= gameVersion.fullDescription() %></a></li>
+                <% }); %>
+            </ul>
+        </div>
     </div>
     <div class="modal-footer" style="text-align: center">
         <button type="button" class="btn btn-primary" ulti-versions-button-replace>Replace</button>
         <button type="button" class="btn btn-primary" ulti-versions-button-cancel>Cancel</button>
     </div>
 </script>
-
 
 <!-- ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
