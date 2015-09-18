@@ -15,7 +15,7 @@ define(['jquery', 'underscore', 'backbone', 'collections/games', 'collections/ga
         },
         template: _.template($("#ulti-team-games-template").html()),
         render: function() {
-            var games = _.map(gameCollection.models, function(game) {
+            var games = _.map(gameCollection.sortedGames(), function(game) {
                 return game.toJSON();
             });
             this.$el.html(this.template({games: games, teamId: appContext.currentTeamId()}));

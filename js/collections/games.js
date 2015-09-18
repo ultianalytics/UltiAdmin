@@ -14,6 +14,14 @@ define(['jquery', 'underscore','backbone', 'models/game'], function($, _, Backbo
         gameWithGameId: function(gameId) {
             return this.findWhere({gameId : gameId});
         },
+        sortedGames: function() {
+            var sortedGames = this.models.sort(function (a, b) {
+                var first = a.get('msSinceEpoch') ? a.get('msSinceEpoch') : 0;
+                var second = b.get('msSinceEpoch') ? b.get('msSinceEpoch') : 0;
+                return second - first;
+            });
+            return sortedGames;
+        }
     });
 
     return new GameCollection();

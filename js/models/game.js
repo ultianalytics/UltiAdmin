@@ -10,6 +10,7 @@ define(['jquery', 'underscore','backbone'], function($, _, Backbone) {
             "ours":18,
             "theirs":13,
             "previousVersionAvailable":false,
+            "msSinceEpoch": 0,
             "deleted":false
         }    });
 
