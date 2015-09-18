@@ -1,5 +1,5 @@
-define(['jquery', 'underscore', 'backbone', 'appContext', 'collections/teams', 'collections/games', 'collections/players', 'views/AppView'],
-    function($, _, Backbone, appContext, teamCollection, gameCollection, playerCollection, AppView) {
+define(['jquery', 'underscore', 'backbone', 'appContext', 'collections/teams', 'collections/games', 'collections/players', 'views/AppView', 'auth'],
+    function($, _, Backbone, appContext, teamCollection, gameCollection, playerCollection, AppView, authenticator) {
 
     // NOTE: this returns an instance, not the constructor
 
@@ -14,14 +14,16 @@ define(['jquery', 'underscore', 'backbone', 'appContext', 'collections/teams', '
         },
         defaultRoute: function(path) {
             router = this;
-            teamCollection.ensureFetched(function() {
-                if (!teamCollection.isEmpty()) {
-                    appContext.selectDefaultTeam();
-                    appContext.set('currentTab', 'settings');
-                }
-                router.appView.render();
-            }, function() {
-                alert("bad thang");
+            this.ensureAuthenticated(function() {
+                teamCollection.ensureFetched(function () {
+                    if (!teamCollection.isEmpty()) {
+                        appContext.selectDefaultTeam();
+                        appContext.set('currentTab', 'settings');
+                    }
+                    router.appView.render();
+                }, function () {
+                    alert("bad thang");
+                });
             });
         },
 
@@ -38,6 +40,12 @@ define(['jquery', 'underscore', 'backbone', 'appContext', 'collections/teams', '
             }, function() {
                 alert("bad thang");
             });
+        },
+        ensureAuthenticated: function(success) {
+            authenticator.verifySignon(success, this.handleSignon);
+        },
+        handleSignon: function() {
+            alert('show signon dialog now');
         }
     });
 
