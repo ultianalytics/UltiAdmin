@@ -12,7 +12,8 @@ define(['jquery', 'underscore','backbone'], function($, _, Backbone) {
             "previousVersionAvailable":false,
             "msSinceEpoch": 0,
             "deleted":false
-        }    });
+        }
+    });
 
     return Game;
 
