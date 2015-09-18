@@ -39,60 +39,62 @@
 
     <h1>Website Admin</h1>
 
-    <div ulti-teams-no-teams style="display:none">
-        <h4><br><br><b>No Data</b><br><br>This tool is for administering website data uploaded from your iOS or Android device but you don't have a team uploaded yet.<br><br>Upload from our phone or tablet and refresh this page.</h4>
-    </div>
-
-    <div ulti-teams-container>
-        <div ulti-team-header>
-            <div>
-                <div ulti-team-selector style="margin-top: 20px"/>
-            </div>
-            <br>
-            <div ulti-team-basic-info>
-                <div>Team ID: <b><span  ulti-team-cloudid/></b></div>
-                <div><a ulti-stats-site-link>Team Website</a></div>
-            </div>
+    <div ulti-app-content>
+        <div ulti-teams-no-teams style="display:none">
+            <h4><br><br><b>No Data</b><br><br>This tool is for administering website data uploaded from your iOS or Android device but you don't have a team uploaded yet.<br><br>Upload from our phone or tablet and refresh this page.</h4>
         </div>
-        <br/>
 
-        <div ulti-team-detail>
-            <ul class="nav nav-pills" ulti-tab>
-                <li role="presentation" class="active" ><a href="#" ulti-tab-choice="settings">Settings</a></li>
-                <li role="presentation"><a href="#" ulti-tab-choice="games">Games</a></li>
-                <li role="presentation"><a href="#"  ulti-tab-choice="players">Players</a></li>
-            </ul>
-            <div ulti-team-detail-content style="margin-top: 30px">
-                 <!-- Modal -->
-                <div class="modal fade" id="ulti-dialog" role="dialog">
-                    <div class="modal-dialog" ulti-dialog-content>
-                        <!-- Modal content (replaced before displayed) -->
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4 class="modal-title">Modal Header</h4>
-                            </div>
-                            <div class="modal-body">
-                                <p>Some text in the modal.</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            </div>
-                        </div>
-                        <!-- End Modal content -->
-                    </div>
+        <div ulti-teams-container>
+            <div ulti-team-header>
+                <div>
+                    <div ulti-team-selector style="margin-top: 20px"/>
                 </div>
-                <div ulti-team-detail-settings class="hidden"></div>
-                <div ulti-team-detail-games class="hidden"></div>
-                <div ulti-team-detail-players class="hidden"></div>
+                <br>
+                <div ulti-team-basic-info>
+                    <div>Team ID: <b><span  ulti-team-cloudid/></b></div>
+                    <div><a ulti-stats-site-link>Team Website</a></div>
+                </div>
             </div>
+            <br/>
+
+            <div ulti-team-detail>
+                <ul class="nav nav-pills" ulti-tab>
+                    <li role="presentation" class="active" ><a href="#" ulti-tab-choice="settings">Settings</a></li>
+                    <li role="presentation"><a href="#" ulti-tab-choice="games">Games</a></li>
+                    <li role="presentation"><a href="#"  ulti-tab-choice="players">Players</a></li>
+                </ul>
+                <div ulti-team-detail-content style="margin-top: 30px">
+                     <!-- Modal -->
+                    <div class="modal fade" id="ulti-dialog" role="dialog">
+                        <div class="modal-dialog" ulti-dialog-content>
+                            <!-- Modal content (replaced before displayed) -->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Modal Header</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Some text in the modal.</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                            <!-- End Modal content -->
+                        </div>
+                    </div>
+                    <div ulti-team-detail-settings class="hidden"></div>
+                    <div ulti-team-detail-games class="hidden"></div>
+                    <div ulti-team-detail-players class="hidden"></div>
+                </div>
 
 
 
+            </div>
         </div>
-    </div>
 
-    <div class="spinner"><i class="fa fa-spinner fa-spin"></i></div>
+        <div class="spinner"><i class="fa fa-spinner fa-spin"></i></div>
+    </div>
 
 </div>
 
