@@ -4,6 +4,7 @@ define(['jquery','underscore','backbone', 'collections/teams'], function($, _, B
 
     var AppContext = Backbone.Model.extend({
         defaults: {
+            currentUser: null,
             currentTeam: null,
             currentTab: 'settings'
         },
@@ -41,6 +42,12 @@ define(['jquery','underscore','backbone', 'collections/teams'], function($, _, B
                     }
                 }
             }, failure);
+        },
+        currentUser: function() {
+            return this.get('currentUser');
+        },
+        currentUserEmail: function() {
+            return this.hasCurrentUser() ? this.currentUser().get('email') : "";
         },
         currentTeam: function() {
             return this.get('currentTeam');
