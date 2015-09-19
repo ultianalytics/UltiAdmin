@@ -23,9 +23,7 @@ define(['jquery', 'underscore', 'backbone', 'utility', 'views/DialogView', 'appC
                     var explanation = data.message;
                     alert("import failed: " + explanation);
                 } else {
-                    if (view.importComplete) {
-                        view.importComplete();
-                    }
+                    view.importComplete();
                     view.dismiss();
                 }
             }, function() {

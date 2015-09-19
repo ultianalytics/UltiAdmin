@@ -21,6 +21,9 @@ define(['jquery', 'underscore','backbone', 'models/gameVersion', 'appContext'], 
         hasMultipleVersions: function() {
             return this.nonCurrentVersions().length > 0;
         },
+        gameVersionWithKey: function(versionKey) {  // key is an int
+            return this.findWhere({keyIdentifier: versionKey});
+        },
         refreshForGame: function(game, success, failure) {
             this.game = game;
             var collection = this;

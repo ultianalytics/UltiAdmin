@@ -217,12 +217,12 @@
         </div>
         <br>
         <div class="dropdown">
-            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><%= nonCurrentGameVersions[0].fullDescription() %>&nbsp;&nbsp;&nbsp;
+            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><%= selectedGameVersion.fullDescription() %>&nbsp;&nbsp;&nbsp;
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu">
                 <% _.each(nonCurrentGameVersions, function(gameVersion) { %>
-                <li><a href="#" ulti-team-choice="<%= gameVersion.get('keyIdentifier') %>"><%= gameVersion.fullDescription() %></a></li>
+                <li><a href="#" ulti-game-version-choice="<%= gameVersion.get('keyIdentifier') %>"><%= gameVersion.fullDescription() %></a></li>
                 <% }); %>
             </ul>
         </div>

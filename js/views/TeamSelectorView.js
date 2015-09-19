@@ -17,9 +17,6 @@ define(['jquery', 'underscore', 'backbone', 'collections/teams', 'appContext'],
             },
             render: function() {
                 this.$el.html(this.template({teams : this.teams.models, selectedTeam : appContext.currentTeam()}));
-                var x1 = $("[ulti-team-choice]").get(0);
-                var x2 = this.$("[ulti-team-choice]").get(0);
-                //alert(x);
                 this.$("[ulti-team-choice]").click(function(e) {
                     e.preventDefault();
                     var selectedCloudId = e.currentTarget.attributes['ulti-team-choice'].value;
