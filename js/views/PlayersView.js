@@ -34,10 +34,9 @@ define(['jquery', 'underscore', 'backbone', 'collections/players', 'views/Abstra
             var player = this.playerForButton(e.currentTarget);
             this.showMergeDialog(player);
         },
-        deleteTapped: function() {
-            alert('delete tapped');
-            var router = require("router");
-            router.navigate("", true);
+        deleteTapped: function(e) {
+            var player = this.playerForButton(e.currentTarget);
+            this.showDeleteDialog(player);
         },
         playerForButton: function(button) {
             var playerName = $(button).attr('ulti-player-nickname');
@@ -46,7 +45,17 @@ define(['jquery', 'underscore', 'backbone', 'collections/players', 'views/Abstra
         showMergeDialog: function (player) {
             view = this;
             this.showModalDialog('Merge Player', function() {
-                var dialog = new PlayerMergeOrDeleteDialogView({player: player});
+                var dialog = new PlayerMergeOrDeleteDialogView({player: player, isDeleteMode: false});
+                dialog.actionComplete = function() {
+                    view.refresh();
+                };
+                return dialog;
+            });
+        },
+        showDeleteDialog: function (player) {
+            view = this;
+            this.showModalDialog('Delete Player', function() {
+                var dialog = new PlayerMergeOrDeleteDialogView({player: player, isDeleteMode: true});
                 dialog.actionComplete = function() {
                     view.refresh();
                 };

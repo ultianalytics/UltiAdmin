@@ -4,12 +4,10 @@ define(['jquery', 'underscore', 'backbone', 'utility', 'views/DialogView', 'appC
         actionComplete:utility.noArgsNoReturnFunction,
         selectedPlayer: null,
         otherPlayers: null,
-        player: function() {
-            return self.get('player');
-        },
+        isDeleteMode: false,
         initialize: function(options) {
             self = this;
-            _.extend(this, _.pick(options, 'player'));  // copies constructor attributes to this
+            _.extend(this, _.pick(options, 'player', 'isDeleteMode'));  // copies constructor attributes to this
             self.otherPlayers = _.filter(playerCollection.models, function(otherPlayer) {
                 return otherPlayer.get('name') != self.player.get('name')
             });
@@ -17,7 +15,12 @@ define(['jquery', 'underscore', 'backbone', 'utility', 'views/DialogView', 'appC
         },
         template: _.template($("#ulti-players-merge-delete-dialog-content-template").html()),
         render: function () {
-            self.$el.html(this.template({otherPlayers: self.otherPlayers, selectedPlayer: self.selectedPlayer, player: self.player}));
+            self.$el.html(this.template({otherPlayers: self.otherPlayers, selectedPlayer: self.selectedPlayer, player: self.player, actionName: self.isDeleteMode ? 'Delete' : 'Merge'}));
+            if (self.isDeleteMode) {
+                self.$('[ulti-players-merge-dialog-description]').addClass('hidden');
+            } else {
+                self.$('[ulti-players-delete-dialog-description]').addClass('hidden');
+            }
             self.$("[ulti-player-choice]").click(function(e) {
                 e.preventDefault();
                 var selectedPlayerName = e.currentTarget.attributes['ulti-player-choice'].value;
@@ -34,7 +37,7 @@ define(['jquery', 'underscore', 'backbone', 'utility', 'views/DialogView', 'appC
                 self.dismiss();
                 bootbox.alert({
                     size: 'small',
-                    title: 'Merge Complete',
+                    title: self.isDeleteMode ? 'Delete Complete' : 'Merge Complete',
                     message: 'Player <b>' + self.player.get('name') + '</b> deleted.  Associated data moved to player <b>' + self.selectedPlayer.get('name') +
                         '</b>. If you still have games on your mobile device with player <b>' + self.player.get('name') + '</b> you should now download those games to your device (otherwise <b>' +
                     self.player.get('name') + '</b> will re-appear when you next upload those games).'
