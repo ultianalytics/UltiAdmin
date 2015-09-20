@@ -8,9 +8,7 @@ define(['jquery', 'underscore', 'backbone', 'utility', 'views/DialogView', 'appC
         initialize: function(options) {
             self = this;
             _.extend(this, _.pick(options, 'player', 'isDeleteMode'));  // copies constructor attributes to this
-            self.otherPlayers = _.filter(playerCollection.models, function(otherPlayer) {
-                return otherPlayer.get('name') != self.player.get('name')
-            });
+            self.otherPlayers = playerCollection.playersIncludingAnonymousButExcluding(self.player.get('name'));
             self.selectedPlayer = self.otherPlayers[0];
         },
         template: _.template($("#ulti-players-merge-delete-dialog-content-template").html()),

@@ -3,8 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="c24b35e8-0fab-4a05-b184-7ae94feb66e6" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/views/PlayerMergeOrDeleteDialogView.js" afterPath="$PROJECT_DIR$/js/views/PlayerMergeOrDeleteDialogView.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/views/PlayersView.js" afterPath="$PROJECT_DIR$/js/views/PlayersView.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/collections/players.js" afterPath="$PROJECT_DIR$/js/collections/players.js" />
     </list>
     <ignored path="UltiAdmin.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -25,11 +24,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="PlayerMergeOrDeleteDialogView.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="PlayerMergeOrDeleteDialogView.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/views/PlayerMergeOrDeleteDialogView.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.55130166">
-              <caret line="39" column="67" selection-start-line="39" selection-start-column="67" selection-end-line="39" selection-end-column="67" />
+            <state vertical-scroll-proportion="4.703704">
+              <caret line="10" column="112" selection-start-line="10" selection-start-column="112" selection-end-line="10" selection-end-column="112" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="players.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/js/collections/players.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.2647059">
+              <caret line="12" column="10" selection-start-line="12" selection-start-column="10" selection-end-line="12" selection-end-column="10" />
               <folding />
             </state>
           </provider>
@@ -40,6 +49,16 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="-11.25">
               <caret line="245" column="51" selection-start-line="245" selection-start-column="13" selection-end-line="245" selection-end-column="51" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="rest.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/rest.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="78" column="21" selection-start-line="78" selection-start-column="9" selection-end-line="78" selection-end-column="21" />
               <folding />
             </state>
           </provider>
@@ -95,11 +114,11 @@
         <option value="$PROJECT_DIR$/js/collections/gameVersions.js" />
         <option value="$PROJECT_DIR$/js/views/GameImportDialogView.js" />
         <option value="$PROJECT_DIR$/js/views/GameVersionsDialogView.js" />
-        <option value="$PROJECT_DIR$/js/collections/players.js" />
         <option value="$PROJECT_DIR$/js/views/GamesView.js" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/js/views/PlayersView.js" />
         <option value="$PROJECT_DIR$/js/views/PlayerMergeOrDeleteDialogView.js" />
+        <option value="$PROJECT_DIR$/js/collections/players.js" />
       </list>
     </option>
   </component>
@@ -710,14 +729,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/collections/players.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/models/player.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -734,14 +745,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/rest.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5588235">
-          <caret line="384" column="22" selection-start-line="384" selection-start-column="22" selection-end-line="384" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-11.25">
@@ -750,10 +753,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/js/rest.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="78" column="21" selection-start-line="78" selection-start-column="9" selection-end-line="78" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/views/PlayerMergeOrDeleteDialogView.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.55130166">
-          <caret line="39" column="67" selection-start-line="39" selection-start-column="67" selection-end-line="39" selection-end-column="67" />
+        <state vertical-scroll-proportion="4.703704">
+          <caret line="10" column="112" selection-start-line="10" selection-start-column="112" selection-end-line="10" selection-end-column="112" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/collections/players.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.2647059">
+          <caret line="12" column="10" selection-start-line="12" selection-start-column="10" selection-end-line="12" selection-end-column="10" />
           <folding />
         </state>
       </provider>

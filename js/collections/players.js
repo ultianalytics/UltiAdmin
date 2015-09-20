@@ -12,8 +12,21 @@ define(['jquery', 'underscore','backbone', 'models/player'], function($, _, Back
             this.reset(players);
         },
         playerWithName: function(name) {
+            if (name.toLowerCase() == 'anonymous') {
+                return this.anonymousPlayer();
+            }
             return this.findWhere({name: name});
         },
+        playersIncludingAnonymousButExcluding: function (playerNameToExclude) {
+            var players = _.filter(this.models, function(player) {
+                return (player.get('name') != playerNameToExclude) && (player.get('name').toLowerCase() != 'anonymous');
+            });
+            players.splice(0,0, this.anonymousPlayer());
+            return players;
+        },
+        anonymousPlayer: function() {
+            return new Player({name: 'Anonymous'});
+        }
     });
 
     return new PlayerCollection();
