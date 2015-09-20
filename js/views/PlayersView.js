@@ -44,10 +44,11 @@ define(['jquery', 'underscore', 'backbone', 'collections/players', 'views/Abstra
             return playerCollection.playerWithName(playerName);
         },
         showMergeDialog: function (player) {
+            view = this;
             this.showModalDialog('Merge Player', function() {
                 var dialog = new PlayerMergeOrDeleteDialogView({player: player});
                 dialog.actionComplete = function() {
-                    self.refresh();
+                    view.refresh();
                 };
                 return dialog;
             });

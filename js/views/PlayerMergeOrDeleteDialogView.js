@@ -31,6 +31,7 @@ define(['jquery', 'underscore', 'backbone', 'utility', 'views/DialogView', 'appC
         },
         actionTapped: function() {
             deletePlayer(appContext.currentTeamId(), self.player.get('name'), self.selectedPlayer.get('name'), function() {
+                self.dismiss();
                 bootbox.alert({
                     size: 'small',
                     title: 'Merge Complete',
@@ -39,7 +40,6 @@ define(['jquery', 'underscore', 'backbone', 'utility', 'views/DialogView', 'appC
                     self.player.get('name') + '</b> will re-appear when you next upload those games).'
                 });
                 self.actionComplete();
-                self.dismiss();
             }, function() {
                 alert('bad thang happened');
             });
