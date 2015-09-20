@@ -10,7 +10,10 @@ define(['jquery', 'underscore','backbone', 'models/player'], function($, _, Back
                 players.push(new Player(restDataArray[i]));
             }
             this.reset(players);
-        }
+        },
+        playerWithName: function(name) {
+            return this.findWhere({name: name});
+        },
     });
 
     return new PlayerCollection();

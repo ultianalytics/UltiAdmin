@@ -1,9 +1,10 @@
-define(['jquery', 'underscore', 'backbone', 'collections/players', 'views/AbstractDetailContentsView', 'appContext'],
-    function($, _, Backbone, playerCollection, AbstractDetailContentsView, appContext) {
+define(['jquery', 'underscore', 'backbone', 'collections/players', 'views/AbstractDetailContentsView', 'views/PlayerMergeOrDeleteDialogView', 'appContext'],
+    function($, _, Backbone, playerCollection, AbstractDetailContentsView, PlayerMergeOrDeleteDialogView, appContext) {
 
     var PlayersView = AbstractDetailContentsView.extend({
         el: '[ulti-team-detail-players]',
         initialize: function() {
+            self = this;
             playerCollection.on("reset", this.render, this);
         },
         events: {
@@ -18,16 +19,38 @@ define(['jquery', 'underscore', 'backbone', 'collections/players', 'views/Abstra
             });
             this.$el.html(this.template({players: players}));
         },
+        refresh: function() {
+            retrieveTeamForAdmin(appContext.currentTeamId(), true, true, function(team) {
+                playerCollection.populateFromRestResponse(team.players);
+                self.render();
+            }, function() {
+                alert("bad thang happened");
+            })
+        },
         editTapped: function() {
             alert('edit tapped');
         },
-        mergeTapped: function() {
-            alert('merge tapped');
+        mergeTapped: function(e) {
+            var player = this.playerForButton(e.currentTarget);
+            this.showMergeDialog(player);
         },
         deleteTapped: function() {
             alert('delete tapped');
             var router = require("router");
             router.navigate("", true);
+        },
+        playerForButton: function(button) {
+            var playerName = $(button).attr('ulti-player-nickname');
+            return playerCollection.playerWithName(playerName);
+        },
+        showMergeDialog: function (player) {
+            this.showModalDialog('Merge Player', function() {
+                var dialog = new PlayerMergeOrDeleteDialogView({player: player});
+                dialog.actionComplete = function() {
+                    self.refresh();
+                };
+                return dialog;
+            });
         }
     });
 

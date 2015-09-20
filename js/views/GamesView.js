@@ -111,9 +111,6 @@ define(['jquery', 'underscore', 'backbone', 'collections/games', 'collections/ga
                 };
                 return dialog;
             });
-        },
-        showNoGameVersionsWarning: function (game) {
-
         }
     });
 

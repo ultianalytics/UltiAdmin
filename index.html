@@ -233,6 +233,34 @@
     </div>
 </script>
 
+<script id="ulti-players-merge-delete-dialog-content-template" type="text/template">
+    <div class="modal-body">
+        <div>
+            Merge player data from player: <b><%= player.get('name') %></b>
+            <br><br>
+            You are choosing to move all of <b><%= player.get('name') %></b>'s data to another player. <b><%= player.get('name') %></b> will be deleted when complete.
+            Choose the other player to whom the data should be moved and then click Merge.
+            <br><br>
+            Select player to receive <b><%= player.get('name') %></b>'s data:
+        </div>
+        <br>
+        <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><%= selectedPlayer.get('name') %>&nbsp;&nbsp;&nbsp;
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <% _.each(otherPlayers, function(player) { %>
+                <li><a href="#" ulti-player-choice="<%= player.get('name') %>"><%= player.get('name') %></a></li>
+                <% }); %>
+            </ul>
+        </div>
+    </div>
+    <div class="modal-footer" style="text-align: center">
+        <button type="button" class="btn btn-primary" ulti-players-button-action>Merge</button>
+        <button type="button" class="btn btn-primary" ulti-players-button-cancel>Cancel</button>
+    </div>
+</script>
+
 <!-- ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="js/lib/require.js" data-main="js/main"></script>
