@@ -1,5 +1,5 @@
-define(['jquery', 'underscore', 'backbone', 'utility', 'views/DialogView', 'appContext'],
-    function($, _, Backbone, utility, DialogView, appContext) {
+define(['jquery', 'underscore', 'backbone', 'utility', 'views/DialogView', 'appContext', 'restService'],
+    function($, _, Backbone, utility, DialogView, appContext, restService) {
 
     var PasswordDialogView = DialogView.extend({
         passwordChanged: utility.noArgsNoReturnFunction,
@@ -32,7 +32,7 @@ define(['jquery', 'underscore', 'backbone', 'utility', 'views/DialogView', 'appC
         },
         updatePassword: function(password) {
             var view = this;
-            savePassword(appContext.currentTeamId(), password, function() {
+            restService.savePassword(appContext.currentTeamId(), password, function() {
                 if (view.passwordChanged) {
                     view.passwordChanged();
                 }

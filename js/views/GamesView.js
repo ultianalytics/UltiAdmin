@@ -1,5 +1,5 @@
-define(['jquery', 'underscore', 'backbone', 'collections/games', 'collections/gameVersions', 'views/AbstractDetailContentsView', 'views/GameImportDialogView', 'views/GameVersionsDialogView', 'appContext', 'bootbox'],
-    function($, _, Backbone, gameCollection, gameVersionsCollection, AbstractDetailContentsView, GameImportDialogView, GameVersionsDialogView, appContext, bootbox) {
+define(['jquery', 'underscore', 'backbone', 'collections/games', 'collections/gameVersions', 'views/AbstractDetailContentsView', 'views/GameImportDialogView', 'views/GameVersionsDialogView', 'appContext', 'bootbox', 'restService'],
+    function($, _, Backbone, gameCollection, gameVersionsCollection, AbstractDetailContentsView, GameImportDialogView, GameVersionsDialogView, appContext, bootbox, restService) {
 
     var GamesView = AbstractDetailContentsView.extend({
         el: '[ulti-team-detail-games]',
@@ -22,7 +22,7 @@ define(['jquery', 'underscore', 'backbone', 'collections/games', 'collections/ga
         },
         refresh: function() {
             var view = this;
-            retrieveGamesForAdmin(appContext.currentTeamId(), function(games) {
+            restService.retrieveGamesForAdmin(appContext.currentTeamId(), function(games) {
                 gameCollection.populateFromRestResponse(games);
                 view.render();
             }, function() {
@@ -31,7 +31,7 @@ define(['jquery', 'underscore', 'backbone', 'collections/games', 'collections/ga
         },
         exportTapped: function(e) {
             var game = this.gameForButton(e.currentTarget, 'ulti-game-list-button-export');
-            var downloadUrl = urlForGameExportFileDownload(appContext.currentTeamId(), game.get('gameId'));
+            var downloadUrl = restService.urlForGameExportFileDownload(appContext.currentTeamId(), game.get('gameId'));
             location.href = downloadUrl;
         },
         versionsTapped: function(e) {
@@ -60,7 +60,7 @@ define(['jquery', 'underscore', 'backbone', 'collections/games', 'collections/ga
                 message: 'Do you really want to delete game vs. ' + game.get('opponentName') + '?<br/><br/>NOTE: you can un-delete the game later',
                 callback: function(result){
                     if (result == true) {
-                        deleteGame(appContext.currentTeamId(), game.get('gameId'), function () {
+                        restService.deleteGame(appContext.currentTeamId(), game.get('gameId'), function () {
                             view.refresh();
                         }, function () {
                             alert("bad thang happened");
@@ -72,7 +72,7 @@ define(['jquery', 'underscore', 'backbone', 'collections/games', 'collections/ga
         undeleteTapped: function(e) {
             var game = this.gameForButton(e.currentTarget, 'ulti-game-list-button-undelete');
             var view = this;
-            undeleteGame(appContext.currentTeamId(), game.get('gameId'), function () {
+            restService.undeleteGame(appContext.currentTeamId(), game.get('gameId'), function () {
                 view.refresh();
             }, function () {
                 alert("bad thang happened");

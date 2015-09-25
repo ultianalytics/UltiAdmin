@@ -1,4 +1,5 @@
-define(['jquery', 'underscore', 'backbone', 'utility', 'views/DialogView', 'appContext', 'collections/players', 'bootbox'], function($, _, Backbone, utility, DialogView, appContext, playerCollection, bootbox ) {
+define(['jquery', 'underscore', 'backbone', 'utility', 'views/DialogView', 'appContext', 'collections/players', 'bootbox', 'restService'],
+    function($, _, Backbone, utility, DialogView, appContext, playerCollection, bootbox, restService ) {
 
     var PlayerMergeOrDeleteDialogView = DialogView.extend({
         actionComplete:utility.noArgsNoReturnFunction,
@@ -31,7 +32,7 @@ define(['jquery', 'underscore', 'backbone', 'utility', 'views/DialogView', 'appC
             "click [ulti-players-button-cancel]": "cancelTapped"
         },
         actionTapped: function() {
-            deletePlayer(appContext.currentTeamId(), self.player.get('name'), self.selectedPlayer.get('name'), function() {
+            restService.deletePlayer(appContext.currentTeamId(), self.player.get('name'), self.selectedPlayer.get('name'), function() {
                 self.dismiss();
                 bootbox.alert({
                     size: 'small',

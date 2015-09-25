@@ -1,4 +1,5 @@
-define(['jquery', 'underscore', 'backbone', 'utility', 'views/DialogView', 'appContext', 'collections/gameVersions', 'bootbox'], function($, _, Backbone, utility, DialogView, appContext, gameVersionCollection, bootbox ) {
+define(['jquery', 'underscore', 'backbone', 'utility', 'views/DialogView', 'appContext', 'collections/gameVersions', 'bootbox', 'restService'],
+    function($, _, Backbone, utility, DialogView, appContext, gameVersionCollection, bootbox, restService ) {
 
     var GameVersionsDialogView = DialogView.extend({
         game: null,
@@ -23,7 +24,7 @@ define(['jquery', 'underscore', 'backbone', 'utility', 'views/DialogView', 'appC
             "click [ulti-versions-button-cancel]": "cancelTapped"
         },
         replaceTapped: function() {
-            restoreGameVersion(appContext.currentTeamId(), self.game.get('gameId'), self.selectedGameVersion.get('keyIdentifier'), function() {
+            restService.restoreGameVersion(appContext.currentTeamId(), self.game.get('gameId'), self.selectedGameVersion.get('keyIdentifier'), function() {
                 bootbox.alert({
                     size: 'small',
                     title: 'Update Complete',

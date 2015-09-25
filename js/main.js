@@ -12,7 +12,7 @@ require.config({
     }
 });
 
-require(['bootstrap', 'rest'], function() {
+require(['bootstrap'], function() {
 });
 
 require(['app'], function(App) {

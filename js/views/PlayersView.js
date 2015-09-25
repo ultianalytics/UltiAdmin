@@ -1,5 +1,5 @@
-define(['jquery', 'underscore', 'backbone', 'collections/players', 'views/AbstractDetailContentsView', 'views/PlayerMergeOrDeleteDialogView', 'appContext'],
-    function($, _, Backbone, playerCollection, AbstractDetailContentsView, PlayerMergeOrDeleteDialogView, appContext) {
+define(['jquery', 'underscore', 'backbone', 'collections/players', 'views/AbstractDetailContentsView', 'views/PlayerMergeOrDeleteDialogView', 'appContext', 'restService'],
+    function($, _, Backbone, playerCollection, AbstractDetailContentsView, PlayerMergeOrDeleteDialogView, appContext, restService) {
 
     var PlayersView = AbstractDetailContentsView.extend({
         el: '[ulti-team-detail-players]',
@@ -20,7 +20,7 @@ define(['jquery', 'underscore', 'backbone', 'collections/players', 'views/Abstra
             this.$el.html(this.template({players: players}));
         },
         refresh: function() {
-            retrieveTeamForAdmin(appContext.currentTeamId(), true, true, function(team) {
+            restService.retrieveTeamForAdmin(appContext.currentTeamId(), true, true, function(team) {
                 playerCollection.populateFromRestResponse(team.players);
                 self.render();
             }, function() {

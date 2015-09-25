@@ -1,4 +1,4 @@
-define(['jquery', 'underscore','backbone', 'models/team'], function($, _, Backbone, Team) {
+define(['jquery', 'underscore','backbone', 'models/team', 'restService'], function($, _, Backbone, Team, restService) {
 
     // NOTE: this returns an instance, not the constructor
 
@@ -23,7 +23,7 @@ define(['jquery', 'underscore','backbone', 'models/team'], function($, _, Backbo
         ensureFetched: function(success, failure) {
             var collection = this;
             if (this.isEmpty()) {
-                retrieveTeamsIncludingDeleted(function (teams) {
+                restService.retrieveTeamsIncludingDeleted(function (teams) {
                     collection.populateFromRestResponse(teams);
                     success();
                 }, function () {

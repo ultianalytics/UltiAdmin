@@ -1,5 +1,5 @@
-define(['jquery', 'underscore', 'backbone', 'collections/teams', 'views/AbstractDetailContentsView', 'views/PasswordDialogView', 'appContext', 'bootbox'],
-    function($, _, Backbone, teamCollection, AbstractDetailContentsView, PasswordDialogView, appContext, bootbox) {
+define(['jquery', 'underscore', 'backbone', 'collections/teams', 'views/AbstractDetailContentsView', 'views/PasswordDialogView', 'appContext', 'bootbox', 'restService'],
+    function($, _, Backbone, teamCollection, AbstractDetailContentsView, PasswordDialogView, appContext, bootbox, restService) {
 
         var SettingView = AbstractDetailContentsView.extend({
             el: '[ulti-team-detail-settings]',
@@ -30,7 +30,7 @@ define(['jquery', 'underscore', 'backbone', 'collections/teams', 'views/Abstract
                     message: 'Do you really want to delete ' + appContext.currentTeam().get('nameWithSeason') + ' (team ID ' + appContext.currentTeamId() + ')?<br/><br/>NOTE: you can un-delete the team later',
                     callback: function(result){
                         if (result == true) {
-                            deleteTeam(appContext.currentTeamId(), function () {
+                            restService.deleteTeam(appContext.currentTeamId(), function () {
                                 appContext.refreshTeams(function() {
                                     //this.render();
                                 }, function() {
@@ -44,7 +44,7 @@ define(['jquery', 'underscore', 'backbone', 'collections/teams', 'views/Abstract
                 });
             },
             undeleteTapped: function () {
-                undeleteTeam(appContext.currentTeamId(), function() {
+                restService.undeleteTeam(appContext.currentTeamId(), function() {
                     appContext.refreshTeams(function() {
                         //this.render();
                     }, function() {

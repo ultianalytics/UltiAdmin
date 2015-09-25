@@ -1,5 +1,5 @@
-define(['jquery', 'underscore', 'backbone', 'collections/players', 'collections/games', 'views/TabView', 'views/SettingView', 'views/GamesView', 'views/PlayersView', 'appContext'],
-    function($, _, Backbone, playerCollection, gameCollection, TabView, SettingView, GamesView, PlayersView, appContext) {
+define(['jquery', 'underscore', 'backbone', 'collections/players', 'collections/games', 'views/TabView', 'views/SettingView', 'views/GamesView', 'views/PlayersView', 'appContext', 'restService'],
+    function($, _, Backbone, playerCollection, gameCollection, TabView, SettingView, GamesView, PlayersView, appContext, restService) {
 
         var TeamDetailView = Backbone.View.extend({
             el: '[ulti-team-detail]',
@@ -38,14 +38,14 @@ define(['jquery', 'underscore', 'backbone', 'collections/players', 'collections/
             },
             renderGamesView: function() {
                 var view = this;
-                retrieveGamesForAdmin(appContext.currentTeamId(), function(games) {
+                restService.retrieveGamesForAdmin(appContext.currentTeamId(), function(games) {
                     gameCollection.populateFromRestResponse(games);
                 }, function() {
                     alert("bad thang happened");
                 })
             },
             renderPlayersView: function() {
-                retrieveTeamForAdmin(appContext.currentTeamId(), true, true, function(team) {
+                restService.retrieveTeamForAdmin(appContext.currentTeamId(), true, true, function(team) {
                     playerCollection.populateFromRestResponse(team.players);
                 }, function() {
                     alert("bad thang happened");

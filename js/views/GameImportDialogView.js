@@ -1,5 +1,5 @@
-define(['jquery', 'underscore', 'backbone', 'utility', 'views/DialogView', 'appContext'],
-    function($, _, utility, Backbone, DialogView, appContext) {
+define(['jquery', 'underscore', 'backbone', 'utility', 'views/DialogView', 'appContext', 'restService'],
+    function($, _, utility, Backbone, DialogView, appContext, restService) {
 
     var GameImportDialogView = DialogView.extend({
         importComplete:utility.noArgsNoReturnFunction,
@@ -18,7 +18,7 @@ define(['jquery', 'underscore', 'backbone', 'utility', 'views/DialogView', 'appC
             var formData = new FormData();
             formData.append('file', file);
             var view = this;
-            importGame(appContext.currentTeamId(), formData, function(data) {
+            restService.importGame(appContext.currentTeamId(), formData, function(data) {
                 if (data && data.status == 'error') {
                     var explanation = data.message;
                     alert("import failed: " + explanation);

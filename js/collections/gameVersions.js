@@ -1,4 +1,5 @@
-define(['jquery', 'underscore','backbone', 'models/gameVersion', 'appContext'], function($, _, Backbone, GameVersion, appContext) {
+define(['jquery', 'underscore','backbone', 'models/gameVersion', 'appContext', 'restService'],
+    function($, _, Backbone, GameVersion, appContext, restService) {
 
     // NOTE: this returns an instance, not the constructor
 
@@ -27,7 +28,7 @@ define(['jquery', 'underscore','backbone', 'models/gameVersion', 'appContext'], 
         refreshForGame: function(game, success, failure) {
             this.game = game;
             var collection = this;
-            retrieveGameVersions(appContext.currentTeamId(), game.get('gameId'), function(gameVersions) {
+            restService.retrieveGameVersions(appContext.currentTeamId(), game.get('gameId'), function(gameVersions) {
                 collection.populateFromRestResponse(gameVersions);
                 success();
             }, function() {
