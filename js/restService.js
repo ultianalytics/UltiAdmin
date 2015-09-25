@@ -98,7 +98,7 @@ define(['jquery'], function($) {
 		}
 
 		this.urlForGameExportFileDownload = function(teamId, gameId) {
-			var url = baseRestUrl + '/team/' + teamId + '/export/game/' + gameId + '?players=true';
+			var url = baseRestUrl + '/team/' + teamId + '/export/game/' + gameId + '?players=true&access_token=' + this.accessToken;
 			return url;
 		}
 
@@ -145,6 +145,9 @@ define(['jquery'], function($) {
 				'Authorization':'Bearer ' + self.accessToken
 			};
 			busyDialogStart();
+			if (options.type != 'GET') {
+				resetCacheBuster();
+			}
 			var url = addQueryStringParameter(request.url, 'cachebuster', sessionId);  // new session on every page load
 			$.ajax(url, options);
 		}
