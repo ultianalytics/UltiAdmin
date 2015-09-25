@@ -234,6 +234,9 @@ function sendRequest(request) {
 		options.data = request.data;
 	}
 	options.xhrFields = {withCredentials: true};
+	options.headers = {
+		'Authorization':'Bearer ' + app.rest.accessToken
+	}
 	busyDialogStart();
 	var url = addQueryStringParameter(request.url, 'cachebuster', app.rest.sessionId);  // new session on every page load
     $.ajax(url, options);
