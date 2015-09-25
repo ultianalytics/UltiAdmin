@@ -1,5 +1,5 @@
-define(['jquery', 'underscore','backbone', 'collections/teams', 'views/TeamSelectorView', 'views/TeamStatsBasicInfoView', 'views/TeamDetailView', 'appContext'],
-    function($, _, Backbone, teamCollection, TeamSelectorView, TeamStatsBasicInfoView, TeamDetailView, appContext) {
+define(['jquery', 'underscore','backbone', 'collections/teams', 'views/TeamSelectorView', 'views/TeamStatsBasicInfoView', 'views/TeamDetailView', 'appContext', 'models/user'],
+    function($, _, Backbone, teamCollection, TeamSelectorView, TeamStatsBasicInfoView, TeamDetailView, appContext, User) {
 
     var AppView = Backbone.View.extend({
         el: '[ulti-app]',

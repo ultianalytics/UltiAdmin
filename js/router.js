@@ -1,5 +1,5 @@
-define(['jquery', 'underscore', 'backbone', 'appContext', 'collections/teams', 'collections/games', 'collections/players', 'views/AppView'],
-    function($, _, Backbone, appContext, teamCollection, gameCollection, playerCollection, AppView) {
+define(['jquery', 'underscore', 'backbone', 'appContext', 'collections/teams', 'collections/games', 'collections/players', 'views/AppView', 'appContext'],
+    function($, _, Backbone, appContext, teamCollection, gameCollection, playerCollection, AppView, appContext) {
 
     // NOTE: this returns an instance, not the constructor
 
@@ -14,15 +14,17 @@ define(['jquery', 'underscore', 'backbone', 'appContext', 'collections/teams', '
         },
         defaultRoute: function(path) {
             router = this;
-            teamCollection.ensureFetched(function() {
-                if (!teamCollection.isEmpty()) {
-                    appContext.selectDefaultTeam();
-                    appContext.set('currentTab', 'settings');
-                }
-                router.appView.render();
-            }, function() {
-                alert("bad thang");
-            });
+            if (appContext.hasCurrentUser()) {
+                teamCollection.ensureFetched(function () {
+                    if (!teamCollection.isEmpty()) {
+                        appContext.selectDefaultTeam();
+                        appContext.set('currentTab', 'settings');
+                    }
+                    router.appView.render();
+                }, function () {
+                    alert("bad thang");
+                });
+            }
         },
 
         team: function(cloudId, tab) {

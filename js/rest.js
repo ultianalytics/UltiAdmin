@@ -8,6 +8,7 @@ if (!app.rest) {
 app.rest.busyDialogStack = 0;
 app.rest.baseRestUrl = "http://www.ultianalytics.com/rest/view";
 app.rest.sessionId = new Date().getTime() + '';
+app.rest.accessToken = "unknown";
 
 function retrieveTeam(id, includePlayers, successFunction, errorFunction) {
 	sendAnalyticsEvent("retrieveTeam");

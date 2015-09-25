@@ -46,6 +46,9 @@ define(['jquery','underscore','backbone', 'collections/teams'], function($, _, B
         currentUser: function() {
             return this.get('currentUser');
         },
+        hasCurrentUser: function() {
+            return this.currentUser() != null;
+        },
         currentUserEmail: function() {
             return this.hasCurrentUser() ? this.currentUser().get('email') : "";
         },

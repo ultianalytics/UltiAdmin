@@ -7,6 +7,8 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
+    <meta name="google-signin-scope" content="profile email">
+    <meta name="google-signin-client_id" content="308589977906-f6gr28rqtlmnjtmoj6soc8rinlfqe2a1.apps.googleusercontent.com">
     <link rel="icon" href="images/favicon.ico">
 
     <title>UltiAnalytics Admin</title>
@@ -34,7 +36,11 @@
 
     <h1>Website Admin</h1>
 
-    <div ulti-app-content>
+    <div ulti-signon>
+        <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+    </div>
+
+    <div ulti-app-content style="display: none">
         <div ulti-teams-no-teams style="display:none">
             <h4><br><br><b>No Data</b><br><br>This tool is for administering website data uploaded from your iOS or Android device but you don't have a team uploaded yet.<br><br>Upload from our phone or tablet and refresh this page.</h4>
         </div>
@@ -268,8 +274,18 @@
     </div>
 </script>
 
+<script type="application/javascript">
+
+    function onSignIn(googleUser) {
+        GoogleUser = googleUser;
+        require(['js/main']);
+    };
+
+</script>
+
 <!-- ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="js/lib/require.js" data-main="js/main"></script>
+<script src="js/lib/require.js"></script>
+<script src="https://apis.google.com/js/platform.js"></script>
 </body>
 </html>
