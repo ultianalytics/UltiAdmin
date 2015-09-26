@@ -28,7 +28,7 @@
         <div class="navbar-header">
             <a class="navbar-brand" href="#"><img src="images/ultianalytics-logo-green.png"></a>
             <span style="position:absolute; right: 5%;">
-                <button value="Logoff" class="navbar-brand borderless-button" style="font-size: medium">Logoff</button>
+                <button class="navbar-brand borderless-button" style="font-size: medium;display: none" ulti-logoff-button>Logoff</button>
             </span>
         </div>
     </div>
@@ -37,9 +37,10 @@
 <div class="container" ulti-app>
 
     <h1>Website Admin</h1>
-
-    <div ulti-signon>
-        <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+    <div style="color: gray" ulti-user></div>
+    <div ulti-signon style="margin-top: 40px">
+        <div>Sign in with the google identity you used to upload games</div>
+        <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark" style="margin-top: 20px"></div>
     </div>
 
     <div ulti-app-content style="display: none">

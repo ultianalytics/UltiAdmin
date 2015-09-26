@@ -1,9 +1,12 @@
-define(['jquery', 'underscore', 'backbone', 'appContext', 'router', 'views/appView', 'models/user', 'restService', 'views/logoffView'],
-    function($, _, Backbone, appContext, router, appView, User, restService, LogoffView) {
+define(['jquery', 'underscore', 'backbone', 'appContext', 'router', 'views/appView', 'models/user', 'restService', 'views/LogoffView', 'views/UserView'],
+    function($, _, Backbone, appContext, router, appView, User, restService, LogoffView, UserView) {
     return {initialize : function() {
 
         var logoffView = new LogoffView();
         logoffView.render();
+
+        var userView = new UserView();
+        userView.render();
 
         var profile = GoogleUser.getBasicProfile();
         var user = new User();
