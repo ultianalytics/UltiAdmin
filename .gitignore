@@ -1,0 +1,8 @@
+*~
+.DS_Store
+
+# Webstorm
+
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/dictionaries
