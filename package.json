@@ -14,6 +14,7 @@
   "license": "ISC",
   "homepage": "https://bitbucket.org/velohomme/ultiadmin#readme",
   "devDependencies": {
+    "del": "^2.0.2",
     "gulp": "^3.9.0"
   }
 }
