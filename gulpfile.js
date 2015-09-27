@@ -8,8 +8,8 @@ gulp.task('clean', function() {
 });
 
 gulp.task('scripts', function() {
-    gulp.src(['js/*'])
-        .pipe(gulp.dest('dist/admin-app/js'));
+    gulp.src(['js/**/*.*'], { base: './' })
+        .pipe(gulp.dest('dist/admin-app'));
 });
 
 gulp.task('styles', function() {
