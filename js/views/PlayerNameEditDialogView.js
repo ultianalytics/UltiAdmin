@@ -16,6 +16,7 @@ define(['jquery', 'underscore', 'backbone', 'utility', 'views/DialogView', 'appC
             "click [ulti-players-button-cancel]": "cancelTapped"
         },
         saveTapped: function() {
+            this.clearErrorMessages();
 
             var oldNickName = this.trimString(this.player.get('name'));
             var oldFirstName = this.trimString(this.player.get('firstName'));
@@ -24,6 +25,12 @@ define(['jquery', 'underscore', 'backbone', 'utility', 'views/DialogView', 'appC
             var newNickName = this.trimString(this.$('[ulti-player-nickname]').val());
             var newFirstName = this.trimString(this.$('[ulti-player-first-name]').val());
             var newLastName = this.trimString(this.$('[ulti-player-last-name]').val());
+
+            if (newNickName == '') {
+                this.showNickNameError('<b>Invalid Nickname:</b> name cannot be blank');
+            } else if (newNickName.toLowerCase() == 'anonymous' || newNickName.toLowerCase() == 'anon' || newNickName.toLowerCase() == 'unknown' ) {
+                this.showNickNameError('<b>Invalid Nickname:</b> cannot rename to "anonymous"');
+            }
 
 
             //var newName = trimString($('#player-change-dialog-player-new-nickname-field').val());
@@ -65,6 +72,14 @@ define(['jquery', 'underscore', 'backbone', 'utility', 'views/DialogView', 'appC
                 return '';
             }
             return jQuery.trim(s);
+        },
+        showNickNameError: function(message) {
+            var errorEl = this.$('[ulti-player-nickname-error]');
+            errorEl.html(message);
+            errorEl.show(400);
+        },
+        clearErrorMessages: function() {
+            this.$('.alert-danger').hide();
         }
 
     });
