@@ -277,6 +277,36 @@
     </div>
 </script>
 
+<script id="ulti-players-edit-names-dialog-content-template" type="text/template">
+    <div class="modal-body">
+        <div>
+            Edit names for player: <b><%= player.get('name') %></b>
+        </div>
+        <br>
+        <div>
+            Nickname (also ID for this player):
+            <br>
+            <input type="text" class="form-control" ulti-player-nickname value="<%= player.get('name') %>"/>
+        </div>
+        <br><br>
+        <div>
+            Display first name:
+            <br>
+            <input type="text" class="form-control" ulti-player-first-name value="<%= player.get('firstName') %>"/>
+        </div>
+        <br>
+        <div>
+            Display last name:
+            <br>
+            <input type="text" class="form-control" ulti-player-last-name value="<%= player.get('lastName') %>"/>
+        </div>
+    </div>
+    <div class="modal-footer" style="text-align: center">
+        <button type="button" class="btn btn-primary" ulti-players-button-save>Save</button>
+        <button type="button" class="btn btn-primary" ulti-players-button-cancel>Cancel</button>
+    </div>
+</script>
+
 <script type="application/javascript">
 
     function onSignIn(googleUser) {

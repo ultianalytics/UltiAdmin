@@ -1,5 +1,5 @@
-define(['jquery', 'underscore', 'backbone', 'collections/players', 'views/AbstractDetailContentsView', 'views/PlayerMergeOrDeleteDialogView', 'appContext', 'restService'],
-    function($, _, Backbone, playerCollection, AbstractDetailContentsView, PlayerMergeOrDeleteDialogView, appContext, restService) {
+define(['jquery', 'underscore', 'backbone', 'collections/players', 'views/AbstractDetailContentsView', 'views/PlayerMergeOrDeleteDialogView', 'views/PlayerNameEditDialogView', 'appContext', 'restService'],
+    function($, _, Backbone, playerCollection, AbstractDetailContentsView, PlayerMergeOrDeleteDialogView, PlayerNameEditDialogView, appContext, restService) {
 
     var PlayersView = AbstractDetailContentsView.extend({
         el: '[ulti-team-detail-players]',
@@ -27,8 +27,9 @@ define(['jquery', 'underscore', 'backbone', 'collections/players', 'views/Abstra
                 alert("bad thang happened");
             })
         },
-        editTapped: function() {
-            alert('edit tapped');
+        editTapped: function(e) {
+            var player = this.playerForButton(e.currentTarget);
+            this.showEditNameDialog(player);
         },
         mergeTapped: function(e) {
             var player = this.playerForButton(e.currentTarget);
@@ -56,6 +57,16 @@ define(['jquery', 'underscore', 'backbone', 'collections/players', 'views/Abstra
             view = this;
             this.showModalDialog('Delete Player', function() {
                 var dialog = new PlayerMergeOrDeleteDialogView({player: player, isDeleteMode: true});
+                dialog.actionComplete = function() {
+                    view.refresh();
+                };
+                return dialog;
+            });
+        },
+        showEditNameDialog: function (player) {
+            view = this;
+            this.showModalDialog('Edit Player Names', function() {
+                var dialog = new PlayerNameEditDialogView({player: player});
                 dialog.actionComplete = function() {
                     view.refresh();
                 };

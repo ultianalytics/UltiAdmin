@@ -48,8 +48,7 @@ define(['jquery', 'underscore', 'backbone', 'utility', 'views/DialogView', 'appC
         },
         cancelTapped: function() {
             this.dismiss();
-        },
-
+        }
     });
 
     return PlayerMergeOrDeleteDialogView;
