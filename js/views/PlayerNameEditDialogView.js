@@ -2,6 +2,7 @@ define(['jquery', 'underscore', 'backbone', 'utility', 'views/DialogView', 'appC
     function($, _, Backbone, utility, DialogView, appContext, playerCollection, bootbox, restService ) {
 
     var PlayerNameEditDialogView = DialogView.extend({
+        actionComplete:utility.noArgsNoReturnFunction,
         player: null,
         initialize: function(options) {
             self = this;
@@ -27,9 +28,37 @@ define(['jquery', 'underscore', 'backbone', 'utility', 'views/DialogView', 'appC
             var newLastName = this.trimString(this.$('[ulti-player-last-name]').val());
 
             if (newNickName == '') {
-                this.showNickNameError('<b>Invalid Nickname:</b> name cannot be blank');
+                this.showError(this.$('[ulti-player-nickname-error]'), '<b>Invalid Nickname:</b> name cannot be blank');
             } else if (newNickName.toLowerCase() == 'anonymous' || newNickName.toLowerCase() == 'anon' || newNickName.toLowerCase() == 'unknown' ) {
-                this.showNickNameError('<b>Invalid Nickname:</b> cannot rename to "anonymous"');
+                this.showError(this.$('[ulti-player-nickname-error]'), '<b>Invalid Nickname:</b> cannot rename to "anonymous"');
+            } else if (newNickName.length > 8) {  // text field has max chars set so should not ever hit this line
+                this.showError(this.$('[ulti-player-nickname-error]'), '<b>Name too long:</b> Sorry...nickname must be less than 9 characters');
+            } else if (newNickName == oldNickName && newFirstName == oldFirstName && newLastName == oldLastName) {
+                this.showError(this.$('[ulti-player-name-error]'), 'You did not change the nick name or display name');
+            } else {
+                restService.renamePlayer(appContext.currentTeamId(), oldNickName, newFirstName, newLastName,
+                    function() {
+                        var message = 'No changes made';
+                        if (newNickName != oldNickName) {
+                            message = 'Player ' + oldNickName + ' renamed to ' + newNickName +
+                                '. If you still have games on your mobile device with player ' + oldNickName +
+                                ' you should now download the team and those games to your device (otherwise '
+                                + oldNickName + ' will re-appear when you next upload those games).';
+                        } else if (newFirstName != newFirstName || oldLastName != newLastName) {
+                            message = (newLastName ==  '' && newFirstName ==  '') ?
+                            'Player ' + oldNickName + ' display name removed.' :
+                            'Player ' + oldNickName + ' display name changed to ' + newFirstName + ' ' + newLastName + '.';
+                        }
+                        self.dismiss();
+                        bootbox.alert({
+                            size: 'small',
+                            title: 'Rename Complete',
+                            message: message
+                        });
+                        self.actionComplete();
+                    }, function() {
+                        alert('bad thang');
+                    });
             }
 
 
@@ -73,8 +102,7 @@ define(['jquery', 'underscore', 'backbone', 'utility', 'views/DialogView', 'appC
             }
             return jQuery.trim(s);
         },
-        showNickNameError: function(message) {
-            var errorEl = this.$('[ulti-player-nickname-error]');
+        showError: function(errorEl, message) {
             errorEl.html(message);
             errorEl.show(400);
         },

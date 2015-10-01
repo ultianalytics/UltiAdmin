@@ -287,7 +287,7 @@
         <div>
             Nickname (also ID for this player):
             <br>
-            <input type="text" class="form-control" ulti-player-nickname value="<%= player.get('name') %>"/>
+            <input type="text" class="form-control" ulti-player-nickname value="<%= player.get('name') %>" maxlength="8"/>
         </div>
         <br><br>
         <div>
@@ -303,6 +303,7 @@
         </div>
     </div>
     <div class="modal-footer" style="text-align: center">
+        <div class="alert alert-danger" role="alert" style="display:none" ulti-player-name-error></div>
         <button type="button" class="btn btn-primary" ulti-players-button-save>Save</button>
         <button type="button" class="btn btn-primary" ulti-players-button-cancel>Cancel</button>
     </div>
