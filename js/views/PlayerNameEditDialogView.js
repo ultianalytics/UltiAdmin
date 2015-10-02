@@ -36,15 +36,15 @@ define(['jquery', 'underscore', 'backbone', 'utility', 'views/DialogView', 'appC
             } else if (newNickName == oldNickName && newFirstName == oldFirstName && newLastName == oldLastName) {
                 this.showError(this.$('[ulti-player-name-error]'), 'You did not change the nick name or display name');
             } else {
-                restService.renamePlayer(appContext.currentTeamId(), oldNickName, newFirstName, newLastName,
+                restService.renamePlayer(appContext.currentTeamId(), oldNickName, newNickName, newFirstName, newLastName,
                     function() {
                         var message = 'No changes made';
                         if (newNickName != oldNickName) {
-                            message = 'Player ' + oldNickName + ' renamed to ' + newNickName +
-                                '. If you still have games on your mobile device with player ' + oldNickName +
-                                ' you should now download the team and those games to your device (otherwise '
-                                + oldNickName + ' will re-appear when you next upload those games).';
-                        } else if (newFirstName != newFirstName || oldLastName != newLastName) {
+                            message = 'Player <b>' + oldNickName + '</b> nickname (which is also the ID) changed to <b>' + newNickName +
+                                '</b>. If you still have games on your mobile device with player <b>' + oldNickName +
+                                '</b> you should now download the team and those games to your device (otherwise <b>'
+                                + oldNickName + '</b> will re-appear when you next upload those games).';
+                        } else if (oldFirstName != newFirstName || oldLastName != newLastName) {
                             message = (newLastName ==  '' && newFirstName ==  '') ?
                             'Player ' + oldNickName + ' display name removed.' :
                             'Player ' + oldNickName + ' display name changed to ' + newFirstName + ' ' + newLastName + '.';
