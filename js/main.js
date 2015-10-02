@@ -1,28 +1,6 @@
 require.config({
     baseUrl: 'js',
-    shim : {
-        "bootstrap" : { "deps" :['jquery'] }
-    },
-    paths: {
-        "jquery": "lib/jquery-1.11.3",
-        "underscore": "lib/underscore",
-        "backbone": "lib/backbone",
-        "bootstrap": "lib/bootstrap/bootstrap",
-        "bootbox": "lib/bootbox"
-    }
-});
-
-require(['bootstrap'], function() {
-});
-
-require(['app'], function(App) {
-    App.initialize();
-});
-
-
-
-require.config({
-    baseUrl: 'js',
+    waitSeconds : 60,
     shim : {
         "bootstrap" : { "deps" :['jquery'] }
     },
@@ -33,9 +11,6 @@ require.config({
         "bootstrap": "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min",
         "bootbox": "https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min"
     }
-});
-
-require(['bootstrap'], function() {
 });
 
 require(['app'], function(App) {

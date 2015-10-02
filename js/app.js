@@ -1,5 +1,5 @@
-define(['jquery', 'underscore', 'backbone', 'appContext', 'router', 'views/AppView', 'models/user', 'restService', 'views/LogoffView', 'views/UserView'],
-    function($, _, Backbone, appContext, router, appView, User, restService, LogoffView, UserView) {
+define(['jquery', 'underscore', 'backbone', 'bootstrap', 'appContext', 'router', 'views/AppView', 'models/user', 'restService', 'views/LogoffView', 'views/UserView'],
+    function($, _, Backbone, bootstrap, appContext, router, appView, User, restService, LogoffView, UserView) {
     return {initialize : function() {
 
         var logoffView = new LogoffView();
