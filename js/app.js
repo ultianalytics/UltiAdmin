@@ -1,4 +1,4 @@
-define(['jquery', 'underscore', 'backbone', 'appContext', 'router', 'views/appView', 'models/user', 'restService', 'views/LogoffView', 'views/UserView'],
+define(['jquery', 'underscore', 'backbone', 'appContext', 'router', 'views/AppView', 'models/user', 'restService', 'views/LogoffView', 'views/UserView'],
     function($, _, Backbone, appContext, router, appView, User, restService, LogoffView, UserView) {
     return {initialize : function() {
 
