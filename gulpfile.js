@@ -39,7 +39,8 @@ gulp.task('scripts', function () {
                     "underscore": "empty:",
                     "backbone": "empty:",
                     "bootstrap": "empty:",
-                    "bootbox": "empty:"
+                    "bootbox": "empty:",
+                    "require-text" : "empty:"
                 }
             }
         ))
@@ -47,7 +48,7 @@ gulp.task('scripts', function () {
         .pipe(gulp.dest("dist/admin-app/js"));
 });
 
-// NOTE: The build task does not include clean but in this version of glup there is no (easy) way to make the other tasks wait until clean is complete
+// NOTE: The build task does not include clean because in this version of glup there is no (easy) way to make the other tasks wait until clean is complete
 // SO...from the command line run
 // gulp clean
 // gulp build
