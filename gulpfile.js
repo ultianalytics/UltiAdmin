@@ -29,10 +29,16 @@ gulp.task('html', function() {
         .pipe(gulp.dest('dist/admin-app'));
 });
 
-gulp.task('scripts', function () {
+gulp.task('require-js', function() {
+    gulp.src(["js/require.js", "js/text.js"])
+        .pipe(gulp.dest('dist/admin-app/js'));
+});
+
+gulp.task('app-js', function () {
     return gulp.src("js/**/*.js")
         .pipe(amdOptimize("main",
             {
+                baseUrl: "js",
                 name: "main",
                 paths: {
                     "jquery": "empty:",
@@ -52,4 +58,4 @@ gulp.task('scripts', function () {
 // SO...from the command line run
 // gulp clean
 // gulp build
-gulp.task('build', ['scripts', 'styles', 'fonts', 'images', 'html']);
+gulp.task('build', ['require-js', 'app-js', 'styles', 'fonts', 'images', 'html']);

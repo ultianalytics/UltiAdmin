@@ -1,5 +1,5 @@
-define(['jquery', 'underscore', 'backbone', 'collections/teams', 'appContext'],
-    function($, _, Backbone, teamCollection, appContext) {
+define(['jquery', 'underscore', 'backbone', 'collections/teams', 'appContext', 'text!templates/teamSelector.html'],
+    function($, _, Backbone, teamCollection, appContext, teamSelectorHtml) {
 
         var TeamSelectorView = Backbone.View.extend({
             teams: teamCollection,
@@ -8,7 +8,7 @@ define(['jquery', 'underscore', 'backbone', 'collections/teams', 'appContext'],
                 this.teams.on('reset', this.teamsChanged, this);
                 appContext.on("change:currentTeam", this.selectedTeamChanged, this);
             },
-            template: _.template($("#ulti-team-selector-template").html()),
+            template: _.template(teamSelectorHtml),
             teamsChanged: function() {
                 this.render();
             },

@@ -104,18 +104,6 @@
 
 <!-- ****************************** TEMPLATES  ****************************** -->
 
-<script id="ulti-team-selector-template" type="text/template">
-    <div class="dropdown">
-        <button class="btn btn-default dropdown-toggle<%= selectedTeam.toJSON().deleted ? ' strike-through' : ''%>" type="button" data-toggle="dropdown"><%= _.escape(selectedTeam.get('nameWithSeason')) %>&nbsp;&nbsp;&nbsp;
-            <span class="caret"></span></button>
-        <ul class="dropdown-menu">
-            <% _.each(teams, function(team) { %>
-                <li class= "<%= team.get('deleted') ? 'strike-through' : ''%>"><a href="#" ulti-team-choice="<%= team.get('cloudId') %>"><%= _.escape(team.get('nameWithSeason')) %></a></li>
-            <% }); %>
-        </ul>
-    </div>
-</script>
-
 <script id="ulti-team-settings-template" type="text/template">
     <div>
         <b>Team Website Password:&nbsp;&nbsp; </b><button class="borderless-button" ulti-team-password-link><%= team == null || team.password == "" ? "NOT SET" : _.escape(team.password) %></button>
@@ -320,7 +308,7 @@
 
 <!-- ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.20/require.min.js"></script>
+<script src="js/require.js"></script>
 <script src="https://apis.google.com/js/platform.js"></script>
 </body>
 </html>
