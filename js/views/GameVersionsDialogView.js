@@ -1,5 +1,5 @@
-define(['jquery', 'underscore', 'backbone', 'utility', 'views/DialogView', 'appContext', 'collections/gameVersions', 'bootbox', 'restService'],
-    function($, _, Backbone, utility, DialogView, appContext, gameVersionCollection, bootbox, restService ) {
+define(['jquery', 'underscore', 'backbone', 'utility', 'views/DialogView', 'appContext', 'collections/gameVersions', 'bootbox', 'restService', 'text!templates/gameVersionsDialogContent.html'],
+    function($, _, Backbone, utility, DialogView, appContext, gameVersionCollection, bootbox, restService, gameVersionsDialogContentHtml) {
 
     var GameVersionsDialogView = DialogView.extend({
         game: null,
@@ -9,7 +9,7 @@ define(['jquery', 'underscore', 'backbone', 'utility', 'views/DialogView', 'appC
             self = this;
             self.selectedGameVersion = gameVersionCollection.nonCurrentVersions()[0];
         },
-        template: _.template($("#ulti-game-versions-dialog-content-template").html()),
+        template: _.template(gameVersionsDialogContentHtml),
         render: function () {
             this.$el.html(this.template({nonCurrentGameVersions: gameVersionCollection.nonCurrentVersions(), selectedGameVersion: self.selectedGameVersion, currentGameVersion: gameVersionCollection.currentVersion()}));
             this.$("[ulti-game-version-choice]").click(function(e) {

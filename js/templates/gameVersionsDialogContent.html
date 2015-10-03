@@ -1,0 +1,24 @@
+<div class="modal-body">
+    <div>You can replace this game&apos;s data with a version previously stored.  To replace this game, pick a version from the list and click the Replace button.</div>
+    <br>
+    <div>NOTE: You will not lose the current version of this game if you replace it.  To undo your action simply replace the version with the original you replaced.</div>
+    <br>
+    <div>Current Version: <br>
+        <span><b><%= currentGameVersion == null? '?' : currentGameVersion.fullDescription() %></b></span>
+    </div>
+    <br>
+    <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><%= selectedGameVersion.fullDescription() %>&nbsp;&nbsp;&nbsp;
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <% _.each(nonCurrentGameVersions, function(gameVersion) { %>
+            <li><a href="#" ulti-game-version-choice="<%= gameVersion.get('keyIdentifier') %>"><%= gameVersion.fullDescription() %></a></li>
+            <% }); %>
+        </ul>
+    </div>
+</div>
+<div class="modal-footer" style="text-align: center">
+    <button type="button" class="btn btn-primary" ulti-versions-button-replace>Replace</button>
+    <button type="button" class="btn btn-primary" ulti-versions-button-cancel>Cancel</button>
+</div>

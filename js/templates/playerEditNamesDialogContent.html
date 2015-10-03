@@ -1,0 +1,29 @@
+<div class="modal-body">
+    <div>
+        Edit names for player: <b><%= player.get('name') %></b>
+    </div>
+    <br>
+    <div class="alert alert-danger" role="alert" style="display:none" ulti-player-nickname-error></div>
+    <div>
+        Nickname (also ID for this player):
+        <br>
+        <input type="text" class="form-control" ulti-player-nickname value="<%= player.get('name') %>" maxlength="8"/>
+    </div>
+    <br><br>
+    <div>
+        Display first name:
+        <br>
+        <input type="text" class="form-control" ulti-player-first-name value="<%= player.get('firstName') %>"/>
+    </div>
+    <br>
+    <div>
+        Display last name:
+        <br>
+        <input type="text" class="form-control" ulti-player-last-name value="<%= player.get('lastName') %>"/>
+    </div>
+</div>
+<div class="modal-footer" style="text-align: center">
+    <div class="alert alert-danger" role="alert" style="display:none" ulti-player-name-error></div>
+    <button type="button" class="btn btn-primary" ulti-players-button-save>Save</button>
+    <button type="button" class="btn btn-primary" ulti-players-button-cancel>Cancel</button>
+</div>

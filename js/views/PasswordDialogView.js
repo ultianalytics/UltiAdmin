@@ -1,9 +1,9 @@
-define(['jquery', 'underscore', 'backbone', 'utility', 'views/DialogView', 'appContext', 'restService'],
-    function($, _, Backbone, utility, DialogView, appContext, restService) {
+define(['jquery', 'underscore', 'backbone', 'utility', 'views/DialogView', 'appContext', 'restService', 'text!templates/teamPasswordDialogContent.html'],
+    function($, _, Backbone, utility, DialogView, appContext, restService, teamPasswordDialogContentHtml) {
 
     var PasswordDialogView = DialogView.extend({
         passwordChanged: utility.noArgsNoReturnFunction,
-        template: _.template($("#ulti-team-password-dialog-content-template").html()),
+        template: _.template(teamPasswordDialogContentHtml),
         render: function () {
             this.$el.html(this.template({team : appContext.currentTeam()}));
             this.updateSaveButtonEnablement();

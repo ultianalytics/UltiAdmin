@@ -1,0 +1,32 @@
+<div class="modal-body">
+    <div ulti-players-merge-dialog-description>
+        Merge player data from player: <b><%= player.get('name') %></b>
+        <br><br>
+        You are choosing to move all of <b><%= player.get('name') %></b>'s data to another player. <b><%= player.get('name') %></b> will be deleted when complete.
+        Choose the other player to whom the data should be moved and then click Merge.
+        <br><br>
+        Select player to receive <b><%= player.get('name') %></b>'s data:
+    </div>
+    <div ulti-players-delete-dialog-description>
+        Delete player: <b><%= player.get('name') %></b>
+        <br><br>
+        When you delete this player the events associated with him/her must be moved to another player (or Anonymous). Choose the other player to whom the events should be moved and then click Delete.
+        <br><br>
+        Select player to receive <b><%= player.get('name') %></b>'s events:
+    </div>
+    <br>
+    <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><%= selectedPlayer.get('name') %>&nbsp;&nbsp;&nbsp;
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <% _.each(otherPlayers, function(player) { %>
+            <li><a href="#" ulti-player-choice="<%= player.get('name') %>"><%= player.get('name') %></a></li>
+            <% }); %>
+        </ul>
+    </div>
+</div>
+<div class="modal-footer" style="text-align: center">
+    <button type="button" class="btn btn-primary" ulti-players-button-action><%= actionName %></button>
+    <button type="button" class="btn btn-primary" ulti-players-button-cancel>Cancel</button>
+</div>

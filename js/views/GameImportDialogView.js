@@ -1,9 +1,9 @@
-define(['jquery', 'underscore', 'backbone', 'utility', 'views/DialogView', 'appContext', 'restService'],
-    function($, _, utility, Backbone, DialogView, appContext, restService) {
+define(['jquery', 'underscore', 'backbone', 'utility', 'views/DialogView', 'appContext', 'restService', 'text!templates/gameImportDialogContent.html'],
+    function($, _, utility, Backbone, DialogView, appContext, restService, gameImportDialogContentHtml) {
 
     var GameImportDialogView = DialogView.extend({
         importComplete:utility.noArgsNoReturnFunction,
-        template: _.template($("#ulti-game-import-dialog-content-template").html()),
+        template: _.template(gameImportDialogContentHtml),
         render: function () {
             this.$el.html(this.template());
             this.updateImportButtonEnablement();

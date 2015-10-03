@@ -102,139 +102,7 @@
 
 </div>
 
-<!-- ****************************** TEMPLATES  ****************************** -->
-
-<script id="ulti-modal-template" type="text/template">
-    <div class="modal-content">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title" style="color: white"><%= title %></h4>
-        </div>
-        <div ulti-dialog-view-content/>
-    </div>
-</script>
-
-<script id="ulti-team-password-dialog-content-template" type="text/template">
-    <div class="modal-body">
-        <input type="text" class="form-control" placeholder="New Password" ulti-password-text value="<%= team.get('password') %>"/>
-    </div>
-    <div class="modal-footer" style="text-align: center">
-        <button type="button" class="btn btn-primary" ulti-password-button-save>Save</button>
-        <button type="button" class="btn btn-primary" ulti-password-button-remove>Remove</button>
-        <button type="button" class="btn btn-primary" ulti-password-button-cancel>Cancel</button>
-    </div>
-</script>
-
-<script id="ulti-game-import-dialog-content-template" type="text/template">
-    <form method="post" ulti-game-import-form>
-        <div class="modal-body">
-            Browse to the game export file (.iexport file extension) on your computer and then press <b>Import</b>.
-            <br/><br/>
-            <span class="file-input btn btn-primary btn-file">
-                Browse to file...<input type="file" ulti-import-select-file-input>
-            </span><br/><br/>
-            <span ulti-import-selected-file></span>
-        </div>
-        <div class="modal-footer" style="text-align: center">
-            <input type="button" class="btn btn-primary" value="Import" ulti-import-button-import>
-            <button type="button" class="btn btn-primary" ulti-import-button-cancel>Cancel</button>
-        </div>
-    </form>
-</script>
-
-<script id="ulti-game-versions-dialog-content-template" type="text/template">
-    <div class="modal-body">
-        <div>You can replace this game&apos;s data with a version previously stored.  To replace this game, pick a version from the list and click the Replace button.</div>
-        <br>
-        <div>NOTE: You will not lose the current version of this game if you replace it.  To undo your action simply replace the version with the original you replaced.</div>
-        <br>
-        <div>Current Version: <br>
-            <span><b><%= currentGameVersion == null? '?' : currentGameVersion.fullDescription() %></b></span>
-        </div>
-        <br>
-        <div class="dropdown">
-            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><%= selectedGameVersion.fullDescription() %>&nbsp;&nbsp;&nbsp;
-                <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu">
-                <% _.each(nonCurrentGameVersions, function(gameVersion) { %>
-                <li><a href="#" ulti-game-version-choice="<%= gameVersion.get('keyIdentifier') %>"><%= gameVersion.fullDescription() %></a></li>
-                <% }); %>
-            </ul>
-        </div>
-    </div>
-    <div class="modal-footer" style="text-align: center">
-        <button type="button" class="btn btn-primary" ulti-versions-button-replace>Replace</button>
-        <button type="button" class="btn btn-primary" ulti-versions-button-cancel>Cancel</button>
-    </div>
-</script>
-
-<script id="ulti-players-merge-delete-dialog-content-template" type="text/template">
-    <div class="modal-body">
-        <div ulti-players-merge-dialog-description>
-            Merge player data from player: <b><%= player.get('name') %></b>
-            <br><br>
-            You are choosing to move all of <b><%= player.get('name') %></b>'s data to another player. <b><%= player.get('name') %></b> will be deleted when complete.
-            Choose the other player to whom the data should be moved and then click Merge.
-            <br><br>
-            Select player to receive <b><%= player.get('name') %></b>'s data:
-        </div>
-        <div ulti-players-delete-dialog-description>
-            Delete player: <b><%= player.get('name') %></b>
-            <br><br>
-            When you delete this player the events associated with him/her must be moved to another player (or Anonymous). Choose the other player to whom the events should be moved and then click Delete.
-            <br><br>
-            Select player to receive <b><%= player.get('name') %></b>'s events:
-        </div>
-        <br>
-        <div class="dropdown">
-            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><%= selectedPlayer.get('name') %>&nbsp;&nbsp;&nbsp;
-                <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu">
-                <% _.each(otherPlayers, function(player) { %>
-                <li><a href="#" ulti-player-choice="<%= player.get('name') %>"><%= player.get('name') %></a></li>
-                <% }); %>
-            </ul>
-        </div>
-    </div>
-    <div class="modal-footer" style="text-align: center">
-        <button type="button" class="btn btn-primary" ulti-players-button-action><%= actionName %></button>
-        <button type="button" class="btn btn-primary" ulti-players-button-cancel>Cancel</button>
-    </div>
-</script>
-
-<script id="ulti-players-edit-names-dialog-content-template" type="text/template">
-    <div class="modal-body">
-        <div>
-            Edit names for player: <b><%= player.get('name') %></b>
-        </div>
-        <br>
-        <div class="alert alert-danger" role="alert" style="display:none" ulti-player-nickname-error></div>
-        <div>
-            Nickname (also ID for this player):
-            <br>
-            <input type="text" class="form-control" ulti-player-nickname value="<%= player.get('name') %>" maxlength="8"/>
-        </div>
-        <br><br>
-        <div>
-            Display first name:
-            <br>
-            <input type="text" class="form-control" ulti-player-first-name value="<%= player.get('firstName') %>"/>
-        </div>
-        <br>
-        <div>
-            Display last name:
-            <br>
-            <input type="text" class="form-control" ulti-player-last-name value="<%= player.get('lastName') %>"/>
-        </div>
-    </div>
-    <div class="modal-footer" style="text-align: center">
-        <div class="alert alert-danger" role="alert" style="display:none" ulti-player-name-error></div>
-        <button type="button" class="btn btn-primary" ulti-players-button-save>Save</button>
-        <button type="button" class="btn btn-primary" ulti-players-button-cancel>Cancel</button>
-    </div>
-</script>
+<!-- ****************************** App Scripts  ****************************** -->
 
 <script type="application/javascript">
 
@@ -245,9 +113,11 @@
 
 </script>
 
-<!-- ================================================== -->
+<!-- ****************************** Library Scripts  ****************************** -->
+
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="js/require.js"></script>
 <script src="https://apis.google.com/js/platform.js"></script>
+
 </body>
 </html>

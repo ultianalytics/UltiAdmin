@@ -1,5 +1,5 @@
-define(['jquery', 'underscore', 'backbone', 'utility', 'views/DialogView', 'appContext', 'collections/players', 'bootbox', 'restService'],
-    function($, _, Backbone, utility, DialogView, appContext, playerCollection, bootbox, restService ) {
+define(['jquery', 'underscore', 'backbone', 'utility', 'views/DialogView', 'appContext', 'collections/players', 'bootbox', 'restService', 'text!templates/playersMergeOrDeleteDialogContent.html'],
+    function($, _, Backbone, utility, DialogView, appContext, playerCollection, bootbox, restService, playersMergeOrDeleteDialogContentHtml ) {
 
     var PlayerMergeOrDeleteDialogView = DialogView.extend({
         actionComplete:utility.noArgsNoReturnFunction,
@@ -12,7 +12,7 @@ define(['jquery', 'underscore', 'backbone', 'utility', 'views/DialogView', 'appC
             self.otherPlayers = playerCollection.playersIncludingAnonymousButExcluding(self.player.get('name'));
             self.selectedPlayer = self.otherPlayers[0];
         },
-        template: _.template($("#ulti-players-merge-delete-dialog-content-template").html()),
+        template: _.template(playersMergeOrDeleteDialogContentHtml),
         render: function () {
             self.$el.html(this.template({otherPlayers: self.otherPlayers, selectedPlayer: self.selectedPlayer, player: self.player, actionName: self.isDeleteMode ? 'Delete' : 'Merge'}));
             if (self.isDeleteMode) {

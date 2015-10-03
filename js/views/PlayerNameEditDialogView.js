@@ -1,5 +1,5 @@
-define(['jquery', 'underscore', 'backbone', 'utility', 'views/DialogView', 'appContext', 'collections/players', 'bootbox', 'restService'],
-    function($, _, Backbone, utility, DialogView, appContext, playerCollection, bootbox, restService ) {
+define(['jquery', 'underscore', 'backbone', 'utility', 'views/DialogView', 'appContext', 'collections/players', 'bootbox', 'restService', 'text!templates/playerEditNamesDialogContent.html'],
+    function($, _, Backbone, utility, DialogView, appContext, playerCollection, bootbox, restService, playerEditNamesDialogContentHtml ) {
 
     var PlayerNameEditDialogView = DialogView.extend({
         actionComplete:utility.noArgsNoReturnFunction,
@@ -8,7 +8,7 @@ define(['jquery', 'underscore', 'backbone', 'utility', 'views/DialogView', 'appC
             self = this;
             _.extend(this, _.pick(options, 'player'));  // copies constructor attributes to this
         },
-        template: _.template($("#ulti-players-edit-names-dialog-content-template").html()),
+        template: _.template(playerEditNamesDialogContentHtml),
         render: function () {
             self.$el.html(this.template({player: self.player}));
         },
