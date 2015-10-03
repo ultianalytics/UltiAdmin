@@ -1,5 +1,5 @@
-define(['jquery', 'underscore', 'backbone', 'collections/players', 'views/AbstractDetailContentsView', 'views/PlayerMergeOrDeleteDialogView', 'views/PlayerNameEditDialogView', 'appContext', 'restService'],
-    function($, _, Backbone, playerCollection, AbstractDetailContentsView, PlayerMergeOrDeleteDialogView, PlayerNameEditDialogView, appContext, restService) {
+define(['jquery', 'underscore', 'backbone', 'collections/players', 'views/AbstractDetailContentsView', 'views/PlayerMergeOrDeleteDialogView', 'views/PlayerNameEditDialogView', 'appContext', 'restService', 'text!templates/playerList.html'],
+    function($, _, Backbone, playerCollection, AbstractDetailContentsView, PlayerMergeOrDeleteDialogView, PlayerNameEditDialogView, appContext, restService, playerListHtml) {
 
     var PlayersView = AbstractDetailContentsView.extend({
         el: '[ulti-team-detail-players]',
@@ -12,7 +12,7 @@ define(['jquery', 'underscore', 'backbone', 'collections/players', 'views/Abstra
             "click [ulti-player-list-button-merge]": "mergeTapped",
             "click [ulti-player-list-button-delete]": "deleteTapped"
         },
-        template: _.template($("#ulti-team-players-template").html()),
+        template: _.template(playerListHtml),
         render: function () {
             var players = _.map(playerCollection.models, function(player) {
                 return player.toJSON();

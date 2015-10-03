@@ -1,5 +1,5 @@
-define(['jquery', 'underscore', 'backbone', 'collections/games', 'collections/gameVersions', 'views/AbstractDetailContentsView', 'views/GameImportDialogView', 'views/GameVersionsDialogView', 'appContext', 'bootbox', 'restService'],
-    function($, _, Backbone, gameCollection, gameVersionsCollection, AbstractDetailContentsView, GameImportDialogView, GameVersionsDialogView, appContext, bootbox, restService) {
+define(['jquery', 'underscore', 'backbone', 'collections/games', 'collections/gameVersions', 'views/AbstractDetailContentsView', 'views/GameImportDialogView', 'views/GameVersionsDialogView', 'appContext', 'bootbox', 'restService', 'text!templates/gameList.html'],
+    function($, _, Backbone, gameCollection, gameVersionsCollection, AbstractDetailContentsView, GameImportDialogView, GameVersionsDialogView, appContext, bootbox, restService, gameListHtml) {
 
     var GamesView = AbstractDetailContentsView.extend({
         el: '[ulti-team-detail-games]',
@@ -13,7 +13,7 @@ define(['jquery', 'underscore', 'backbone', 'collections/games', 'collections/ga
             "click [ulti-game-list-button-undelete]": "undeleteTapped",
             "click [ulti-game-import-button]": "importTapped"
         },
-        template: _.template($("#ulti-team-games-template").html()),
+        template: _.template(gameListHtml),
         render: function() {
             var games = _.map(gameCollection.sortedGames(), function(game) {
                 return game.toJSON();

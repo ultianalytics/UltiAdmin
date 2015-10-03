@@ -1,5 +1,5 @@
-define(['jquery', 'underscore', 'backbone', 'collections/teams', 'views/AbstractDetailContentsView', 'views/PasswordDialogView', 'appContext', 'bootbox', 'restService'],
-    function($, _, Backbone, teamCollection, AbstractDetailContentsView, PasswordDialogView, appContext, bootbox, restService) {
+define(['jquery', 'underscore', 'backbone', 'collections/teams', 'views/AbstractDetailContentsView', 'views/PasswordDialogView', 'appContext', 'bootbox', 'restService', 'text!templates/teamSettings.html', 'text!templates/teamDeletedSettings.html'],
+    function($, _, Backbone, teamCollection, AbstractDetailContentsView, PasswordDialogView, appContext, bootbox, restService, teamSettingsHtml, teamDeletedSettingsHtml) {
 
         var SettingView = AbstractDetailContentsView.extend({
             el: '[ulti-team-detail-settings]',
@@ -10,8 +10,8 @@ define(['jquery', 'underscore', 'backbone', 'collections/teams', 'views/Abstract
                 "click [ulti-team-delete-button]": "deleteTapped",
                 "click [ulti-team-undelete-button]": "undeleteTapped"
             },
-            template: _.template($("#ulti-team-settings-template").html()),
-            deletedTeamTemplate: _.template($("#ulti-team-deleted-settings-template").html()),
+            template: _.template(teamSettingsHtml),
+            deletedTeamTemplate: _.template(teamDeletedSettingsHtml),
             render: function () {
                 var currentTeam = appContext.currentTeam();
                 if (currentTeam.get('deleted')) {

@@ -1,0 +1,8 @@
+<div>
+    <b>Team Website Password:&nbsp;&nbsp; </b><button class="borderless-button" ulti-team-password-link><%= team == null || team.password == "" ? "NOT SET" : _.escape(team.password) %></button>
+    <br>
+    <span style="font-size: smaller;color: #ababab">(visitors to your site will be asked to enter this password to view this team's statistics)</span>
+</div>
+<div style="margin-top: 20px">
+    <button class="btn btn-delete" style="margin-top: 30px" ulti-team-delete-button>Delete Team</button>
+</div>

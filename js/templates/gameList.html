@@ -1,0 +1,22 @@
+<div class="container">
+    <% _.each(games, function(game) { %>
+    <div class="row" style="margin-bottom: 20px">
+        <div class="col-sm-6 <%= game.deleted ? 'strike-through' : '' %>"><span><%= game.date + ' ' + game.time %></span>
+            <% if ( game.deleted ) { %>
+            <span> vs. <%= game.opponentName %></span>
+            <% } else { %>
+            <span> vs. <a href="http://www.ultianalytics.com/app/#/<%= teamId %>/games?<%= game.gameId %>"><%= game.opponentName %></a></span>
+            <% } %>
+            <span> (<%= game.ours %>-<%= game.theirs %> <%= game.ours > game.theirs ? 'us' : 'them' %>)</span></div>
+        <div class="col-sm-6">
+            <button ulti-game-list-button-undelete="<%= game.gameId %>" class="borderless-button <%= game.deleted ? '' : 'hidden' %>" title="un-delete game"><i class="fa fa-undo" style="font-size: large"></i></button>
+            <button ulti-game-list-button-export="<%= game.gameId %>" class="borderless-button <%= game.deleted ? 'hidden' : '' %> title="export game to your computer">Export</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button ulti-game-list-button-versions="<%= game.gameId %>" class="borderless-button <%= game.deleted ? 'hidden' : '' %> title="display versions of this game">Versions</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button ulti-game-list-button-delete="<%= game.gameId %>" class="borderless-button <%= game.deleted ? 'hidden' : '' %>" title="delete game"><i class="fa fa-trash-o" style="font-size: large"></i></button>
+        </div>
+    </div>
+    <% }); %>
+</div>
+<div style="margin-top: 20px">
+    <button class="btn btn-primary" style="margin-top: 30px" ulti-game-import-button>Import Game</button>
+</div>
