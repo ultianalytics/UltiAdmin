@@ -46,7 +46,8 @@ gulp.task('app-js', function () {
                     "backbone": "empty:",
                     "bootstrap": "empty:",
                     "bootbox": "empty:",
-                    "require-text" : "empty:"
+                    "require-text" : "empty:",
+                    "q" : "empty:"
                 }
             }
         ))

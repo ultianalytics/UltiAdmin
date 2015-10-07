@@ -1,4 +1,4 @@
-define(['jquery'], function($) {
+define(['jquery', 'q'], function($, Q) {
 
 	RestService = function (schemeAndHost) {
 		// private instvars
