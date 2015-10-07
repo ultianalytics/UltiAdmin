@@ -32,7 +32,7 @@ define(['jquery', 'underscore', 'backbone', 'utility', 'views/DialogView', 'appC
         },
         updatePassword: function(password) {
             var view = this;
-            restService.savePassword(appContext.currentTeamId(), password, function() {
+            restService.promiseSavePassword(appContext.currentTeamId(), password).then(function() {
                 if (view.passwordChanged) {
                     view.passwordChanged();
                 }

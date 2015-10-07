@@ -22,7 +22,7 @@ define(['jquery', 'underscore', 'backbone', 'collections/games', 'collections/ga
         },
         refresh: function() {
             var view = this;
-            restService.retrieveGamesForAdmin(appContext.currentTeamId(), function(games) {
+            restService.promiseRetrieveGamesForAdmin(appContext.currentTeamId()).then(function(games) {
                 gameCollection.populateFromRestResponse(games);
                 view.render();
             }, function() {
@@ -60,7 +60,7 @@ define(['jquery', 'underscore', 'backbone', 'collections/games', 'collections/ga
                 message: 'Do you really want to delete game vs. ' + game.get('opponentName') + '?<br/><br/>NOTE: you can un-delete the game later',
                 callback: function(result){
                     if (result == true) {
-                        restService.deleteGame(appContext.currentTeamId(), game.get('gameId'), function () {
+                        restService.promiseDeleteGame(appContext.currentTeamId(), game.get('gameId')).then(function () {
                             view.refresh();
                         }, function () {
                             alert("bad thang happened");
@@ -72,7 +72,7 @@ define(['jquery', 'underscore', 'backbone', 'collections/games', 'collections/ga
         undeleteTapped: function(e) {
             var game = this.gameForButton(e.currentTarget, 'ulti-game-list-button-undelete');
             var view = this;
-            restService.undeleteGame(appContext.currentTeamId(), game.get('gameId'), function () {
+            restService.promiseUndeleteGame(appContext.currentTeamId(), game.get('gameId')).then(function () {
                 view.refresh();
             }, function () {
                 alert("bad thang happened");

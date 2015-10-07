@@ -36,7 +36,7 @@ define(['jquery', 'underscore', 'backbone', 'utility', 'views/DialogView', 'appC
             } else if (newNickName == oldNickName && newFirstName == oldFirstName && newLastName == oldLastName) {
                 this.showError(this.$('[ulti-player-name-error]'), 'You did not change the nick name or display name');
             } else {
-                restService.renamePlayer(appContext.currentTeamId(), oldNickName, newNickName, newFirstName, newLastName,
+                restService.promiseRenamePlayer(appContext.currentTeamId(), oldNickName, newNickName, newFirstName, newLastName).then(
                     function() {
                         var message = 'No changes made';
                         if (newNickName != oldNickName) {

@@ -18,7 +18,7 @@ define(['jquery', 'underscore', 'backbone', 'utility', 'views/DialogView', 'appC
             var formData = new FormData();
             formData.append('file', file);
             var view = this;
-            restService.importGame(appContext.currentTeamId(), formData, function(data) {
+            restService.promiseImportGame(appContext.currentTeamId(), formData).then(function(data) {
                 if (data && data.status == 'error') {
                     var explanation = data.message;
                     alert("import failed: " + explanation);

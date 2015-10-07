@@ -24,7 +24,7 @@ define(['jquery', 'underscore', 'backbone', 'utility', 'views/DialogView', 'appC
             "click [ulti-versions-button-cancel]": "cancelTapped"
         },
         replaceTapped: function() {
-            restService.restoreGameVersion(appContext.currentTeamId(), self.game.get('gameId'), self.selectedGameVersion.get('keyIdentifier'), function() {
+            restService.promiseRestoreGameVersion(appContext.currentTeamId(), self.game.get('gameId'), self.selectedGameVersion.get('keyIdentifier')).then(function() {
                 bootbox.alert({
                     size: 'small',
                     title: 'Update Complete',

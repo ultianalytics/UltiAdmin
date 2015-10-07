@@ -23,10 +23,16 @@ define(['jquery', 'underscore','backbone', 'models/team', 'restService'], functi
         ensureFetched: function(success, failure) {
             var collection = this;
             if (this.isEmpty()) {
-                restService.retrieveTeamsIncludingDeleted(function (teams) {
+                //restService.retrieveTeamsIncludingDeleted(function (teams) {
+                //    collection.populateFromRestResponse(teams);
+                //    success();
+                //}, function () {
+                //    failure();
+                //});
+                restService.promiseRetrieveTeamsIncludingDeleted().then(function(teams) {
                     collection.populateFromRestResponse(teams);
                     success();
-                }, function () {
+                }, function() {
                     failure();
                 });
             } else {

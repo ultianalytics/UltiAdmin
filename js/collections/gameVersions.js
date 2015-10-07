@@ -28,7 +28,7 @@ define(['jquery', 'underscore','backbone', 'models/gameVersion', 'appContext', '
         refreshForGame: function(game, success, failure) {
             this.game = game;
             var collection = this;
-            restService.retrieveGameVersions(appContext.currentTeamId(), game.get('gameId'), function(gameVersions) {
+            restService.promiseRetrieveGameVersions(appContext.currentTeamId(), game.get('gameId')).then(function(gameVersions) {
                 collection.populateFromRestResponse(gameVersions);
                 success();
             }, function() {

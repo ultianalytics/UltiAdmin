@@ -12,13 +12,16 @@ define(['jquery', 'q'], function($, Q) {
 
 		// public metbods
 
-		this.retrieveTeamsIncludingDeleted = function(successFunction, errorFunction) {
+		this.promiseRetrieveTeamsIncludingDeleted = function() {
 			sendAnalyticsEvent("retrieveTeams");
 			var url = baseRestUrl + '/teams?includeDeleted=true';
-			sendRequest({url: url, dataType: 'json', success: successFunction, error: errorFunction});
+			var promise = new Q.Promise(function(resolve, reject) {
+				sendRequest({url: url, dataType: 'json', success: resolve, error: reject});
+			});
+			return promise;
 		}
 
-		this.retrieveTeamForAdmin = function(id, includePlayers, includeInactive, successFunction, errorFunction) {
+		this.promiseRetrieveTeamForAdmin = function(id, includePlayers, includeInactive) {
 			sendAnalyticsEvent("retrieveTeamForAdmin");
 			var url = baseRestUrl + '/admin/team/' + id;
 			if (includePlayers) {
@@ -27,74 +30,110 @@ define(['jquery', 'q'], function($, Q) {
 					url = url + "&includeInactive=true";
 				}
 			}
-			sendRequest({url: url, dataType: 'json', success: successFunction, error: errorFunction});
+			var promise = new Q.Promise(function(resolve, reject) {
+				sendRequest({url: url, dataType: 'json', success: resolve, error: reject});
+			});
+			return promise;
 		}
 
-		this.retrieveGamesForAdmin = function(teamId, successFunction, errorFunction) {
+		this.promiseRetrieveGamesForAdmin = function(teamId) {
 			sendAnalyticsEvent("retrieveGamesForAdmin");
 			var url = baseRestUrl + '/admin/team/' + teamId + '/games';
-			sendRequest({url: url, dataType: 'json', success: successFunction, error: errorFunction});
+			var promise = new Q.Promise(function(resolve, reject) {
+				sendRequest({url: url, dataType: 'json', success: resolve, error: reject});
+			});
+			return promise;
 		}
 
-		this.retrieveGameVersions = function(teamId, gameId, successFunction, errorFunction) {
+		this.promiseRetrieveGameVersions = function(teamId, gameId) {
 			sendAnalyticsEvent("retrieveGameVersions");
 			var url = baseRestUrl + '/team/' + teamId + '/game/' + gameId + '/versions';
-			sendRequest({url: url, dataType: 'json', success: successFunction, error: errorFunction});
+			var promise = new Q.Promise(function(resolve, reject) {
+				sendRequest({url: url, dataType: 'json', success: resolve, error: reject});
+			});
+			return promise;
 		}
 
-		this.deleteGame = function(teamId, gameId, successFunction, errorFunction) {
+		this.promiseDeleteGame = function(teamId, gameId) {
 			sendAnalyticsEvent("deleteGame");
 			var url = baseRestUrl + '/team/' + teamId + '/game/' + gameId + '/delete';
-			sendRequest({url: url, dataType: null, isPost: true, success: successFunction, error: errorFunction});
+			var promise = new Q.Promise(function(resolve, reject) {
+				sendRequest({url: url, dataType: null, isPost: true, success: resolve, error: reject});
+			});
+			return promise;
 		}
 
-		this.undeleteGame = function(teamId, gameId, successFunction, errorFunction) {
+		this.promiseUndeleteGame = function(teamId, gameId) {
 			sendAnalyticsEvent("undeleteGame");
 			var url = baseRestUrl + '/team/' + teamId + '/game/' + gameId + '/undelete';
-			sendRequest({url: url, dataType: null, isPost: true, success: successFunction, error: errorFunction});
+			var promise = new Q.Promise(function(resolve, reject) {
+				sendRequest({url: url, dataType: null, isPost: true, success: resolve, error: reject});
+			});
+			return promise;
 		}
 
-		this.deleteTeam = function(teamId, successFunction, errorFunction) {
+		this.promiseDeleteTeam = function(teamId) {
 			sendAnalyticsEvent("deleteTeam");
 			var url = baseRestUrl + '/team/' + teamId + '/delete';
-			sendRequest({url: url, dataType: null, isPost: true, success: successFunction, error: errorFunction});
+			var promise = new Q.Promise(function(resolve, reject) {
+				sendRequest({url: url, dataType: null, isPost: true, success: resolve, error: reject});
+			})
+			return promise;
 		}
 
-		this.undeleteTeam = function(teamId, successFunction, errorFunction) {
+		this.promiseUndeleteTeam = function(teamId) {
 			sendAnalyticsEvent("undeleteTeam");
 			var url = baseRestUrl + '/team/' + teamId + '/undelete';
-			sendRequest({url: url, dataType: null, isPost: true, success: successFunction, error: errorFunction});
+			var promise = new Q.Promise(function(resolve, reject) {
+				sendRequest({url: url, dataType: null, isPost: true, success: resolve, error: reject});
+			});
+			return promise;
 		}
 
-		this.deletePlayer = function(teamId, playerToDelete, replacementPlayer, successFunction, errorFunction) {
+		this.promiseDeletePlayer = function(teamId, playerToDelete, replacementPlayer) {
 			sendAnalyticsEvent("deletePlayer");
 			var url = baseRestUrl + '/team/' + teamId + '/player/delete?player=' + playerToDelete + '&replacement='+replacementPlayer;
-			sendRequest({url: url, dataType: null, isPost: true, success: successFunction, error: errorFunction});
+			var promise = new Q.Promise(function(resolve, reject) {
+				sendRequest({url: url, dataType: null, isPost: true, success: resolve, error: reject});
+			});
+			return promise;
 		}
 
-		this.renamePlayer = function(teamId, playerToRename, replacementPlayer, firstName, lastName, successFunction, errorFunction) {
+		this.promiseRenamePlayer = function(teamId, playerToRename, replacementPlayer, firstName, lastName) {
 			sendAnalyticsEvent("renamePlayer");
 			var url = baseRestUrl + '/team/' + teamId + '/player/rename?player=' + playerToRename +
 				'&replacement=' + replacementPlayer + '&firstName=' + firstName + '&lastName=' + lastName;
-			sendRequest({url: url, dataType: null, isPost: true, success: successFunction, error: errorFunction});
+			var promise = new Q.Promise(function(resolve, reject) {
+				sendRequest({url: url, dataType: null, isPost: true, success: resolve, error: reject});
+			});
+			return promise;
 		}
 
-		this.restoreGameVersion = function(teamId, gameId, versionId, successFunction, errorFunction) {
+		this.promiseRestoreGameVersion = function(teamId, gameId, versionId) {
 			sendAnalyticsEvent("restoreGameVersion");
 			var url = baseRestUrl + '/team/' + teamId + '/game/' + gameId + '/version/' + versionId + '/restore';
-			sendRequest({url: url, dataType: null, isPost: true, success: successFunction, error: errorFunction});
+			var promise = new Q.Promise(function(resolve, reject){
+				sendRequest({url: url, dataType: null, isPost: true, success: resolve, error: reject});
+			});
+			return promise
 		}
 
-		this.importGame = function(teamId, gameFormData, successFunction, errorFunction) {
+		this.promiseImportGame = function(teamId, gameFormData) {
 			sendAnalyticsEvent("importGame");
 			var url = baseRestUrl + '/team/' + teamId + '/import2/game';
-			sendRequest({url: url, data: gameFormData, isFileUpload: true, success: successFunction, error: errorFunction});
+			var promise = new Q.Promise(function(resolve, reject) {
+				sendRequest({url: url, data: gameFormData, isFileUpload: true, success: resolve, error: reject});
+			});
+			return promise;
 		}
 
-		this.savePassword = function(teamId, password, successFunction, errorFunction) {
+		this.promiseSavePassword = function(teamId, password) {
 			sendAnalyticsEvent("savePassword");
 			var url = baseRestUrl + '/team/' + teamId + '/password/' + (isNullOrEmpty(password) ? 'REMOVE-PASSWORD' : password);
-			sendRequest({url: url, dataType: null, isPost: true, success: successFunction, error: errorFunction});
+			var promise = new Q.Promise(function(resolve, reject) {
+				sendRequest({url: url, dataType: null, isPost: true, success: resolve, error: reject});
+			});
+			return promise;
 		}
 
 		this.urlForGameExportFileDownload = function(teamId, gameId) {
