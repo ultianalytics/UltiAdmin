@@ -1,6 +1,6 @@
-define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
+define(['jquery', 'underscore', 'backbone', 'views/UltiView'], function($, _, Backbone, UltiView) {
 
-    var DialogView = Backbone.View.extend({
+    var DialogView = UltiView.extend({
         el: '[ulti-dialog-view-content]',
         initialize: function () {
 

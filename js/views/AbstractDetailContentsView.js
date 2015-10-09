@@ -1,6 +1,6 @@
-define(['jquery', 'underscore', 'backbone', 'text!templates/modal.html'], function($, _, Backbone, modalHtml) {
+define(['jquery', 'underscore', 'backbone', 'text!templates/modal.html', 'views/UltiView'], function($, _, Backbone, modalHtml, UltiView) {
 
-    var AbstractDetailContentsView = Backbone.View.extend({
+    var AbstractDetailContentsView = UltiView.extend({
         modalTemplate: _.template(modalHtml),
         showModalDialog: function (title, contentViewCreator) {
             $('[ulti-dialog-content]').html(this.modalTemplate({title: title}));

@@ -43,7 +43,7 @@ define(['jquery', 'underscore', 'backbone', 'utility', 'views/DialogView', 'appC
                 });
                 self.actionComplete();
             }, function() {
-                alert('bad thang happened');
+                self.showServerErrorDialog();
             });
         },
         cancelTapped: function() {

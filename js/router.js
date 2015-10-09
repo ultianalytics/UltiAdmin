@@ -1,5 +1,5 @@
-define(['jquery', 'underscore', 'backbone', 'appContext', 'collections/teams', 'collections/games', 'collections/players', 'views/AppView', 'appContext'],
-    function($, _, Backbone, appContext, teamCollection, gameCollection, playerCollection, AppView, appContext) {
+define(['jquery', 'underscore', 'backbone', 'appContext', 'collections/teams', 'collections/games', 'collections/players', 'views/AppView', 'appContext', 'bootbox'],
+    function($, _, Backbone, appContext, teamCollection, gameCollection, playerCollection, AppView, appContext, bootbox) {
 
     // NOTE: this returns an instance, not the constructor
 
