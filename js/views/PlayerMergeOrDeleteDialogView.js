@@ -32,6 +32,7 @@ define(['jquery', 'underscore', 'backbone', 'utility', 'views/DialogView', 'appC
             "click [ulti-players-button-cancel]": "cancelTapped"
         },
         actionTapped: function() {
+            self = this;
             restService.promiseDeletePlayer(appContext.currentTeamId(), self.player.get('name'), self.selectedPlayer.get('name')).then(function() {
                 self.dismiss();
                 bootbox.alert({
