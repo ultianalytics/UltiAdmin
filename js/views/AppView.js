@@ -11,6 +11,7 @@ define(['jquery', 'underscore','backbone', 'collections/teams', 'views/TeamSelec
         render: function() {
             var selectedTeam = appContext.currentTeam();
             var selectedTab = appContext.currentTab();
+            var self = this;
             teamCollection.ensureFetched(function() {
                 var teams = teamCollection.models;
                 if (teams.length > 0) {
@@ -28,7 +29,7 @@ define(['jquery', 'underscore','backbone', 'collections/teams', 'views/TeamSelec
                     $('[ulti-teams-no-teams]').show();
                 }
             }, function() {
-                alert("bad thang happened");
+                self.showServerErrorDialog();
             });
 
             return this;
