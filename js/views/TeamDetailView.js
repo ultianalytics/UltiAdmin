@@ -41,14 +41,15 @@ define(['jquery', 'underscore', 'backbone', 'collections/players', 'collections/
                 restService.promiseRetrieveGamesForAdmin(appContext.currentTeamId()).then(function(games) {
                     gameCollection.populateFromRestResponse(games);
                 }, function() {
-                    alert("bad thang happened");
+                    view.showServerErrorDialog();
                 })
             },
             renderPlayersView: function() {
+                var view = this;
                 restService.promiseRetrieveTeamForAdmin(appContext.currentTeamId(), true, true).then(function(team) {
                     playerCollection.populateFromRestResponse(team.players);
                 }, function() {
-                    alert("bad thang happened");
+                    view.showServerErrorDialog();
                 })
             }
         });

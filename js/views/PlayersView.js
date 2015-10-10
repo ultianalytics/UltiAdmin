@@ -20,11 +20,12 @@ define(['jquery', 'underscore', 'backbone', 'collections/players', 'views/Abstra
             this.$el.html(this.template({players: players}));
         },
         refresh: function() {
+            var view = this;
             restService.promiseRetrieveTeamForAdmin(appContext.currentTeamId(), true, true).then(function(team) {
                 playerCollection.populateFromRestResponse(team.players);
                 self.render();
             }, function() {
-                alert("bad thang happened");
+                view.showServerErrorDialog();
             });
         },
         editTapped: function(e) {
