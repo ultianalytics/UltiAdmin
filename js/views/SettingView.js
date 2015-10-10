@@ -24,6 +24,7 @@ define(['jquery', 'underscore', 'backbone', 'collections/teams', 'views/Abstract
                 this.showPasswordChangeDialog();
             },
             deleteTapped: function () {
+                var view = this;
                 bootbox.confirm({
                     size: 'small',
                     title: 'Confirm Delete',
@@ -34,34 +35,36 @@ define(['jquery', 'underscore', 'backbone', 'collections/teams', 'views/Abstract
                                 appContext.refreshTeams(function() {
                                     //this.render();
                                 }, function() {
-                                    alert("bad thang");
+                                    view.showServerErrorDialog();
                                 });
                             }, function () {
-                                alert("bad thang happened");
+                                view.showServerErrorDialog();
                             });
                         }
                     }
                 });
             },
             undeleteTapped: function () {
+                var view = this;
                 restService.promiseUndeleteTeam(appContext.currentTeamId()).then(function() {
                     appContext.refreshTeams(function() {
-                        //this.render();
+
                     }, function() {
-                        alert("bad thang");
+                        view.showServerErrorDialog();
                     });
                 }, function() {
-                    alert("bad thang happened");
+                    view.showServerErrorDialog();
                 });
             },
             showPasswordChangeDialog: function () {
+                var view = this;
                 this.showModalDialog('Set Team Password', function() {
                     var passwordDialog = new PasswordDialogView();
                     passwordDialog.passwordChanged = function() {
                         appContext.refreshTeams(function() {
                             this.render();
                         }, function() {
-                            alert("bad thang");
+                            view.showServerErrorDialog();
                         });
                     };
                     return passwordDialog;
