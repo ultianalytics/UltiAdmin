@@ -26,7 +26,7 @@ define(['jquery', 'underscore', 'backbone', 'collections/games', 'collections/ga
                 gameCollection.populateFromRestResponse(games);
                 view.render();
             }, function() {
-                alert("bad thang happened");
+                view.showServerErrorDialog();
             })
         },
         exportTapped: function(e) {
@@ -48,7 +48,7 @@ define(['jquery', 'underscore', 'backbone', 'collections/games', 'collections/ga
                     });
                 }
             }, function() {
-                alert("bad thang happened");
+                view.showServerErrorDialog();
             });
         },
         deleteTapped: function (e) {
@@ -63,7 +63,7 @@ define(['jquery', 'underscore', 'backbone', 'collections/games', 'collections/ga
                         restService.promiseDeleteGame(appContext.currentTeamId(), game.get('gameId')).then(function () {
                             view.refresh();
                         }, function () {
-                            alert("bad thang happened");
+                            view.showServerErrorDialog();
                         });
                     }
                 }
@@ -75,7 +75,7 @@ define(['jquery', 'underscore', 'backbone', 'collections/games', 'collections/ga
             restService.promiseUndeleteGame(appContext.currentTeamId(), game.get('gameId')).then(function () {
                 view.refresh();
             }, function () {
-                alert("bad thang happened");
+                view.showServerErrorDialog();
             });
         },
         importTapped: function(e) {
@@ -86,19 +86,21 @@ define(['jquery', 'underscore', 'backbone', 'collections/games', 'collections/ga
             return gameCollection.gameWithGameId(gameId);
         },
         showImportDialog: function () {
+            var view = this;
             this.showModalDialog('Import Game', function() {
                 var importDialog = new GameImportDialogView();
                 importDialog.importComplete = function() {
                     appContext.refreshTeams(function() {
                         this.refresh();
                     }, function() {
-                        alert("bad thang");
+                        view.showServerErrorDialog();
                     });
                 };
                 return importDialog;
             });
         },
         showGameVersionsDialog: function (game) {
+            var view = this;
             this.showModalDialog('Game Versions', function() {
                 var dialog = new GameVersionsDialogView();
                 dialog.game = game;
@@ -106,7 +108,7 @@ define(['jquery', 'underscore', 'backbone', 'collections/games', 'collections/ga
                     appContext.refreshTeams(function() {
                         this.refresh();
                     }, function() {
-                        alert("bad thang");
+                        view.showServerErrorDialog();
                     });
                 };
                 return dialog;
