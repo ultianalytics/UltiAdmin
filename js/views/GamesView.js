@@ -1,5 +1,5 @@
-define(['jquery', 'underscore', 'backbone', 'collections/games', 'collections/gameVersions', 'views/AbstractDetailContentsView', 'views/GameImportDialogView', 'views/GameVersionsDialogView', 'appContext', 'bootbox', 'restService', 'text!templates/gameList.html'],
-    function($, _, Backbone, gameCollection, gameVersionsCollection, AbstractDetailContentsView, GameImportDialogView, GameVersionsDialogView, appContext, bootbox, restService, gameListHtml) {
+define(['jquery', 'underscore', 'backbone', 'collections/games', 'collections/gameVersions', 'views/AbstractDetailContentsView', 'views/GameImportDialogView', 'views/GameVersionsDialogView', 'appContext', 'bootbox', 'restService', 'text!templates/gameList.html', 'text!templates/gameListEmpty.html'],
+    function($, _, Backbone, gameCollection, gameVersionsCollection, AbstractDetailContentsView, GameImportDialogView, GameVersionsDialogView, appContext, bootbox, restService, gameListHtml, gameListEmptyHtml) {
 
     var GamesView = AbstractDetailContentsView.extend({
         el: '[ulti-team-detail-games]',
@@ -14,11 +14,16 @@ define(['jquery', 'underscore', 'backbone', 'collections/games', 'collections/ga
             "click [ulti-game-import-button]": "importTapped"
         },
         template: _.template(gameListHtml),
+        noGamesTemplate: _.template(gameListEmptyHtml),
         render: function() {
-            var games = _.map(gameCollection.sortedGames(), function(game) {
-                return game.toJSON();
-            });
-            this.$el.html(this.template({games: games, teamId: appContext.currentTeamId()}));
+            if (gameCollection.isEmpty()) {
+                this.$el.html(this.noGamesTemplate());
+            } else {
+                var games = _.map(gameCollection.sortedGames(), function (game) {
+                    return game.toJSON();
+                });
+                this.$el.html(this.template({games: games, teamId: appContext.currentTeamId()}));
+            }
         },
         refresh: function() {
             var view = this;

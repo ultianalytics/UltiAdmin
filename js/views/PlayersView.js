@@ -1,5 +1,5 @@
-define(['jquery', 'underscore', 'backbone', 'collections/players', 'views/AbstractDetailContentsView', 'views/PlayerMergeOrDeleteDialogView', 'views/PlayerNameEditDialogView', 'appContext', 'restService', 'text!templates/playerList.html'],
-    function($, _, Backbone, playerCollection, AbstractDetailContentsView, PlayerMergeOrDeleteDialogView, PlayerNameEditDialogView, appContext, restService, playerListHtml) {
+define(['jquery', 'underscore', 'backbone', 'collections/players', 'views/AbstractDetailContentsView', 'views/PlayerMergeOrDeleteDialogView', 'views/PlayerNameEditDialogView', 'appContext', 'restService', 'text!templates/playerList.html', 'text!templates/playerListEmpty.html'],
+    function($, _, Backbone, playerCollection, AbstractDetailContentsView, PlayerMergeOrDeleteDialogView, PlayerNameEditDialogView, appContext, restService, playerListHtml, playerListEmptyHtml) {
 
     var PlayersView = AbstractDetailContentsView.extend({
         el: '[ulti-team-detail-players]',
@@ -13,11 +13,16 @@ define(['jquery', 'underscore', 'backbone', 'collections/players', 'views/Abstra
             "click [ulti-player-list-button-delete]": "deleteTapped"
         },
         template: _.template(playerListHtml),
+        noPlayersTemplate: _.template(playerListEmptyHtml),
         render: function () {
-            var players = _.map(playerCollection.models, function(player) {
-                return player.toJSON();
-            });
-            this.$el.html(this.template({players: players}));
+            if (playerCollection.isEmpty()) {
+                this.$el.html(this.noPlayersTemplate());
+            } else {
+                var players = _.map(playerCollection.models, function(player) {
+                    return player.toJSON();
+                });
+                this.$el.html(this.template({players: players}));
+            }
         },
         refresh: function() {
             var view = this;
