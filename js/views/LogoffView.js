@@ -19,11 +19,21 @@ define(['jquery', 'underscore', 'backbone', 'appContext'],
                 })
             },
             signOutFromGoogle: function(completion) {
-                var auth2 = gapi.auth2.getAuthInstance();
-                auth2.signOut().then(function () {
-                    console.log('User signed out.');
-                    completion();
-                });
+                //var auth2 = gapi.auth2.getAuthInstance();
+                //auth2.signOut().then(function () {
+                //    console.log('User signed out.');
+                //    completion();
+                //});
+                var options = {
+                    success: function(data, textStatus, jqXHR){
+                        completion();
+                    },
+                    error: function(jqXHR, textStatus, errorThrown){
+                        console.log(errorThrown);
+                        completion();
+                    }
+                };
+                $.ajax("https://mail.google.com/mail/u/0/?logout", options);
             },
             render: function() {
                 if (appContext.hasCurrentUser()) {
