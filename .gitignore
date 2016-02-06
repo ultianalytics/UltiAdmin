@@ -8,3 +8,5 @@
 .idea/dictionaries
 
 dist/
+
+node_modules/
