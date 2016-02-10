@@ -288,6 +288,10 @@ define(['jquery', 'q'], function($, Q) {
 
 	}
 
-	return new RestService("http://www.ultianalytics.com");
+	if (window.location.href.indexOf('local-services=true') > -1) {
+		return new RestService('http://' + document.location.hostname + ':' + document.location.port);
+	} else {
+		return new RestService('http://www.ultianalytics.com');
+	}
 
 });

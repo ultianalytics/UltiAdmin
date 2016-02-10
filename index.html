@@ -140,7 +140,33 @@
 
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="js/require.js"></script>
-<script src="https://apis.google.com/js/platform.js"></script>
+<script type="application/javascript">
+    if (window.location.href.indexOf('local-services=true') > -1) {
+        // pretend to do authentication with google
+        var user = {
+            getBasicProfile: function() {
+                return {
+                    getEmail: function() {
+                        return "testuser@gmail.com";
+                    }
+                };
+            },
+            getAuthResponse: function() {
+                return {
+                    access_token: 'fake_token'
+                };
+            }
+        }
+        onSignIn(user)
+    } else {
+        // load the script that starts google oauth
+        var js = document.createElement("script");
+        js.type = "text/javascript";
+        js.src = "https://apis.google.com/js/platform.js";
+        document.getElementsByTagName('head')[0].appendChild(js);
+    }
+</script>
 
 </body>
 </html>
+
