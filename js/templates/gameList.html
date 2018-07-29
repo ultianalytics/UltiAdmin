@@ -5,7 +5,7 @@
             <% if ( game.deleted ) { %>
             <span> vs. <%= game.opponentName %></span>
             <% } else { %>
-            <span> vs. <a href="http://www.ultianalytics.com/app/#/<%= teamId %>/games?<%= game.gameId %>"><%= game.opponentName %></a></span>
+            <span> vs. <a href="https://www.ultianalytics.com/app/#/<%= teamId %>/games?<%= game.gameId %>"><%= game.opponentName %></a></span>
             <% } %>
             <span> (<%= game.ours %>-<%= game.theirs %> <%= game.ours > game.theirs ? 'us' : 'them' %>)</span></div>
         <div class="col-sm-6">

@@ -10,7 +10,7 @@ define(['jquery', 'underscore', 'backbone', 'appContext'],
                 var currentTeam = appContext.currentTeam();
                 var cloudId = currentTeam.get('cloudId');
                 this.$('[ulti-team-cloudid]').html(cloudId);
-                var url = 'http://www.ultianalytics.com/app/#/' + cloudId + '/players';
+                var url = 'https://www.ultianalytics.com/app/#/' + cloudId + '/players';
                 this.$('[ulti-stats-site-link]').attr('href',url);
                 this.$('[ulti-stats-site-link]').toggleClass('hidden', currentTeam.get('deleted'));
                 return this;
